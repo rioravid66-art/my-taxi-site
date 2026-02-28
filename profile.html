@@ -7,25 +7,9 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
   <style>
-    body { 
-      background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
-      min-height: 100vh;
-    }
-    .glass { 
-      backdrop-filter: blur(25px); 
-      background: rgba(15, 23, 42, 0.95); 
-      border: 1px solid rgba(16, 185, 129, 0.3); 
-    }
-    .sidebar { 
-      background: rgba(0, 0, 0, 0.6); 
-      backdrop-filter: blur(20px);
-      border-right: 1px solid rgba(16, 185, 129, 0.2);
-    }
-    @keyframes fadeInUp { 
-      from { opacity: 0; transform: translateY(30px); } 
-      to { opacity: 1; transform: translateY(0); } 
-    }
-    .animate-fadeInUp { animation: fadeInUp 0.6s ease-out forwards; }
+    body { background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%); }
+    .glass { backdrop-filter: blur(25px); background: rgba(15, 23, 42, 0.95); border: 1px solid rgba(16, 185, 129, 0.3); }
+    .sidebar { background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(20px); border-right: 1px solid rgba(16, 185, 129, 0.2); }
   </style>
 </head>
 <body class="pt-16">
@@ -33,21 +17,16 @@
   <!-- Top Navigation -->
   <nav class="fixed top-0 left-0 right-0 bg-black/95 backdrop-blur-xl z-50 border-b border-emerald-500/30 py-4 px-6">
     <div class="max-w-7xl mx-auto flex items-center justify-between">
-      <a href="index.html" class="flex items-center space-x-3 group">
-        <i class="fas fa-car text-3xl text-emerald-400 group-hover:scale-110 transition-transform"></i>
-        <span class="text-2xl font-black bg-gradient-to-r from-emerald-400 to-teal-400 bg-clip-text text-transparent">
-          CarBet
-        </span>
+      <a href="index.html" class="flex items-center space-x-3">
+        <i class="fas fa-car text-3xl text-emerald-400"></i>
+        <span class="text-2xl font-black bg-gradient-to-r from-emerald-400 to-teal-400 bg-clip-text text-transparent">CarBet</span>
       </a>
 
       <div class="flex items-center space-x-4" id="topNav">
         <!-- Daxil olmayanlar üçün -->
-        <div id="guestNav" class="hidden space-x-3">
-          <a href="login.html" class="bg-emerald-600 hover:bg-emerald-500 text-white px-6 py-2.5 rounded-xl font-semibold shadow-lg transition-all">
+        <div id="guestNav">
+          <a href="login.html" class="bg-emerald-600 hover:bg-emerald-500 text-white px-6 py-2.5 rounded-xl font-semibold">
             <i class="fas fa-sign-in-alt mr-2"></i> Daxil ol
-          </a>
-          <a href="login.html#register" class="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-6 py-2.5 rounded-xl font-semibold shadow-lg transition-all">
-            <i class="fas fa-user-plus mr-2"></i> Qeydiyyat
           </a>
         </div>
 
@@ -57,248 +36,172 @@
             <div class="text-xs text-gray-400">Balans</div>
             <div class="text-xl font-bold text-emerald-400" id="topBalance">0.00 AZN</div>
           </div>
-          <div class="w-12 h-12 bg-gradient-to-r from-emerald-500 to-teal-600 rounded-2xl flex items-center justify-center cursor-pointer" onclick="toggleProfile()">
-            <i class="fas fa-user text-xl text-white font-bold" id="profileIcon"></i>
-          </div>
+          <button onclick="toggleProfile()" class="w-12 h-12 bg-gradient-to-r from-emerald-500 to-teal-600 rounded-2xl flex items-center justify-center shadow-xl hover:shadow-2xl transition-all">
+            <i class="fas fa-user text-xl text-white"></i>
+          </button>
         </div>
       </div>
     </div>
   </nav>
 
   <!-- Profile Sidebar -->
-  <div id="profileSidebar" class="fixed right-0 top-16 h-[calc(100vh-4rem)] w-80 glass z-[100] transform translate-x-full transition-transform duration-300 ease-in-out hidden lg:block">
+  <div id="profileSidebar" class="fixed right-0 top-16 h-[calc(100vh-4rem)] w-80 glass z-[100] transform translate-x-full transition-transform duration-300 lg:block hidden">
     <div class="p-8">
-      <!-- Profile Header -->
       <div class="text-center mb-10 pb-8 border-b border-emerald-500/30">
         <div class="w-24 h-24 bg-gradient-to-r from-emerald-500 to-teal-600 rounded-3xl mx-auto mb-6 shadow-2xl flex items-center justify-center">
-          <i class="fas fa-user text-3xl text-white" id="profileAvatarIcon"></i>
+          <i class="fas fa-user text-3xl text-white"></i>
         </div>
         <h2 class="text-3xl font-black text-white mb-2" id="profileName">İstifadəçi</h2>
-        <p class="text-emerald-400 font-semibold" id="profileEmail">-</p>
+        <p class="text-emerald-400 font-semibold" id="profileEmail">email@carbet.az</p>
         <button onclick="editProfile()" class="mt-4 bg-emerald-500/80 hover:bg-emerald-400 text-white px-8 py-2 rounded-2xl font-bold transition-all">
           <i class="fas fa-edit mr-2"></i> Redaktə et
         </button>
       </div>
 
-      <!-- Navigation -->
-      <nav class="space-y-4">
-        <a href="#dashboard" onclick="showSection('dashboard')" class="nav-item flex items-center p-4 rounded-2xl text-lg font-semibold transition-all group">
-          <i class="fas fa-chart-line w-8 text-emerald-400 group-hover:text-emerald-300 mr-4"></i>
+      <nav class="space-y-2">
+        <a onclick="showSection('dashboard')" class="flex items-center p-4 rounded-2xl text-lg font-semibold hover:bg-emerald-500/20 transition-all cursor-pointer">
+          <i class="fas fa-chart-line w-8 text-emerald-400 mr-4"></i>
           <span>Bəstəbaş</span>
         </a>
-        <a href="#cars" onclick="showSection('cars')" class="nav-item flex items-center p-4 rounded-2xl text-lg font-semibold transition-all group">
-          <i class="fas fa-car w-8 text-amber-400 group-hover:text-amber-300 mr-4"></i>
+        <a onclick="showSection('cars')" class="flex items-center p-4 rounded-2xl text-lg font-semibold hover:bg-amber-500/20 transition-all cursor-pointer">
+          <i class="fas fa-car w-8 text-amber-400 mr-4"></i>
           <span>Maşınlarım</span>
         </a>
-        <a href="#history" onclick="showSection('history')" class="nav-item flex items-center p-4 rounded-2xl text-lg font-semibold transition-all group">
-          <i class="fas fa-history w-8 text-purple-400 group-hover:text-purple-300 mr-4"></i>
+        <a onclick="showSection('history')" class="flex items-center p-4 rounded-2xl text-lg font-semibold hover:bg-purple-500/20 transition-all cursor-pointer">
+          <i class="fas fa-history w-8 text-purple-400 mr-4"></i>
           <span>Tranzaksiyalar</span>
         </a>
-        <a href="#settings" onclick="showSection('settings')" class="nav-item flex items-center p-4 rounded-2xl text-lg font-semibold transition-all group">
-          <i class="fas fa-cog w-8 text-blue-400 group-hover:text-blue-300 mr-4"></i>
+        <a onclick="showSection('settings')" class="flex items-center p-4 rounded-2xl text-lg font-semibold hover:bg-blue-500/20 transition-all cursor-pointer">
+          <i class="fas fa-cog w-8 text-blue-400 mr-4"></i>
           <span>Tənzimləmələr</span>
         </a>
-        <a onclick="logout()" class="nav-item flex items-center p-4 rounded-2xl text-lg font-semibold bg-red-500/20 hover:bg-red-500/40 text-red-400 cursor-pointer transition-all group">
+        <button onclick="logout()" class="w-full flex items-center p-4 rounded-2xl text-lg font-semibold bg-red-500/20 hover:bg-red-500/40 text-red-400 transition-all mt-4">
           <i class="fas fa-sign-out-alt w-8 mr-4"></i>
           <span>Çıxış</span>
-        </a>
+        </button>
       </nav>
     </div>
   </div>
 
-  <!-- Mobile Profile Toggle -->
-  <div id="mobileProfileToggle" class="fixed right-4 top-20 z-[101] lg:hidden">
-    <div class="w-16 h-16 bg-gradient-to-r from-emerald-500 to-teal-600 rounded-2xl shadow-2xl flex items-center justify-center cursor-pointer hover:scale-110 transition-all" onclick="toggleMobileProfile()">
-      <i class="fas fa-chevron-left text-xl text-white"></i>
-    </div>
-  </div>
-
   <!-- Main Content -->
-  <main class="max-w-7xl mx-auto p-6 lg:pr-80">
+  <main class="max-w-7xl mx-auto p-6 lg:pr-80 min-h-screen">
     
-    <!-- Loading Screen -->
-    <div id="loadingScreen" class="fixed inset-0 bg-gradient-to-br from-black to-gray-900 flex items-center justify-center z-[1000]">
-      <div class="text-center">
-        <div class="w-24 h-24 border-4 border-emerald-500/30 border-t-emerald-500 rounded-full animate-spin mx-auto mb-8"></div>
-        <h2 class="text-3xl font-bold text-white mb-2">Profil yüklənir...</h2>
-        <p class="text-emerald-400">CarBet tərəfindən hazırlanır</p>
-      </div>
-    </div>
-
-    <!-- Dashboard Section -->
+    <!-- Dashboard Section (DEFAULT GÖRÜNƏN) -->
     <section id="dashboard" class="section-content">
-      <div class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-4 gap-6 mb-10">
-        <!-- Balance -->
-        <div class="glass rounded-3xl p-8 animate-fadeInUp">
-          <div class="flex items-center mb-6">
-            <div class="w-16 h-16 bg-emerald-500/20 rounded-2xl flex items-center justify-center mr-4">
-              <i class="fas fa-wallet text-2xl text-emerald-400"></i>
-            </div>
-            <div>
-              <p class="text-zinc-400 text-sm">Cari balans</p>
-              <p class="text-4xl font-black text-emerald-400" id="dashboardBalance">0.00 AZN</p>
-            </div>
+      <!-- Balance Card -->
+      <div class="glass rounded-3xl p-10 text-center mb-10">
+        <h1 class="text-5xl font-black bg-gradient-to-r from-emerald-400 to-teal-400 bg-clip-text text-transparent mb-8">Dashboard</h1>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-8 mb-10">
+          <div class="bg-emerald-500/20 p-8 rounded-2xl hover:scale-105 transition-all">
+            <div class="text-5xl font-black text-emerald-400 mb-2" id="dashboardBalance">1,250.50 AZN</div>
+            <div class="text-zinc-400 text-xl">Cari balans</div>
           </div>
-          <div class="flex gap-3">
-            <a href="depozit.html" class="flex-1 bg-emerald-500/80 hover:bg-emerald-400 text-white py-3 px-6 rounded-xl font-bold text-center transition-all">
-              <i class="fas fa-plus mr-2"></i>Depozit
-            </a>
-            <button onclick="showSection('history')" class="flex-1 border border-emerald-500/50 hover:bg-emerald-500/50 text-emerald-400 py-3 px-6 rounded-xl font-bold text-center transition-all">
-              Tarixçə
-            </button>
+          <div class="bg-amber-500/20 p-8 rounded-2xl hover:scale-105 transition-all">
+            <div class="text-5xl font-black text-amber-400 mb-2" id="todayIncome">+125.50 AZN</div>
+            <div class="text-zinc-400 text-xl">Bu gün gəlir</div>
+          </div>
+          <div class="bg-blue-500/20 p-8 rounded-2xl hover:scale-105 transition-all">
+            <div class="text-5xl font-black text-blue-400 mb-2" id="totalCars">7</div>
+            <div class="text-zinc-400 text-xl">Maşın sayı</div>
+          </div>
+          <div class="bg-green-500/20 p-8 rounded-2xl hover:scale-105 transition-all">
+            <div class="text-5xl font-black text-green-400 mb-2" id="totalROI">12.8%</div>
+            <div class="text-zinc-400 text-xl">ROI</div>
           </div>
         </div>
-
-        <!-- Today Income -->
-        <div class="glass rounded-3xl p-8 animate-fadeInUp" style="animation-delay: 0.1s">
-          <div class="flex items-center mb-6">
-            <div class="w-16 h-16 bg-amber-500/20 rounded-2xl flex items-center justify-center mr-4">
-              <i class="fas fa-sun text-2xl text-amber-400"></i>
-            </div>
-            <div>
-              <p class="text-zinc-400 text-sm">Bu gün gəlir</p>
-              <p class="text-4xl font-black text-amber-400" id="todayIncome">+0.00 AZN</p>
-            </div>
-          </div>
-          <div class="text-2xl font-bold text-green-400" id="todayPercent">+12.5%</div>
-        </div>
-
-        <!-- Total Cars -->
-        <div class="glass rounded-3xl p-8 animate-fadeInUp" style="animation-delay: 0.2s">
-          <div class="flex items-center mb-6">
-            <div class="w-16 h-16 bg-blue-500/20 rounded-2xl flex items-center justify-center mr-4">
-              <i class="fas fa-car text-2xl text-blue-400"></i>
-            </div>
-            <div>
-              <p class="text-zinc-400 text-sm">Maşın sayı</p>
-              <p class="text-4xl font-black text-blue-400" id="totalCars">0</p>
-            </div>
-          </div>
-          <div class="text-xl text-zinc-300">12 fərqli model</div>
-        </div>
-
-        <!-- ROI -->
-        <div class="glass rounded-3xl p-8 animate-fadeInUp" style="animation-delay: 0.3s">
-          <div class="flex items-center mb-6">
-            <div class="w-16 h-16 bg-green-500/20 rounded-2xl flex items-center justify-center mr-4">
-              <i class="fas fa-chart-line text-2xl text-green-400"></i>
-            </div>
-            <div>
-              <p class="text-zinc-400 text-sm">Ümumi ROI</p>
-              <p class="text-4xl font-black text-green-400" id="totalROI">0%</p>
-            </div>
-          </div>
-          <div class="text-sm text-zinc-400">Son 30 gün</div>
+        <div class="flex flex-col sm:flex-row gap-4">
+          <a href="depozit.html" class="flex-1 bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white font-bold text-xl py-6 px-12 rounded-3xl shadow-2xl hover:shadow-emerald/50 transition-all text-center">
+            <i class="fas fa-plus-circle mr-3"></i> Depozit et
+          </a>
+          <a href="index.html" class="flex-1 border-3 border-emerald-500 hover:bg-emerald-500 text-emerald-400 hover:text-white font-bold text-xl py-6 px-12 rounded-3xl shadow-xl hover:shadow-emerald/50 transition-all text-center">
+            <i class="fas fa-store mr-3"></i> Mağaza
+          </a>
         </div>
       </div>
 
-      <!-- Recent Activity -->
+      <!-- Stats -->
+      <div class="glass rounded-3xl p-8 mb-10">
+        <h3 class="text-3xl font-bold text-white mb-8">Statistika</h3>
+        <div class="grid md:grid-cols-3 gap-6">
+          <div class="p-6 bg-zinc-900/50 rounded-2xl text-center">
+            <div class="text-4xl font-black text-emerald-400 mb-2">2,750 AZN</div>
+            <div class="text-zinc-400">Ümumi depozit</div>
+          </div>
+          <div class="p-6 bg-zinc-900/50 rounded-2xl text-center">
+            <div class="text-4xl font-black text-amber-400 mb-2">892 AZN</div>
+            <div class="text-zinc-400">Ümumi gəlir</div>
+          </div>
+          <div class="p-6 bg-zinc-900/50 rounded-2xl text-center">
+            <div class="text-4xl font-black text-blue-400 mb-2">28.02.2026</div>
+            <div class="text-zinc-400">Qeydiyyat</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Recent Transactions -->
       <div class="glass rounded-3xl p-8">
         <h3 class="text-3xl font-bold text-white mb-8 flex items-center">
-          <i class="fas fa-clock mr-3 text-purple-400"></i>Son fəaliyyətlər
+          <i class="fas fa-history mr-3 text-purple-400"></i>Son tranzaksiyalar
         </h3>
-        <div id="recentActivity" class="space-y-4 max-h-96 overflow-y-auto">
-          <!-- Dinamik -->
+        <div class="space-y-4">
+          <div class="flex items-center justify-between p-6 bg-zinc-900/50 rounded-2xl hover:bg-zinc-800/50 transition-all">
+            <div>
+              <div class="font-bold text-white text-xl">Toyota Corolla alınıb</div>
+              <div class="text-zinc-400 text-sm">10 dəqiqə əvvəl</div>
+            </div>
+            <div class="-10 AZN" class="text-2xl font-black text-emerald-400">10 AZN</div>
+          </div>
+          <div class="flex items-center justify-between p-6 bg-zinc-900/50 rounded-2xl hover:bg-zinc-800/50 transition-all">
+            <div>
+              <div class="font-bold text-white text-xl">Depozit</div>
+              <div class="text-zinc-400 text-sm">1 saat əvvəl</div>
+            </div>
+            <div class="text-2xl font-black text-emerald-400">+500 AZN</div>
+          </div>
         </div>
       </div>
-    </section>
-
-    <!-- Diğer bölmələr üçün placeholder -->
-    <section id="cars" class="section-content hidden">
-      <h2 class="text-4xl font-black text-white mb-8">Maşınlarım</h2>
-      <p>Maşınlar bölməsi gəlir...</p>
-    </section>
-
-    <section id="history" class="section-content hidden">
-      <h2 class="text-4xl font-bold text-white mb-8">Tranzaksiya Tarixçəsi</h2>
-      <p>Tarixçə bölməsi gəlir...</p>
-    </section>
-
-    <section id="settings" class="section-content hidden">
-      <h2 class="text-4xl font-bold text-white mb-8">Tənzimləmələr</h2>
-      <p>Tənzimləmələr bölməsi gəlir...</p>
     </section>
   </main>
 
   <script>
     // ================================
-    // GLOBAL STATE
+    // GLOBAL DATA
     // ================================
     let userData = {
-      name: '',
-      email: '',
-      balance: 0,
-      cars: [],
-      transactions: [],
-      joinDate: ''
+      name: localStorage.getItem('userName') || 'İstifadəçi',
+      email: localStorage.getItem('userEmail') || 'email@carbet.az',
+      balance: Number(localStorage.getItem('balance')) || 1250.50
     };
 
     // ================================
-    // LOGIN CHECK & INIT
+    // INIT – ANINDA ÇALIŞIR!
     // ================================
     function initProfile() {
       // Login yoxla
       if (localStorage.getItem('loggedIn') !== 'true') {
-        window.location.href = 'login.html';
+        document.getElementById('guestNav').classList.remove('hidden');
+        document.getElementById('userNav').classList.add('hidden');
+        document.getElementById('dashboard').style.display = 'block';
         return;
       }
 
-      // User data yükla
-      loadUserData();
-      
-      // Loading gizlət
-      setTimeout(() => {
-        document.getElementById('loadingScreen').style.display = 'none';
-      }, 1500);
-    }
-
-    function loadUserData() {
-      userData.name = localStorage.getItem('userName') || 'İstifadəçi';
-      userData.email = localStorage.getItem('userEmail') || 'email@carbet.az';
-      userData.balance = Number(localStorage.getItem('balance')) || 0;
-      userData.cars = JSON.parse(localStorage.getItem('userCars') || '[]');
-      userData.transactions = JSON.parse(localStorage.getItem('transactions') || '[]');
-      userData.joinDate = localStorage.getItem('joinDate') || Date.now();
-
-      // UI-yə yaz
-      updateUI();
-    }
-
-    function updateUI() {
-      // Profil info
+      // User data
       document.getElementById('profileName').textContent = userData.name;
       document.getElementById('profileEmail').textContent = userData.email;
-      document.getElementById('userEmail').textContent = userData.email.split('@')[0];
-      
-      // Balans
-      const balance = userData.balance.toFixed(2);
-      document.getElementById('topBalance').textContent = balance + ' AZN';
-      document.getElementById('dashboardBalance').textContent = balance + ' AZN';
+      document.getElementById('topBalance').textContent = userData.balance.toFixed(2) + ' AZN';
+      document.getElementById('dashboardBalance').textContent = userData.balance.toFixed(2) + ' AZN';
 
-      // Digər məlumatlar
-      document.getElementById('todayIncome').textContent = '+125.50 AZN';
-      document.getElementById('totalCars').textContent = userData.cars.length;
-      document.getElementById('totalROI').textContent = '12.8%';
-
-      // Nav visibility
+      // UI göstər
       document.getElementById('guestNav').classList.add('hidden');
       document.getElementById('userNav').classList.remove('hidden');
-
-      // Avatar icon
-      document.getElementById('profileAvatarIcon').className = userData.name.charAt(0).toUpperCase() === 'İ' ? 'fas fa-user' : 'fas fa-user';
     }
 
     // ================================
     // NAVIGATION
     // ================================
     function showSection(sectionId) {
-      document.querySelectorAll('.section-content').forEach(section => {
-        section.classList.add('hidden');
-      });
-      document.getElementById(sectionId).classList.remove('hidden');
-      
-      // Mobile profile gizlət
-      toggleMobileProfile();
+      // Sadəcə dashboard göstər (digərləri sonra)
+      console.log('Section:', sectionId);
     }
 
     function toggleProfile() {
@@ -306,39 +209,28 @@
       sidebar.classList.toggle('translate-x-full');
     }
 
-    function toggleMobileProfile() {
-      const sidebar = document.getElementById('profileSidebar');
-      sidebar.classList.toggle('translate-x-full');
-      document.getElementById('mobileProfileToggle').classList.toggle('hidden');
-    }
-
-    // ================================
-    // PROFILE EDIT
-    // ================================
     function editProfile() {
       const newName = prompt('Adınızı dəyişdirin:', userData.name);
       if (newName && newName !== userData.name) {
         userData.name = newName;
         localStorage.setItem('userName', newName);
-        updateUI();
+        document.getElementById('profileName').textContent = newName;
         alert('✅ Profil yeniləndi!');
       }
     }
 
-    // ================================
-    // LOGOUT
-    // ================================
     function logout() {
-      if (confirm('Hesabdan çıxmaq istədiyinizə əminsiniz?')) {
+      if (confirm('Çıxış etmək istədiyinizə əminsiz?')) {
         localStorage.clear();
         window.location.href = 'login.html';
       }
     }
 
     // ================================
-    // INIT
+    // START – ANINDA!
     // ================================
     document.addEventListener('DOMContentLoaded', initProfile);
+    initProfile(); // Əlavə təminat
   </script>
 </body>
 </html>
