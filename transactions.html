@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="az">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tranzaksiyalar - CarBet</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+  <style>
+    .gradient-text { 
+      background: linear-gradient(135deg, #10b981 0%, #34d399 50%, #6ee7b7 100%); 
+      -webkit-background-clip: text; 
+      -webkit-text-fill-color: transparent; 
+      background-clip: text; 
+    }
+    .glass { 
+      backdrop-filter: blur(25px); 
+      background: rgba(15, 23, 42, 0.95); 
+      border: 1px solid rgba(16, 185, 129, 0.3); 
+    }
+  </style>
+</head>
+<body class="bg-gradient-to-br from-gray-900 via-black to-gray-900 min-h-screen pt-20 pb-12">
+
+  <!-- Top Navigation -->
+  <nav class="fixed top-0 left-0 right-0 bg-black/95 backdrop-blur-2xl z-50 border-b border-emerald-500/40 py-4 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-7xl mx-auto flex items-center justify-between">
+      <a href="index.html" class="flex items-center space-x-3 group">
+        <div class="w-12 h-12 bg-gradient-to-r from-emerald-500 to-teal-600 rounded-2xl flex items-center justify-center shadow-2xl group-hover:scale-110 transition-all">
+          <i class="fas fa-car text-2xl text-white"></i>
+        </div>
+        <div>
+          <h1 class="text-2xl lg:text-3xl font-black gradient-text">CarBet</h1>
+          <p class="text-xs lg:text-sm text-emerald-400">Tranzaksiyalar</p>
+        </div>
+      </a>
+
+      <div class="flex items-center space-x-4">
+        <div class="text-right hidden lg:block">
+          <div class="text-xs text-gray-400 uppercase tracking-wider">Balans</div>
+          <div class="text-3xl font-black text-emerald-400" id="currentBalance">0.00 AZN</div>
+        </div>
+        <a href="profile.html" class="w-12 h-12 bg-gradient-to-r from-blue-500 to-blue-600 rounded-2xl flex items-center justify-center shadow-xl hover:shadow-2xl transition-all">
+          <i class="fas fa-user text-white"></i>
+        </a>
+        <button onclick="logout()" class="ml-2 text-red-400 hover:text-red-300 text-xl">
+          <i class="fas fa-sign-out-alt"></i>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    
+    <!-- Header -->
+    <div class="glass rounded-4xl p-8 lg:p-12 mb-12 text-center">
+      <div class="w-20 h-20 bg-gradient-to-r from-emerald-500 to-teal-600 rounded-3xl flex items-center justify-center mx-auto mb-8 shadow-2xl">
+        <i class="fas fa-history text-3xl text-white"></i>
+      </div>
+      <h1 class="text-5xl lg:text-6xl font-black gradient-text mb-6">Tranzaksiya Tarixçəsi</h1>
+      <p class="text-2xl text-gray-300 mb-8">Bütün ödənişləriniz və investisiyalarınız</p>
+      
+      <!-- Stats -->
+      <div class="grid grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
+        <div class="text-center p-6">
+          <div class="text-4xl lg:text-5xl font-black text-emerald-400 mb-2" id="totalInvested">0 AZN</div>
+          <div class="text-xl text-gray-300">Ümumi investisiya</div>
+        </div>
+        <div class="text-center p-6">
+          <div class="text-4xl lg:text-5xl font-black text-amber-400 mb-2" id="totalEarned">0 AZN</div>
+          <div class="text-xl text-gray-300">Ümumi gəlir</div>
+        </div>
+        <div class="text-center p-6">
+          <div class="text-4xl lg:text-5xl font-black text-blue-400 mb-2" id="carCount">0</div>
+          <div class="text-xl text-gray-300">Maşın sayı</div>
+        </div>
+        <div class="text-center p-6">
+          <div class="text-4xl lg:text-5xl font-black text-purple-400 mb-2" id="totalTx">0</div>
+          <div class="text-xl text-gray-300">Tranzaksiya</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Filters -->
+    <div class="glass rounded-3xl p-6 lg:p-8 mb-8 flex flex-col lg:flex-row gap-4 lg:gap-6 items-center justify-between">
+      <div class="flex flex-wrap gap-3">
+        <button onclick="filterTx('all')" class="filter-btn px-6 py-3 rounded-2xl font-bold text-sm lg:text-base transition-all ${activeFilter === 'all' ? 'bg-emerald-500 text-white shadow-lg' : 'bg-zinc-800/50 hover:bg-zinc-700/50 border border-zinc-600'}">
+          Hamısı
+        </button>
+        <button onclick="filterTx('deposit')" class="filter-btn px-6 py-3 rounded-2xl font-bold text-sm lg:text-base transition-all ${activeFilter === 'deposit' ? 'bg-emerald-500 text-white shadow-lg' : 'bg-zinc-800/50 hover:bg-zinc-700/50 border border-zinc-600'}">
+          <i class="fas fa-plus mr-2"></i>Depozit
+        </button>
+        <button onclick="filterTx('car')" class="filter-btn px-6 py-3 rounded-2xl font-bold text-sm lg:text-base transition-all ${activeFilter === 'car' ? 'bg-emerald-500 text-white shadow-lg' : 'bg-zinc-800/50 hover:bg-zinc-700/50 border border-zinc-600'}">
+          <i class="fas fa-car mr-2"></i>Maşın alış
+        </button>
+        <button onclick="filterTx('income')" class="filter-btn px-6 py-3 rounded-2xl font-bold text-sm lg:text-base transition-all ${activeFilter === 'income' ? 'bg-emerald-500 text-white shadow-lg' : 'bg-zinc-800/50 hover:bg-zinc-700/50 border border-zinc-600'}">
+          <i class="fas fa-coins mr-2"></i>Gəlir
+        </button>
+      </div>
+      
+      <div class="flex items-center space-x-4">
+        <input type="date" id="dateFilter" onchange="filterByDate()" class="bg-zinc-800/50 border border-zinc-600 rounded-2xl px-4 py-3 text-white text-sm lg:text-base focus:outline-none focus:ring-2 focus:ring-emerald-500">
+        <button onclick="exportTx()" class="flex items-center space-x-2 px-6 py-3 bg-gradient-to-r from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700 text-white font-bold rounded-2xl shadow-lg hover:shadow-purple-500/50 transition-all">
+          <i class="fas fa-download"></i>
+          <span>İxrac et</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Transactions Table -->
+    <div class="space-y-4">
+      <div id="transactionsList">
+        <!-- Transactions will be loaded here -->
+        <div class="glass rounded-3xl p-12 text-center">
+          <i class="fas fa-inbox text-6xl text-gray-500 mb-8"></i>
+          <h3 class="text-3xl font-black text-gray-400 mb-4">Tranzaksiya yoxdur</h3>
+          <p class="text-xl text-gray-500">İlk depozit edin və investisiyaya başlayın</p>
+          <a href="depozit.html" class="mt-8 inline-block bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white font-bold px-12 py-4 rounded-3xl shadow-2xl hover:shadow-emerald-500/50 transition-all">
+            <i class="fas fa-plus-circle mr-3"></i>İlk depozit
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pagination -->
+    <div class="glass rounded-3xl p-6 mt-12 flex items-center justify-between flex-wrap gap-4">
+      <div class="text-lg text-gray-400">
+        <span id="showingCount">0</span> tranzaksiyadan <span id="totalCount">0</span> göstərilir
+      </div>
+      <div class="flex items-center space-x-2">
+        <button onclick="prevPage()" disabled class="w-12 h-12 bg-zinc-800/50 border border-zinc-600 rounded-2xl flex items-center justify-center hover:bg-zinc-700/50 transition-all">
+          <i class="fas fa-chevron-left"></i>
+        </button>
+        <span id="pageInfo" class="px-4 py-2 bg-zinc-800/50 border border-zinc-600 rounded-2xl font-bold">1</span>
+        <button onclick="nextPage()" disabled class="w-12 h-12 bg-zinc-800/50 border border-zinc-600 rounded-2xl flex items-center justify-center hover:bg-zinc-700/50 transition-all">
+          <i class="fas fa-chevron-right"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Login Required Modal -->
+  <div id="loginModal" class="fixed inset-0 bg-black/90 backdrop-blur-2xl z-[1000] hidden flex items-center justify-center p-8">
+    <div class="glass rounded-4xl p-12 max-w-md w-full text-center">
+      <div class="w-24 h-24 bg-gradient-to-r from-red-500 to-red-600 rounded-4xl flex items-center justify-center mx-auto mb-8 shadow-2xl">
+        <i class="fas fa-lock text-4xl text-white"></i>
+      </div>
+      <h2 class="text-4xl font-black text-white mb-6 gradient-text">Giriş tələb olunur</h2>
+      <p class="text-xl text-gray-300 mb-12">Tranzaksiyaları görmək üçün daxil olun</p>
+      <a href="login.html" class="bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white font-bold text-xl py-5 px-12 rounded-3xl shadow-2xl hover:shadow-emerald-500/50 transition-all inline-flex items-center mx-auto">
+        <i class="fas fa-sign-in-alt mr-3"></i> Daxil ol
+      </a>
+    </div>
+  </div>
+
+  <script>
+    let transactions = [];
+    let currentPage = 1;
+    let itemsPerPage = 10;
+    let activeFilter = 'all';
+
+    // ================================
+    // INIT + LOGIN CHECK
+    // ================================
+    document.addEventListener('DOMContentLoaded', function() {
+      if (localStorage.getItem('loggedIn') !== 'true') {
+        document.getElementById('loginModal').classList.remove('hidden');
+        return;
+      }
+      
+      initTransactions();
+    });
+
+    function initTransactions() {
+      // Load from localStorage or create demo data
+      transactions = JSON.parse(localStorage.getItem('transactions')) || [];
+      
+      if (transactions.length === 0) {
+        createDemoTransactions();
+      }
+      
+      loadStats();
+      renderTransactions();
+      updatePagination();
+    }
+
+    // ================================
+    // DEMO TRANSACTIONS (REAL LOOK)
+    // ================================
+    function createDemoTransactions() {
+      const demoTx = [
+        {
+          id: 'TX001',
+          type: 'deposit',
+          date: '2026-02-27 14:32',
+          amount: 250,
+          description: 'Paşa Bank VISA ****8363',
+          status: 'completed'
+        },
+        {
+          id: 'TX002',
+          type: 'car',
+          date: '2026-02-27 15:10',
+          amount: -10,
+          description: 'Toyota Corolla alış',
+          status: 'completed'
+        },
+        {
+          id: 'TX003',
+          type: 'income',
+          date: '2026-02-28 09:15',
+          amount: 0.85,
+          description: 'Toyota Corolla - Gündəlik gəlir',
+          status: 'completed'
+        },
+        {
+          id: 'TX004',
+          type: 'car',
+          date: '2026-02-28 11:45',
+          amount: -45,
+          description: 'Kia Rio alış',
+          status: 'completed'
+        }
+      ];
+      
+      transactions = demoTx;
+      localStorage.setItem('transactions', JSON.stringify(transactions));
+    }
+
+    // ================================
+    // STATS CALCULATE
+    // ================================
+    function loadStats() {
+      const balance = Number(localStorage.getItem('balance')) || 0;
+      document.getElementById('currentBalance').textContent = balance.toFixed(2) + ' AZN';
+      
+      const deposits = transactions.filter(t => t.type === 'deposit').reduce((sum, t) => sum + t.amount, 0);
+      const income = transactions.filter(t => t.type === 'income').reduce((sum, t) => sum + t.amount, 0);
+      const cars = transactions.filter(t => t.type === 'car' && t.status === 'completed').length;
+      
+      document.getElementById('totalInvested').textContent = deposits.toLocaleString() + ' AZN';
+      document.getElementById('totalEarned').textContent = income.toLocaleString() + ' AZN';
+      document.getElementById('carCount').textContent = cars;
+      document.getElementById('totalTx').textContent = transactions.length;
+    }
+
+    // ================================
+    // RENDER TRANSACTIONS
+    // ================================
+    function renderTransactions() {
+      const filtered = filterTransactions();
+      const start = (currentPage - 1) * itemsPerPage;
+      const end = start + itemsPerPage;
+      const pageTx = filtered.slice(start, end);
+      
+      if (pageTx.length === 0) {
+        document.getElementById('transactionsList').innerHTML = `
+          <div class="glass rounded-3xl p-12 text-center">
+            <i class="fas fa-search text-6xl text-gray-500 mb-8"></i>
+            <h3 class="text-3xl font-black text-gray-400 mb-4">Nəticə yoxdur</h3>
+            <p class="text-xl text-gray-500">Seçdiyiniz filtrə uyğun tranzaksiya tapılmadı</p>
+          </div>
+        `;
+        return;
+      }
+      
+      document.getElementById('transactionsList').innerHTML = pageTx.map(tx => `
+        <div class="glass rounded-3xl p-6 lg:p-8 hover:shadow-emerald-500/30 transition-all group cursor-pointer border-l-4 ${tx.status === 'completed' ? 'border-emerald-400' : 'border-yellow-400'}">
+          <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6 group-hover:translate-x-2 transition-all">
+            <div class="flex items-start lg:items-center space-x-4 flex-1">
+              <div class="w-16 h-16 rounded-2xl flex items-center justify-center font-bold text-xl flex-shrink-0 ${getTxIcon(tx.type)}">
+                ${getTxIconContent(tx.type)}
+              </div>
+              <div class="flex-1 min-w-0">
+                <div class="text-2xl lg:text-3xl font-black text-white truncate mb-1">${tx.description}</div>
+                <div class="flex items-center space-x-4 text-sm text-gray-400">
+                  <span><i class="fas fa-calendar mr-1"></i>${formatDate(tx.date)}</span>
+                  <span>ID: ${tx.id}</span>
+                  <span class="px-3 py-1 rounded-full text-xs font-bold ${tx.status === 'completed' ? 'bg-emerald-500/20 text-emerald-400' : 'bg-yellow-500/20 text-yellow-400'}">
+                    ${tx.status === 'completed' ? 'Tamamlanmış' : 'Yoxlanılır'}
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div class="text-right">
+              <div class="text-4xl lg:text-5xl font-black ${tx.amount > 0 ? 'text-emerald-400' : 'text-red-400'} mb-1">${formatAmount(tx.amount)}</div>
+              <div class="text-sm text-gray-500">${tx.type === 'deposit' ? 'Daxil' : tx.type === 'income' ? 'Gəlir' : 'Xərc'}</div>
+            </div>
+          </div>
+        </div>
+      `).join('');
+      
+      document.getElementById('showingCount').textContent = pageTx.length;
+      document.getElementById('totalCount').textContent = filtered.length;
+    }
+
+    // ================================
+    // FILTERS & PAGINATION
+    // ================================
+    let activeFilter = 'all';
+    
+    function filterTx(type) {
+      activeFilter = type;
+      currentPage = 1;
+      renderTransactions();
+      updatePagination();
+      
+      // Update button styles
+      document.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.classList.remove('bg-emerald-500', 'text-white', 'shadow-lg');
+        btn.classList.add('bg-zinc-800/50', 'border', 'border-zinc-600');
+      });
+      event.target.classList.remove('bg-zinc-800/50', 'border', 'border-zinc-600');
+      event.target.classList.add('bg-emerald-500', 'text-white', 'shadow-lg');
+    }
+
+    function filterByDate() {
+      renderTransactions();
+      updatePagination();
+    }
+
+    function updatePagination() {
+      const filtered = filterTransactions();
+      const totalPages = Math.ceil(filtered.length / itemsPerPage);
+      
+      document.getElementById('pageInfo').textContent = `${currentPage} / ${totalPages}`;
+      
+      document.querySelector('button[onclick="prevPage()"]').disabled = currentPage === 1;
+      document.querySelector('button[onclick="nextPage()"]').disabled = currentPage === totalPages;
+    }
+
+    function prevPage() {
+      if (currentPage > 1) {
+        currentPage--;
+        renderTransactions();
+        updatePagination();
+      }
+    }
+
+    function nextPage() {
+      const filtered = filterTransactions();
+      const totalPages = Math.ceil(filtered.length / itemsPerPage);
+      if (currentPage < totalPages) {
+        currentPage++;
+        renderTransactions();
+        updatePagination();
+      }
+    }
+
+    // ================================
+    // UTILITY FUNCTIONS
+    // ================================
+    function filterTransactions() {
+      let filtered = [...transactions];
+      
+      // Type filter
+      if (activeFilter !== 'all') {
+        filtered = filtered.filter(tx => tx.type === activeFilter);
+      }
+      
+      // Date filter
+      const dateFilter = document.getElementById('dateFilter').value;
+      if (dateFilter) {
+        filtered = filtered.filter(tx => {
+          const txDate = new Date(tx.date.split(' ')[0]);
+          return txDate.toISOString().split('T')[0] === dateFilter;
+        });
+      }
+      
+      return filtered;
+    }
+
+    function getTxIcon(type) {
+      const icons = {
+        deposit: 'bg-emerald-500/20 text-emerald-400 border-2 border-emerald-500/40',
+        car: 'bg-amber-500/20 text-amber-400 border-2 border-amber-500/40',
+        income: 'bg-green-500/20 text-green-400 border-2 border-green-500/40'
+      };
+      return icons[type] || 'bg-gray-500/20 text-gray-400 border-2 border-gray-500/40';
+    }
+
+    function getTxIconContent(type) {
+      const icons = {
+        deposit: '<i class="fas fa-plus"></i>',
+        car: '<i class="fas fa-car"></i>',
+        income: '<i class="fas fa-coins"></i>'
+      };
+      return icons[type] || '<i class="fas fa-circle"></i>';
+    }
+
+    function formatDate(dateStr) {
+      return new Date(dateStr).toLocaleString('az-AZ', {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
+      });
+    }
+
+    function formatAmount(amount) {
+      return amount > 0 ? `+${amount.toLocaleString()}` : `-${Math.abs(amount).toLocaleString()}`;
+    }
+
+    function exportTx() {
+      const filtered = filterTransactions();
+      const csv = convertToCSV(filtered);
+      downloadCSV(csv, 'carbet-transactions.csv');
+    }
+
+    function convertToCSV(tx) {
+      const headers = ['ID', 'Type', 'Date', 'Amount', 'Description', 'Status'];
+      const csvRows = [headers.join(',')];
+      
+      tx.forEach(row => {
+        csvRows.push([
+          row.id,
+          row.type,
+          row.date,
+          row.amount,
+          row.description.replace(/,/g, ''),
+          row.status
+        ].join(','));
+      });
+      
+      return csvRows.join('\n');
+    }
+
+    function downloadCSV(csv, filename) {
+      const blob = new Blob([csv], { type: 'text/csv' });
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = filename;
+      a.click();
+      window.URL.revokeObjectURL(url);
+    }
+
+    function logout() {
+      localStorage.removeItem('loggedIn');
+      window.location.href = 'login.html';
+    }
+  </script>
+</body>
+</html>
