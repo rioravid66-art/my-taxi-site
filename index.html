@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>TaxiMetr - Maşın al, real pul qazan</title>
+  <title>CarBet - Maşın al, real pul qazan</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <style>
@@ -15,7 +15,6 @@
     .car-card { transition: all 0.3s ease; }
     .car-card:hover { transform: scale(1.05); box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.5); }
     #menu { transition: all 0.3s ease; }
-    .modal { transition: opacity 0.3s ease; }
   </style>
 </head>
 <body class="min-h-screen">
@@ -23,9 +22,9 @@
   <!-- Header -->
   <header class="hero flex items-center justify-center text-center relative">
     <div class="absolute top-6 right-6 flex items-center space-x-6">
-      <button onclick="showAuthModal()" class="bg-emerald-600 hover:bg-emerald-500 text-white px-6 py-2.5 rounded-lg font-semibold shadow-md">
+      <a href="/login.html" class="bg-emerald-600 hover:bg-emerald-500 text-white px-6 py-2.5 rounded-lg font-semibold shadow-md">
         Daxil ol / Qeydiyyat
-      </button>
+      </a>
       <button onclick="toggleMenu()" class="text-4xl text-white hover:text-emerald-400 transition-colors">
         <i class="fas fa-ellipsis-v"></i>
       </button>
@@ -74,77 +73,25 @@
     <div class="p-6">
       <button onclick="toggleMenu()" class="text-4xl text-white absolute top-6 right-6">×</button>
       <h3 class="text-2xl font-bold text-emerald-400 mb-8 mt-12">Menü</h3>
-      <a href="#" onclick="showDeposit()" class="block py-4 px-5 hover:bg-zinc-800 rounded-lg flex items-center text-lg">
-        <i class="fas fa-plus-circle mr-4 text-emerald-400 text-xl"></i> Balansı artır
+      <a href="index.html" class="block py-4 px-5 hover:bg-zinc-800 rounded-lg flex items-center text-lg">
+        <i class="fas fa-home mr-4 text-emerald-400 text-xl"></i> Ana səhifə
       </a>
-      <a href="#" class="block py-4 px-5 hover:bg-zinc-800 rounded-lg flex items-center text-lg">
-        <i class="fas fa-money-bill-transfer mr-4 text-amber-400 text-xl"></i> Çıxarış
+      <a href="store.html" class="block py-4 px-5 hover:bg-zinc-800 rounded-lg flex items-center text-lg">
+        <i class="fas fa-store mr-4 text-amber-400 text-xl"></i> Mağaza
       </a>
-      <a href="#" class="block py-4 px-5 hover:bg-zinc-800 rounded-lg flex items-center text-lg">
+      <a href="profile.html" class="block py-4 px-5 hover:bg-zinc-800 rounded-lg flex items-center text-lg">
         <i class="fas fa-user-circle mr-4 text-blue-400 text-xl"></i> Profil
       </a>
-      <a href="#" class="block py-4 px-5 hover:bg-zinc-800 rounded-lg flex items-center text-lg">
-        <i class="fas fa-history mr-4 text-purple-400 text-xl"></i> Tarixçə
+      <a href="depozit.html" class="block py-4 px-5 hover:bg-zinc-800 rounded-lg flex items-center text-lg">
+        <i class="fas fa-plus-circle mr-4 text-emerald-400 text-xl"></i> Balansı artır
+      </a>
+      <a href="cixarish.html" class="block py-4 px-5 hover:bg-zinc-800 rounded-lg flex items-center text-lg">
+        <i class="fas fa-money-bill-transfer mr-4 text-amber-400 text-xl"></i> Çıxarış
       </a>
       <hr class="my-6 border-zinc-700">
       <button onclick="logout()" class="w-full py-4 px-5 bg-red-900 hover:bg-red-800 rounded-lg text-red-300 font-semibold flex items-center justify-center text-lg">
         <i class="fas fa-sign-out-alt mr-3"></i> Çıxış
       </button>
-    </div>
-  </div>
-
-  <!-- Depozit Modal -->
-  <div id="depositModal" class="fixed inset-0 bg-black bg-opacity-80 hidden flex items-center justify-center z-50">
-    <div class="bg-zinc-900 p-8 rounded-2xl max-w-lg w-full mx-4 relative">
-      <button onclick="closeDeposit()" class="absolute top-4 right-6 text-4xl text-zinc-400 hover:text-white">×</button>
-      <h2 class="text-3xl font-bold text-center text-emerald-400 mb-8">Balansı artır</h2>
-
-      <div class="space-y-6">
-        <div class="bg-zinc-800 p-6 rounded-xl">
-          <p class="text-lg mb-3">Məbləğ: </p>
-          <input id="depositAmount" type="number" class="w-full p-4 bg-zinc-800 rounded-lg text-white placeholder-zinc-500 focus:outline-none focus:ring-2 focus:ring-emerald-500" min="10" step="1" placeholder="Məbləği daxil edin (min 10 AZN)">
-        </div>
-
-        <button onclick="selectVisa()" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white py-5 rounded-xl text-xl font-bold shadow-lg transition-all flex items-center justify-center">
-          <i class="fas fa-credit-card mr-3"></i> Visa/Mastercard ilə ödə
-        </button>
-
-        <button onclick="selectNowPayments()" class="w-full bg-orange-600 hover:bg-orange-500 text-white py-5 rounded-xl text-xl font-bold shadow-lg transition-all flex items-center justify-center">
-          <i class="fas fa-coins mr-3"></i> NOWPayments (kripto və ya kart)
-        </button>
-
-        <div id="visaSection" class="hidden bg-zinc-800 p-6 rounded-xl mt-4">
-          <p class="text-lg mb-4 font-semibold">Kart nömrəsi: <strong class="text-white">4169 7388 4952 8363</strong></p>
-          <p class="text-sm text-zinc-400 mb-4">Məbləği bank app-ınızla köçürün</p>
-          <button onclick="confirmPayment()" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white py-4 rounded-xl text-lg font-semibold">
-            Ödəniş etdim – təsdiqlə
-          </button>
-        </div>
-
-        <div id="nowPaymentsSection" class="hidden mt-4">
-          <p class="text-sm text-zinc-400 mb-4">NOWPayments ilə ödəniş edin (kart və ya kripto)</p>
-          <button onclick="startNowPayments()" class="w-full bg-orange-600 hover:bg-orange-500 text-white py-4 rounded-xl text-lg font-semibold">
-            Ödənişə başla
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Qeydiyyat/Giriş Modal -->
-  <div id="authModal" class="fixed inset-0 bg-black bg-opacity-80 hidden flex items-center justify-center z-50">
-    <div class="bg-zinc-900 p-10 rounded-2xl max-w-md w-full mx-4">
-      <button onclick="closeAuth()" class="absolute top-4 right-6 text-4xl text-zinc-400 hover:text-white">×</button>
-      <h2 class="text-3xl font-bold text-center text-emerald-400 mb-8">Daxil ol / Qeydiyyat</h2>
-      
-      <div class="space-y-6">
-        <input id="phone" type="tel" placeholder="Telefon nömrəsi" class="w-full p-4 bg-zinc-800 rounded-lg text-white placeholder-zinc-500 focus:outline-none focus:ring-2 focus:ring-emerald-500">
-        <input id="password" type="password" placeholder="Şifrə" class="w-full p-4 bg-zinc-800 rounded-lg text-white placeholder-zinc-500 focus:outline-none focus:ring-2 focus:ring-emerald-500">
-        <button onclick="login()" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white py-4 rounded-xl text-xl font-bold">
-          Daxil ol
-        </button>
-        <p class="text-center text-zinc-400 mt-4">Hesabınız yoxdur? <span class="text-emerald-400 cursor-pointer hover:underline">Qeydiyyatdan keçin</span></p>
-      </div>
     </div>
   </div>
 
@@ -166,16 +113,6 @@
       document.getElementById('income').innerText = dailyIncome.toFixed(2);
       localStorage.setItem('balance', virtualBalance);
       localStorage.setItem('income', dailyIncome);
-    }
-
-    async function buyCar(price, name) {
-      if (localStorage.getItem('loggedIn') !== 'true') {
-        alert('Maşın almaq üçün daxil olun');
-        showAuthModal();
-        return;
-      }
-      document.getElementById('depositAmount').value = price;
-      document.getElementById('depositModal').classList.remove('hidden');
     }
 
     function renderCars() {
@@ -200,80 +137,24 @@
       });
     }
 
-    // Hamburger menu toggle
     function toggleMenu() {
       document.getElementById('menu').classList.toggle('hidden');
     }
 
-    // Depozit modal
-    function showDeposit() {
-      if (localStorage.getItem('loggedIn') !== 'true') {
-        alert('Depozit etmək üçün daxil olun');
-        showAuthModal();
-        return;
-      }
-      document.getElementById('depositModal').classList.remove('hidden');
+    function logout() {
+      localStorage.removeItem('loggedIn');
+      localStorage.removeItem('userId');
+      localStorage.removeItem('userEmail');
+      alert('Çıxdınız!');
+      window.location.href = 'index.html';
     }
 
-    function closeDeposit() {
-      document.getElementById('depositModal').classList.add('hidden');
-    }
-
-    // Auth modal
-    function showAuthModal() {
-      document.getElementById('authModal').classList.remove('hidden');
-    }
-
-    function closeAuth() {
-      document.getElementById('authModal').classList.add('hidden');
-    }
-
-    function login() {
-      const phone = document.getElementById('phone').value.trim();
-      const password = document.getElementById('password').value.trim();
-
-      if (phone.length < 7 || password.length < 4) {
-        alert('Telefon və şifrə düzgün daxil edin');
-        return;
-      }
-
-      localStorage.setItem('loggedIn', 'true');
-      localStorage.setItem('userId', phone);
-      alert('Daxil oldunuz!');
-      closeAuth();
-    }
-
-    // Ödəniş təsdiqlə (serverə sorğu göndər)
-    async function confirmPayment() {
-      const amount = parseFloat(document.getElementById('depositAmount').value);
-      if (amount < 10) {
-        alert('Minimum 10 AZN olmalıdır');
-        return;
-      }
-
-      try {
-        const res = await fetch('https://taxi-server.onrender.com/add-balance', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            userId: localStorage.getItem('userId') || 'ravid',
-            amount: amount
-          })
-        });
-
-        const data = await res.json();
-        if (data.success) {
-          virtualBalance = data.newBalance;
-          updateDisplay();
-          alert(amount + ' AZN balansınıza əlavə olundu!');
-          closeDeposit();
-        } else {
-          alert('Xəta: ' + data.error);
-        }
-      } catch (err) {
-        alert('Server xətası: ' + err.message);
-      }
-    }
+    // Simulyasiya gəlir
+    setInterval(() => {
+      const hourly = dailyIncome / 24;
+      virtualBalance += hourly;
+      updateDisplay();
+    }, 8000);
 
     // Başlanğıc
     renderCars();
