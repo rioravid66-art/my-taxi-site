@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="az">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Artığ CarBet - Balansı Artır</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    body {
+      background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+      min-height: 100vh;
+      color: #e5e7eb;
+      font-family: 'Segoe UI', sans-serif;
+    }
+    .card {
+      background: rgba(30, 41, 59, 0.92);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 28px;
+      box-shadow: 0 30px 60px -15px rgba(0,0,0,0.7);
+      max-width: 560px;
+      width: 100%;
+      padding: 3.5rem 2.5rem;
+    }
+    .countdown {
+      font-size: 4rem;
+      font-weight: bold;
+      color: #10b981;
+      text-shadow: 0 0 25px rgba(16,185,129,0.6);
+    }
+    .btn {
+      transition: all 0.3s ease;
+    }
+    .btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 15px 30px -8px rgba(0,0,0,0.5);
+    }
+  </style>
+</head>
+<body class="flex items-center justify-center p-6">
+
+  <div class="card relative">
+    <!-- Geri düyməsi -->
+    <a href="index.html" class="absolute top-6 left-6 text-emerald-400 hover:text-emerald-300 text-2xl flex items-center">
+      <i class="fas fa-arrow-left mr-2"></i> Geri
+    </a>
+
+    <!-- Başlıq -->
+    <div class="text-center mb-12">
+      <h1 class="text-5xl font-extrabold text-emerald-400 mb-4 tracking-tight">Artığ CarBet</h1>
+      <p class="text-2xl text-zinc-300">Balansını artır – maşın almağa başla</p>
+    </div>
+
+    <!-- Məbləğ sahəsi -->
+    <div class="bg-zinc-800/60 p-8 rounded-2xl border border-zinc-700 mb-10">
+      <label class="block text-xl font-semibold mb-4">Məbləğ (AZN)</label>
+      <input id="depositAmount" type="number" min="10" step="1" placeholder="Məbləği daxil et (minimum 10 AZN)" class="w-full p-5 bg-zinc-900 rounded-xl text-3xl text-center text-white placeholder-zinc-500 focus:outline-none focus:ring-2 focus:ring-emerald-500">
+      <p class="text-sm text-zinc-400 mt-3 text-center">Minimum 10 AZN • Maksimum yoxdur</p>
+    </div>
+
+    <!-- Visa/Mastercard bölməsi -->
+    <div class="bg-zinc-800/60 p-8 rounded-2xl border border-zinc-700 mb-10">
+      <h3 class="text-2xl font-bold text-white mb-6 flex items-center">
+        <i class="fas fa-credit-card mr-3 text-emerald-400"></i> Visa / Mastercard ilə köçür
+      </h3>
+      <p class="text-lg mb-4">Aşağıdakı karta məbləği köçürün:</p>
+      <div class="bg-zinc-950 p-6 rounded-xl text-center mb-6 font-mono text-3xl tracking-wider select-all break-all">
+        4169 7388 4952 8363
+      </div>
+      <button onclick="startVisaDeposit()" class="btn w-full bg-emerald-600 hover:bg-emerald-500 text-white py-5 rounded-xl text-xl font-bold shadow-lg">
+        Ödəniş etdim – təsdiqlə
+      </button>
+
+      <!-- Geri sayım sahəsi -->
+      <div id="visaCountdown" class="text-center mt-8 text-2xl font-bold text-emerald-400 hidden">
+        Ödəniş yoxlanılır: <span id="countdownTimer" class="countdown">30</span> saniyə
+      </div>
+    </div>
+
+    <!-- NowPayments bölməsi -->
+    <div class="bg-zinc-800/60 p-8 rounded-2xl border border-zinc-700">
+      <h3 class="text-2xl font-bold text-white mb-6 flex items-center">
+        <i class="fas fa-coins mr-3 text-amber-400"></i> NowPayments (Kart və ya Kripto)
+      </h3>
+      <p class="text-lg mb-4">Kart və ya kriptovalyuta ilə ödəniş edin</p>
+      <p class="text-sm text-zinc-400 mb-6">Komissiya minimum – ən sürətli yol</p>
+      <button onclick="startNowPayments()" class="btn w-full bg-amber-600 hover:bg-amber-500 text-white py-5 rounded-xl text-xl font-bold shadow-lg">
+        NowPayments ilə ödə
+      </button>
+    </div>
+
+    <!-- Footer -->
+    <div class="text-center text-zinc-500 text-sm mt-12">
+      Ödəniş təsdiqlənəndə balans 20-30 saniyə ərzində artacaq • Təhlükəsiz əməliyyat
+    </div>
+  </div>
+
+  <script>
+    let countdownInterval;
+
+    function startVisaDeposit() {
+      const amount = parseFloat(document.getElementById('depositAmount').value);
+      if (amount < 10 || isNaN(amount)) {
+        alert('Minimum 10 AZN daxil edin');
+        return;
+      }
+
+      // Geri sayımı başlat
+      document.getElementById('visaCountdown').classList.remove('hidden');
+      let timeLeft = 30;
+      document.getElementById('countdownTimer').innerText = timeLeft;
+
+      countdownInterval = setInterval(() => {
+        timeLeft--;
+        document.getElementById('countdownTimer').innerText = timeLeft;
+
+        if (timeLeft <= 0) {
+          clearInterval(countdownInterval);
+          document.getElementById('visaCountdown').classList.add('hidden');
+          confirmVisaDeposit(amount);
+        }
+      }, 1000);
+    }
+
+    async function confirmVisaDeposit(amount) {
+      // Real serverə sorğu göndər (balans artırma)
+      try {
+        const res = await fetch('https://taxi-server.onrender.com/add-balance', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            userId: localStorage.getItem('userId') || 'guest',
+            amount: amount
+          })
+        });
+
+        const data = await res.json();
+        if (data.success) {
+          alert('Ödəniş təsdiqləndi! ' + amount + ' AZN balansınıza əlavə olundu.');
+          // Ana səhifəyə qayıt və ya balans update et
+          window.location.href = 'index.html';
+        } else {
+          alert('Xəta: ' + data.error);
+        }
+      } catch (err) {
+        alert('Bağlantı xətası: ' + err.message);
+      }
+    }
+
+    function startNowPayments() {
+      const amount = parseFloat(document.getElementById('depositAmount').value);
+      if (amount < 10 || isNaN(amount)) {
+        alert('Minimum 10 AZN daxil edin');
+        return;
+      }
+
+      // Simulyasiya (real NowPayments linki sonradan qoşulacaq)
+      alert('NowPayments ödəniş səhifəsinə yönləndirilir... (məbləğ: ' + amount + ' AZN)');
+      // window.location.href = 'https://nowpayments.io/payment?api_key=...'; // real link
+    }
+
+    // Səhifədən çıxanda geri sayımı dayandır
+    window.addEventListener('beforeunload', () => {
+      if (countdownInterval) clearInterval(countdownInterval);
+    });
+  </script>
+</body>
+</html>
