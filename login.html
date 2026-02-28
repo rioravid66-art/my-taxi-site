@@ -3,92 +3,45 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title> CarBet - Daxil ol / Qeydiyyat</title>
+  <title>CarBet - Daxil ol / Qeydiyyat</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <style>
-    body {
-      background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-family: 'Segoe UI', sans-serif;
-    }
-    .card {
-      background: rgba(30, 41, 59, 0.92);
-      backdrop-filter: blur(12px);
-      border: 1px solid rgba(255,255,255,0.08);
-      border-radius: 28px;
-      box-shadow: 0 30px 60px -15px rgba(0,0,0,0.7);
-      max-width: 480px;
-      width: 100%;
-      padding: 3rem 2.5rem;
-    }
-    .tab-btn {
-      transition: all 0.3s ease;
-    }
-    .tab-btn.active {
-      background: #10b981;
-      color: white;
-    }
-    .input-field {
-      background: rgba(55, 65, 81, 0.6);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      transition: all 0.3s ease;
-    }
-    .input-field:focus {
-      border-color: #10b981;
-      box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.3);
-      outline: none;
-    }
+    body { background: linear-gradient(135deg, #0f0c29, #302b63, #24243e); min-height: 100vh; display: flex; align-items: center; justify-content: center; }
+    .card { background: rgba(30, 41, 59, 0.92); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.08); border-radius: 28px; box-shadow: 0 30px 60px -15px rgba(0,0,0,0.7); max-width: 480px; width: 100%; padding: 3rem 2.5rem; }
+    .tab-btn { transition: all 0.3s ease; }
+    .tab-btn.active { background: #10b981; color: white; }
+    .input-field { background: rgba(55, 65, 81, 0.6); border: 1px solid rgba(255, 255, 255, 0.2); transition: all 0.3s ease; }
+    .input-field:focus { border-color: #10b981; box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.3); outline: none; }
   </style>
 </head>
 <body>
-
   <div class="card">
     <div class="text-center mb-10">
-      <h1 class="text-5xl font-extrabold text-emerald-400 mb-3 tracking-tight">Artığ CarBet</h1>
+      <h1 class="text-5xl font-extrabold text-emerald-400 mb-3 tracking-tight">CarBet</h1>
       <p class="text-xl text-zinc-300">Real pul qazanmağın vaxtı gəldi</p>
     </div>
 
-    <!-- Tab düymələri -->
     <div class="flex mb-8">
       <button id="loginTab" onclick="showTab('login')" class="tab-btn flex-1 py-4 text-lg font-semibold rounded-l-xl active">Daxil ol</button>
       <button id="registerTab" onclick="showTab('register')" class="tab-btn flex-1 py-4 text-lg font-semibold rounded-r-xl">Qeydiyyat</button>
     </div>
 
-    <!-- Daxil ol forması -->
     <div id="loginForm" class="space-y-6">
-      <div>
-        <input id="loginEmail" type="email" placeholder="E-poçt adresiniz" class="input-field w-full p-4 rounded-xl text-white placeholder-zinc-500 focus:outline-none">
-      </div>
-      <div>
-        <input id="loginPassword" type="password" placeholder="Şifrə" class="input-field w-full p-4 rounded-xl text-white placeholder-zinc-500 focus:outline-none">
-      </div>
-      <button onclick="loginWithEmail()" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white py-4 rounded-xl text-xl font-bold shadow-lg transition-all">
-        Daxil ol
-      </button>
+      <input id="loginEmail" type="email" placeholder="E-poçt" class="input-field w-full p-4 rounded-xl text-white placeholder-zinc-500">
+      <input id="loginPassword" type="password" placeholder="Şifrə" class="input-field w-full p-4 rounded-xl text-white placeholder-zinc-500">
+      <button onclick="loginWithEmail()" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white py-4 rounded-xl text-xl font-bold">Daxil ol</button>
     </div>
 
-    <!-- Qeydiyyat forması (əvvəlcə gizli) -->
     <div id="registerForm" class="space-y-6 hidden">
-      <div>
-        <input id="registerEmail" type="email" placeholder="E-poçt adresiniz" class="input-field w-full p-4 rounded-xl text-white placeholder-zinc-500 focus:outline-none">
-      </div>
-      <div>
-        <input id="registerPassword" type="password" placeholder="Yeni şifrə" class="input-field w-full p-4 rounded-xl text-white placeholder-zinc-500 focus:outline-none">
-      </div>
-      <button onclick="registerWithEmail()" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white py-4 rounded-xl text-xl font-bold shadow-lg transition-all">
-        Qeydiyyatdan keç
-      </button>
+      <input id="registerEmail" type="email" placeholder="E-poçt" class="input-field w-full p-4 rounded-xl text-white placeholder-zinc-500">
+      <input id="registerPassword" type="password" placeholder="Şifrə" class="input-field w-full p-4 rounded-xl text-white placeholder-zinc-500">
+      <button onclick="registerWithEmail()" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white py-4 rounded-xl text-xl font-bold">Qeydiyyatdan keç</button>
     </div>
 
-    <!-- Google ilə giriş -->
     <div class="mt-10">
       <button id="googleLoginBtn" class="w-full bg-white text-black py-4 rounded-xl text-lg font-bold flex items-center justify-center shadow-lg hover:bg-gray-200 transition-all">
-        <i class="fab fa-google text-red-500 mr-3 text-2xl"></i>
-        Google (Gmail) ilə daxil ol
+        <i class="fab fa-google text-red-500 mr-3 text-2xl"></i> Google (Gmail) ilə daxil ol
       </button>
     </div>
 
@@ -97,7 +50,6 @@
     </p>
   </div>
 
-  <!-- Firebase SDK -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-app.js";
     import { getAuth, signInWithPopup, GoogleAuthProvider, signInWithEmailAndPassword, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-auth.js";
@@ -110,13 +62,10 @@
   messagingSenderId: "480829623206",
   appId: "1:480829623206:web:673ce571df25e52cf91d67"
 };
-
-
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
     const provider = new GoogleAuthProvider();
 
-    // Tab dəyişmə
     function showTab(tab) {
       document.getElementById('loginForm').classList.add('hidden');
       document.getElementById('registerForm').classList.add('hidden');
@@ -132,7 +81,6 @@
       }
     }
 
-    // Google ilə giriş
     document.getElementById('googleLoginBtn').addEventListener('click', async () => {
       try {
         const result = await signInWithPopup(auth, provider);
@@ -140,59 +88,35 @@
         localStorage.setItem('loggedIn', 'true');
         localStorage.setItem('userId', user.uid);
         localStorage.setItem('userEmail', user.email);
-        alert('Xoş gəldin, ' + user.email.split('@')[0] + '!');
+        alert('Xoş gəldin!');
         window.location.href = 'index.html';
       } catch (error) {
         alert('Xəta: ' + error.message);
       }
     });
 
-    // Email + şifrə ilə giriş
     function loginWithEmail() {
       const email = document.getElementById('loginEmail').value.trim();
       const password = document.getElementById('loginPassword').value.trim();
-
-      if (!email || !password) {
-        alert('E-poçt və şifrə daxil edin');
-        return;
-      }
-
+      if (!email || !password) return alert('E-poçt və şifrə daxil edin');
       signInWithEmailAndPassword(auth, email, password)
-        .then((userCredential) => {
-          const user = userCredential.user;
+        .then(() => {
           localStorage.setItem('loggedIn', 'true');
-          localStorage.setItem('userId', user.uid);
-          localStorage.setItem('userEmail', user.email);
-          alert('Daxil oldunuz!');
           window.location.href = 'index.html';
         })
-        .catch((error) => {
-          alert('Xəta: ' + error.message);
-        });
+        .catch(error => alert('Xəta: ' + error.message));
     }
 
-    // Qeydiyyat
     function registerWithEmail() {
       const email = document.getElementById('registerEmail').value.trim();
       const password = document.getElementById('registerPassword').value.trim();
-
-      if (!email || !password) {
-        alert('E-poçt və şifrə daxil edin');
-        return;
-      }
-
+      if (!email || !password) return alert('E-poçt və şifrə daxil edin');
       createUserWithEmailAndPassword(auth, email, password)
-        .then((userCredential) => {
-          const user = userCredential.user;
+        .then(() => {
           localStorage.setItem('loggedIn', 'true');
-          localStorage.setItem('userId', user.uid);
-          localStorage.setItem('userEmail', user.email);
-          alert('Qeydiyyat uğurlu! Daxil oldunuz.');
           window.location.href = 'index.html';
         })
-        .catch((error) => {
-          alert('Xəta: ' + error.message);
-        });
+        .catch(error => alert('Xəta: ' + error.message));
     }
   </script>
 </body>

@@ -3,97 +3,61 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title> CarBet - Maşın al, real pul qazan</title>
+  <title>CarBet - Maşın al, real pul qazan</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <style>
     body { background: #0a0a0a; color: #e5e7eb; font-family: 'Segoe UI', sans-serif; }
     .hero { 
       background: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.9)), url('https://images.unsplash.com/photo-1502877338535-766e3a6052c3?w=1920') center/cover no-repeat;
-      height: 90vh; 
-      animation: fadeIn 1.5s ease-out;
+      height: 85vh; 
     }
-    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     .car-card { transition: all 0.3s ease; }
-    .car-card:hover { transform: scale(1.05); box-shadow: 0 20px 25px -5px rgba(0,0,0,0.5); }
+    .car-card:hover { transform: scale(1.05); box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.5); }
     #menu { transition: all 0.3s ease; }
-    .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background: #161b22; border-top: 1px solid #2d3748; backdrop-filter: blur(10px); }
   </style>
 </head>
-<body class="relative pb-20">
+<body class="min-h-screen">
 
-  <!-- Hamburger Menu (3 nöqtə) -->
-  <button onclick="toggleMenu()" class="absolute top-6 right-6 text-4xl text-white z-50 hover:text-emerald-400 transition-colors">
-    <i class="fas fa-ellipsis-v"></i>
-  </button>
-  <div id="menu" class="hidden fixed top-0 right-0 h-full w-80 bg-zinc-900 z-50 shadow-2xl transform translate-x-full transition-transform duration-300 overflow-y-auto">
-    <div class="p-6">
-      <button onclick="toggleMenu()" class="text-4xl text-white absolute top-6 right-6">×</button>
-      <h3 class="text-3xl font-bold text-emerald-400 mb-10 mt-16">Artığ CarBet</h3>
-      <a href="index.html" class="block py-4 px-5 hover:bg-zinc-800 rounded-lg flex items-center text-lg">
-        <i class="fas fa-home mr-4 text-emerald-400"></i> Ana səhifə
+  <!-- Header -->
+  <header class="hero flex items-center justify-center text-center relative">
+    <div class="absolute top-6 right-6 flex items-center space-x-6">
+      <a href="/login.html" class="bg-emerald-600 hover:bg-emerald-500 text-white px-6 py-2.5 rounded-lg font-semibold shadow-md">
+        Daxil ol / Qeydiyyat
       </a>
-      <a href="store.html" class="block py-4 px-5 hover:bg-zinc-800 rounded-lg flex items-center text-lg">
-        <i class="fas fa-store mr-4 text-amber-400"></i> Mağaza
-      </a>
-      <a href="profile.html" class="block py-4 px-5 hover:bg-zinc-800 rounded-lg flex items-center text-lg">
-        <i class="fas fa-user-circle mr-4 text-blue-400"></i> Profil
-      </a>
-      <a href="depozit.html" class="block py-4 px-5 hover:bg-zinc-800 rounded-lg flex items-center text-lg">
-        <i class="fas fa-plus-circle mr-4 text-emerald-400"></i> Balansı artır
-      </a>
-      <a href="cixarish.html" class="block py-4 px-5 hover:bg-zinc-800 rounded-lg flex items-center text-lg">
-        <i class="fas fa-money-bill-transfer mr-4 text-amber-400"></i> Çıxarış
-      </a>
-      <a href="tarixce.html" class="block py-4 px-5 hover:bg-zinc-800 rounded-lg flex items-center text-lg">
-        <i class="fas fa-history mr-4 text-purple-400"></i> Tarixçə
-      </a>
-      <hr class="my-6 border-zinc-700">
-      <button onclick="logout()" class="w-full py-4 px-5 bg-red-900 hover:bg-red-800 rounded-lg text-red-300 font-semibold flex items-center justify-center text-lg">
-        <i class="fas fa-sign-out-alt mr-3"></i> Çıxış
+      <button onclick="toggleMenu()" class="text-4xl text-white hover:text-emerald-400 transition-colors">
+        <i class="fas fa-ellipsis-v"></i>
       </button>
     </div>
-  </div>
 
-  <!-- Hero Banner -->
-  <div class="hero flex items-center justify-center text-center">
-    <div class="z-10 px-4">
-      <h1 class="text-6xl md:text-8xl font-extrabold text-white mb-6 tracking-tight animate-pulse">Artığ CarBet</h1>
-      <p class="text-2xl md:text-4xl text-emerald-400 mb-12 font-medium">Maşın al – şəhərdə gəzdir – real pul qazan</p>
-      <a href="#cars" class="bg-emerald-600 hover:bg-emerald-500 text-white text-2xl md:text-3xl font-bold px-12 py-6 rounded-2xl shadow-2xl inline-block transition-all hover:scale-105">
-        Maşınlara bax →
+    <div class="z-10">
+      <h1 class="text-6xl md:text-7xl font-extrabold text-white mb-4 tracking-tight">CarBet</h1>
+      <p class="text-2xl md:text-3xl text-emerald-400 mb-10 font-medium">Maşın al – şəhərdə gəzdir – real pul qazan</p>
+      <a href="#cars" class="bg-emerald-600 hover:bg-emerald-500 text-white text-xl md:text-2xl font-semibold px-12 py-5 rounded-xl shadow-lg inline-block transition-all">
+        Maşınlara bax
       </a>
     </div>
-  </div>
+  </header>
 
   <!-- Stats -->
-  <div class="bg-zinc-900 py-12 border-b border-zinc-800">
+  <div class="bg-zinc-900 py-10">
     <div class="max-w-6xl mx-auto grid grid-cols-3 gap-8 text-center">
-      <div>
-        <div class="text-5xl font-bold text-emerald-400">255K+</div>
-        <div class="text-zinc-400 mt-2 text-lg">İstifadəçi</div>
-      </div>
-      <div>
-        <div class="text-5xl font-bold text-emerald-400">2.58M$</div>
-        <div class="text-zinc-400 mt-2 text-lg">Ödənilmiş</div>
-      </div>
-      <div>
-        <div class="text-5xl font-bold text-emerald-400">24/7</div>
-        <div class="text-zinc-400 mt-2 text-lg">Canlı taksilər</div>
-      </div>
+      <div><div class="text-5xl font-bold text-emerald-400">255K+</div><div class="text-zinc-400 mt-2">İstifadəçi</div></div>
+      <div><div class="text-5xl font-bold text-emerald-400">2.58M$</div><div class="text-zinc-400 mt-2">Ödənilmiş</div></div>
+      <div><div class="text-5xl font-bold text-emerald-400">24/7</div><div class="text-zinc-400 mt-2">Canlı taksilər</div></div>
     </div>
   </div>
 
   <!-- Balans göstəricisi -->
-  <div class="bg-zinc-900 py-8 text-center border-b border-zinc-800 sticky top-0 z-40 backdrop-blur-md">
-    <div class="max-w-4xl mx-auto grid grid-cols-2 gap-8">
+  <div class="bg-zinc-900 py-6 text-center sticky top-0 z-40 border-b border-zinc-800 backdrop-blur-md">
+    <div class="max-w-4xl mx-auto flex justify-center items-center space-x-12">
       <div>
-        <span class="text-xl">Balansın:</span>
-        <span id="balance" class="text-5xl font-extrabold text-emerald-400 ml-3">0.00</span> AZN
+        <span class="text-lg">Balansın:</span>
+        <span id="balance" class="text-4xl font-bold text-emerald-400 ml-2">0.00</span> AZN
       </div>
       <div>
-        <span class="text-xl">Gündəlik gəlir:</span>
-        <span id="income" class="text-5xl font-extrabold text-amber-400 ml-3">0.00</span> AZN
+        <span class="text-lg">Gündəlik gəlir:</span>
+        <span id="income" class="text-4xl font-bold text-amber-400 ml-2">0.00</span> AZN
       </div>
     </div>
   </div>
@@ -104,28 +68,34 @@
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10" id="car-grid"></div>
   </section>
 
-  <!-- Bottom Navigation (mobil üçün) -->
-  <div class="bottom-nav flex justify-around py-4 text-center z-50">
-    <a href="index.html" class="flex flex-col items-center text-zinc-300 hover:text-emerald-400">
-      <i class="fas fa-home text-3xl"></i>
-      <span class="text-xs mt-1">Ana</span>
-    </a>
-    <a href="store.html" class="flex flex-col items-center text-zinc-300 hover:text-emerald-400">
-      <i class="fas fa-store text-3xl"></i>
-      <span class="text-xs mt-1">Mağaza</span>
-    </a>
-    <a href="profile.html" class="flex flex-col items-center text-zinc-300 hover:text-emerald-400">
-      <i class="fas fa-user text-3xl"></i>
-      <span class="text-xs mt-1">Profil</span>
-    </a>
-    <a href="depozit.html" class="flex flex-col items-center text-zinc-300 hover:text-emerald-400">
-      <i class="fas fa-wallet text-3xl"></i>
-      <span class="text-xs mt-1">Balans</span>
-    </a>
-    <a href="https://t.me/ArtigCarBetAdmin" class="flex flex-col items-center text-zinc-300 hover:text-emerald-400">
-      <i class="fab fa-telegram text-3xl"></i>
-      <span class="text-xs mt-1">Telegram</span>
-    </a>
+  <!-- Hamburger Menu -->
+  <div id="menu" class="hidden fixed top-0 right-0 h-full w-80 bg-zinc-900 z-50 shadow-2xl transform translate-x-full transition-transform duration-300">
+    <div class="p-6">
+      <button onclick="toggleMenu()" class="text-4xl text-white absolute top-6 right-6">×</button>
+      <h3 class="text-2xl font-bold text-emerald-400 mb-8 mt-12">Menü</h3>
+      <a href="index.html" class="block py-4 px-5 hover:bg-zinc-800 rounded-lg flex items-center text-lg">
+        <i class="fas fa-home mr-4 text-emerald-400 text-xl"></i> Ana səhifə
+      </a>
+      <a href="store.html" class="block py-4 px-5 hover:bg-zinc-800 rounded-lg flex items-center text-lg">
+        <i class="fas fa-store mr-4 text-amber-400 text-xl"></i> Mağaza
+      </a>
+      <a href="profile.html" class="block py-4 px-5 hover:bg-zinc-800 rounded-lg flex items-center text-lg">
+        <i class="fas fa-user-circle mr-4 text-blue-400 text-xl"></i> Profil
+      </a>
+      <a href="depozit.html" class="block py-4 px-5 hover:bg-zinc-800 rounded-lg flex items-center text-lg">
+        <i class="fas fa-plus-circle mr-4 text-emerald-400 text-xl"></i> Balansı artır
+      </a>
+      <a href="cixarish.html" class="block py-4 px-5 hover:bg-zinc-800 rounded-lg flex items-center text-lg">
+        <i class="fas fa-money-bill-transfer mr-4 text-amber-400 text-xl"></i> Çıxarış
+      </a>
+      <a href="tarixce.html" class="block py-4 px-5 hover:bg-zinc-800 rounded-lg flex items-center text-lg">
+        <i class="fas fa-history mr-4 text-purple-400 text-xl"></i> Tarixçə
+      </a>
+      <hr class="my-6 border-zinc-700">
+      <button onclick="logout()" class="w-full py-4 px-5 bg-red-900 hover:bg-red-800 rounded-lg text-red-300 font-semibold flex items-center justify-center text-lg">
+        <i class="fas fa-sign-out-alt mr-3"></i> Çıxış
+      </button>
+    </div>
   </div>
 
   <script>
@@ -181,7 +151,7 @@
       window.location.href = 'index.html';
     }
 
-    // Simulyasiya gəlir (gündəlik gəlir hər 8 saniyədə bir az əlavə olunur)
+    // Simulyasiya gəlir
     setInterval(() => {
       const hourly = dailyIncome / 24;
       virtualBalance += hourly;
