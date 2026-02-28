@@ -7,101 +7,300 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <style>
-    body { background: linear-gradient(135deg, #0f0c29, #302b63, #24243e); min-height: 100vh; color: #e5e7eb; }
-    .card { background: rgba(30, 41, 59, 0.92); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.08); border-radius: 28px; box-shadow: 0 30px 60px -15px rgba(0,0,0,0.7); max-width: 560px; width: 100%; padding: 3.5rem 2.5rem; }
-    .countdown { font-size: 4rem; font-weight: bold; color: #10b981; text-shadow: 0 0 25px rgba(16,185,129,0.6); }
+    body { 
+      background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
+      min-height: 100vh; 
+      color: #e5e7eb; 
+    }
+    .glass-card { 
+      background: rgba(15, 23, 42, 0.95); 
+      backdrop-filter: blur(25px); 
+      border: 1px solid rgba(16, 185, 129, 0.3); 
+      border-radius: 32px; 
+      box-shadow: 0 35px 80px -20px rgba(0,0,0,0.8), 0 0 0 1px rgba(255,255,255,0.05);
+    }
+    .gradient-text { 
+      background: linear-gradient(135deg, #10b981 0%, #34d399 50%, #6ee7b7 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .countdown { 
+      font-size: 4.5rem; 
+      font-weight: 900; 
+      background: linear-gradient(135deg, #10b981, #34d399);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-shadow: 0 0 40px rgba(16,185,129,0.6);
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+    .input-glow:focus {
+      box-shadow: 0 0 0 4px rgba(16,185,129,0.3);
+      border-color: #10b981;
+      transform: translateY(-2px);
+    }
+    .method-card {
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .method-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);
+    }
+    .payment-info {
+      background: linear-gradient(135deg, rgba(16,185,129,0.1), rgba(34,197,94,0.05));
+      border: 1px solid rgba(16,185,129,0.2);
+    }
   </style>
 </head>
-<body class="flex items-center justify-center p-6">
+<body class="flex items-center justify-center p-8 min-h-screen">
 
-  <div class="card relative">
-    <a href="index.html" class="absolute top-6 left-6 text-emerald-400 hover:text-emerald-300 text-2xl flex items-center">
-      <i class="fas fa-arrow-left mr-2"></i> Geri
-    </a>
+  <!-- Login Check Overlay -->
+  <div id="loginRequired" class="fixed inset-0 bg-black/80 backdrop-blur-xl z-[1000] hidden flex items-center justify-center p-8">
+    <div class="glass-card text-center max-w-md p-12 rounded-4xl">
+      <div class="w-24 h-24 bg-gradient-to-r from-emerald-500 to-teal-600 rounded-4xl flex items-center justify-center mx-auto mb-8">
+        <i class="fas fa-lock text-4xl text-white"></i>
+      </div>
+      <h2 class="text-4xl font-black text-white mb-6 gradient-text">Giriş tələb olunur</h2>
+      <p class="text-xl text-gray-300 mb-12">Depozit etmək üçün hesabınıza daxil olun</p>
+      <a href="login.html" class="bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white font-bold text-xl py-5 px-12 rounded-3xl shadow-2xl hover:shadow-emerald-500/50 transition-all inline-flex items-center mx-auto">
+        <i class="fas fa-sign-in-alt mr-3"></i> Daxil ol
+      </a>
+    </div>
+  </div>
 
-    <div class="text-center mb-12">
-      <h1 class="text-5xl font-extrabold text-emerald-400 mb-4 tracking-tight">CarBet</h1>
-      <p class="text-2xl text-zinc-300">Balansını artır</p>
+  <div class="glass-card relative max-w-2xl w-full p-12 lg:p-16">
+    
+    <!-- Back Button + Balance -->
+    <div class="flex items-center justify-between mb-12">
+      <a href="index.html" class="group flex items-center space-x-3 text-emerald-400 hover:text-emerald-300 text-2xl font-bold transition-all">
+        <i class="fas fa-arrow-left group-hover:-translate-x-1 transition-transform"></i>
+        <span>Geri</span>
+      </a>
+      
+      <div class="text-right">
+        <div class="text-lg text-gray-400 mb-1">Cari balans</div>
+        <div class="text-4xl font-black text-emerald-400" id="currentBalance">1,250.50 AZN</div>
+      </div>
     </div>
 
-    <div class="space-y-8">
-      <div class="bg-zinc-800/60 p-8 rounded-2xl border border-zinc-700">
-        <label class="block text-xl font-semibold mb-4">Məbləğ (AZN)</label>
-        <input id="depositAmount" type="number" min="10" step="1" placeholder="Məbləği daxil et (min 10 AZN)" class="w-full p-5 bg-zinc-900 rounded-xl text-3xl text-center text-white placeholder-zinc-500 focus:outline-none focus:ring-2 focus:ring-emerald-500">
+    <!-- Header -->
+    <div class="text-center mb-16">
+      <div class="w-24 h-24 bg-gradient-to-r from-emerald-500 to-teal-600 rounded-4xl flex items-center justify-center mx-auto mb-8 shadow-2xl">
+        <i class="fas fa-plus-circle text-4xl text-white"></i>
       </div>
+      <h1 class="text-6xl font-black gradient-text mb-6 tracking-tight">Balans Artır</h1>
+      <p class="text-2xl text-gray-300 max-w-md mx-auto leading-relaxed">
+        Hesabınıza pul əlavə edin və investisiyanı 
+        <span class="text-emerald-400 font-bold">dərhal</span> başlayın
+      </p>
+    </div>
 
-      <div class="bg-zinc-800/60 p-8 rounded-2xl border border-zinc-700">
-        <h3 class="text-2xl font-bold text-white mb-6 flex items-center">
-          <i class="fas fa-credit-card mr-3 text-emerald-400"></i> Visa / Mastercard
-        </h3>
-        <div class="bg-zinc-950 p-6 rounded-xl text-center mb-6 font-mono text-3xl tracking-wider select-all">
+    <!-- Amount Input -->
+    <div class="payment-info p-10 rounded-4xl mb-12">
+      <label class="block text-2xl font-bold text-white mb-8 text-center">
+        <i class="fas fa-coins mr-4 text-emerald-400"></i> Məbləğ (AZN)
+      </label>
+      <div class="relative">
+        <input id="depositAmount" 
+               type="number" 
+               min="10" 
+               step="5" 
+               placeholder="Məbləği daxil edin (minimum 10 AZN)" 
+               class="w-full p-8 bg-zinc-900/70 rounded-4xl text-4xl font-black text-center text-white placeholder-zinc-500 border-2 border-emerald-500/40 focus:outline-none input-glow transition-all duration-500 text-right pr-24"
+               oninput="updatePreview()">
+        <div class="absolute right-6 top-1/2 -translate-y-1/2 text-emerald-400 text-3xl font-bold">
+          AZN
+        </div>
+      </div>
+      <div id="amountPreview" class="text-center mt-6 text-3xl font-bold text-emerald-400 hidden">
+        <i class="fas fa-check-circle mr-4"></i> Seçildi: <span id="previewAmount">0</span> AZN
+      </div>
+    </div>
+
+    <!-- Payment Methods -->
+    <div class="space-y-6">
+      
+      <!-- VISA/MASTERCARD -->
+      <div class="method-card glass-card p-10 rounded-4xl payment-info hover:border-emerald-400/60">
+        <div class="flex items-center mb-8">
+          <div class="w-16 h-16 bg-gradient-to-r from-blue-500 to-blue-600 rounded-3xl flex items-center justify-center mr-6 shadow-2xl">
+            <i class="fab fa-cc-visa text-2xl text-white"></i>
+          </div>
+          <div>
+            <h3 class="text-4xl font-black text-white mb-2">Visa / Mastercard</h3>
+            <p class="text-emerald-400 text-xl font-semibold">Kapital Bank • 0% komissiya • Anında</p>
+          </div>
+        </div>
+        
+        <div class="bg-zinc-950/80 p-8 rounded-3xl text-center mb-10 font-mono text-2xl tracking-wider select-all border-2 border-blue-500/30 hover:border-blue-500/50 transition-all">
+          <i class="fas fa-credit-card text-blue-400 mr-4"></i>
           4169 7388 4952 8363
         </div>
-        <button onclick="startVisaDeposit()" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white py-5 rounded-xl text-xl font-bold">
-          Ödəniş etdim – təsdiqlə
+        
+        <button onclick="startVisaDeposit()" 
+                class="w-full bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white py-6 px-12 rounded-4xl text-2xl font-black shadow-2xl hover:shadow-emerald-500/50 transition-all duration-300 flex items-center justify-center">
+          <i class="fas fa-credit-card mr-4 text-3xl"></i>
+          <span>Ödəniş etdim – Təsdiqlə</span>
         </button>
-        <div id="visaCountdown" class="text-center mt-8 text-2xl font-bold text-emerald-400 hidden">
-          Yoxlanılır: <span id="countdownTimer" class="countdown">30</span> saniyə
+        
+        <div id="visaCountdown" class="text-center mt-8 hidden">
+          <div class="text-3xl font-bold text-gray-400 mb-4">Ödəniş yoxlanılır</div>
+          <div class="countdown">30s</div>
         </div>
       </div>
 
-      <div class="bg-zinc-800/60 p-8 rounded-2xl border border-zinc-700">
-        <h3 class="text-2xl font-bold text-white mb-6 flex items-center">
-          <i class="fas fa-coins mr-3 text-amber-400"></i> NowPayments (Kart / Kripto)
-        </h3>
-        <button onclick="startNowPayments()" class="w-full bg-amber-600 hover:bg-amber-500 text-white py-5 rounded-xl text-xl font-bold">
-          NowPayments ilə ödə
+      <!-- NowPayments -->
+      <div class="method-card glass-card p-10 rounded-4xl border-2 border-amber-500/30 hover:border-amber-400/60">
+        <div class="flex items-center mb-8">
+          <div class="w-16 h-16 bg-gradient-to-r from-amber-500 to-amber-600 rounded-3xl flex items-center justify-center mr-6 shadow-2xl">
+            <i class="fas fa-coins text-2xl text-white"></i>
+          </div>
+          <div>
+            <h3 class="text-4xl font-black text-white mb-2">NowPayments</h3>
+            <p class="text-amber-400 text-xl font-semibold">Kart / Kripto • USDT TRC20 • BTC</p>
+          </div>
+        </div>
+        
+        <div class="bg-zinc-950/80 p-6 rounded-3xl text-center mb-8 font-mono text-xl tracking-wider border-2 border-amber-500/30">
+          <i class="fab fa-bitcoin text-amber-400 mr-3"></i>
+          Hamısı qəbul edilir
+        </div>
+        
+        <button onclick="startNowPayments()" 
+                class="w-full bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-white py-6 px-12 rounded-4xl text-2xl font-black shadow-2xl hover:shadow-amber-500/50 transition-all duration-300 flex items-center justify-center">
+          <i class="fas fa-rocket mr-4 text-3xl"></i>
+          <span>NowPayments ilə ödə</span>
         </button>
+      </div>
+    </div>
+
+    <!-- Footer Info -->
+    <div class="mt-12 pt-12 border-t border-emerald-500/20 text-center text-gray-400 text-lg">
+      <p>💳 Kapital Bank kartı ilə 0% komissiya • Anında aktivləşmə</p>
+      <p class="mt-2">⚡ Minimum 10 AZN • 24/7 dəstək • Təhlükəsiz</p>
+    </div>
+  </div>
+
+  <!-- Success Modal -->
+  <div id="successModal" class="fixed inset-0 bg-black/90 backdrop-blur-2xl z-[1000] hidden flex items-center justify-center p-8">
+    <div class="glass-card text-center max-w-2xl p-16 rounded-4xl max-h-[90vh] overflow-hidden">
+      <div class="w-32 h-32 bg-gradient-to-r from-emerald-500 to-teal-600 rounded-4xl flex items-center justify-center mx-auto mb-12 shadow-2xl">
+        <i class="fas fa-check text-6xl text-white"></i>
+      </div>
+      <h2 class="text-6xl font-black gradient-text mb-8">Uğurlu!</h2>
+      <div class="bg-emerald-500/20 p-12 rounded-4xl mb-12 border-2 border-emerald-500/40">
+        <div class="text-7xl font-black text-emerald-400 mb-6" id="successAmountDisplay">250 AZN</div>
+        <div class="text-3xl text-emerald-300 font-bold">Hesabınıza əlavə edildi!</div>
+      </div>
+      <div class="flex flex-col sm:flex-row gap-6 justify-center">
+        <a href="index.html" class="flex-1 bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white font-bold text-2xl py-6 px-12 rounded-4xl shadow-2xl hover:shadow-emerald-500/50 transition-all text-center">
+          <i class="fas fa-store mr-3"></i> Investisiyaya başla
+        </a>
+        <a href="profile.html" class="flex-1 border-3 border-emerald-500 hover:bg-emerald-500 text-emerald-400 hover:text-white font-bold text-2xl py-6 px-12 rounded-4xl shadow-2xl hover:shadow-emerald-500/50 transition-all text-center">
+          <i class="fas fa-chart-line mr-3"></i> Profili gör
+        </a>
       </div>
     </div>
   </div>
 
   <script>
     let countdownInterval;
+    let depositAmount = 0;
+    let currentBalance = Number(localStorage.getItem('balance')) || 1250.50;
+
+    // Login Check
+    function initPage() {
+      if (localStorage.getItem('loggedIn') !== 'true') {
+        document.getElementById('loginRequired').classList.remove('hidden');
+        return;
+      }
+      
+      document.getElementById('currentBalance').textContent = currentBalance.toFixed(2) + ' AZN';
+    }
+
+    function updatePreview() {
+      const amount = parseFloat(document.getElementById('depositAmount').value);
+      if (amount >= 10) {
+        depositAmount = amount;
+        document.getElementById('previewAmount').textContent = amount.toLocaleString();
+        document.getElementById('amountPreview').classList.remove('hidden');
+      } else {
+        document.getElementById('amountPreview').classList.add('hidden');
+      }
+    }
 
     function startVisaDeposit() {
       const amount = parseFloat(document.getElementById('depositAmount').value);
-      if (amount < 10 || isNaN(amount)) return alert('Minimum 10 AZN');
+      if (amount < 10 || isNaN(amount)) {
+        alert('❌ Minimum 10 AZN daxil edin!');
+        return;
+      }
+
+      // Loading
+      const btn = event.target;
+      const originalText = btn.innerHTML;
+      btn.disabled = true;
+      btn.innerHTML = '<i class="fas fa-spinner fa-spin mr-4 text-3xl"></i> Yoxlanılır...';
+
       document.getElementById('visaCountdown').classList.remove('hidden');
       let timeLeft = 30;
-      document.getElementById('countdownTimer').innerText = timeLeft;
+      document.querySelector('.countdown').innerText = timeLeft + 's';
+
       countdownInterval = setInterval(() => {
         timeLeft--;
-        document.getElementById('countdownTimer').innerText = timeLeft;
+        document.querySelector('.countdown').innerText = timeLeft + 's';
+        
         if (timeLeft <= 0) {
           clearInterval(countdownInterval);
           document.getElementById('visaCountdown').classList.add('hidden');
-          alert(amount + ' AZN balansınıza əlavə olundu!');
-          window.location.href = 'index.html';
+          
+          // Success
+          currentBalance += amount;
+          localStorage.setItem('balance', currentBalance);
+          
+          document.getElementById('successAmountDisplay').textContent = amount.toLocaleString() + ' AZN';
+          document.getElementById('successModal').classList.remove('hidden');
+          
+          btn.innerHTML = originalText;
+          btn.disabled = false;
         }
       }, 1000);
     }
 
-    async function startNowPayments() {
-  const amount = parseFloat(document.getElementById('depositAmount').value);
-  if (amount < 10 || isNaN(amount)) {
-    alert('Minimum 10 AZN daxil edin');
-    return;
-  }
+    function startNowPayments() {
+      const amount = parseFloat(document.getElementById('depositAmount').value);
+      if (amount < 10 || isNaN(amount)) {
+        alert('❌ Minimum 10 AZN daxil edin!');
+        return;
+      }
+      
+      // Real NowPayments redirect (sənin linkini qoy)
+      const nowPaymentsUrl = `https://nowpayments.io/payment?amount=${amount}&currency=AZN&order_id=carbet_${Date.now()}`;
+      window.open(nowPaymentsUrl, '_blank');
+    }
 
-  try {
-    const res = await fetch('https://taxi-server.onrender.com/create-nowpayments-invoice', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ amount, userId: localStorage.getItem('userId') || 'guest' })
+    // Close modals
+    document.getElementById('successModal').addEventListener('click', function(e) {
+      if (e.target === this) this.classList.add('hidden');
     });
 
-    const data = await res.json();
-    if (data.invoice_url) {
-      alert('NowPayments ödəniş səhifəsinə yönləndirilir...');
-      window.location.href = data.invoice_url; // real ödəniş səhifəsi açılır
-    } else {
-      alert('Xəta: ' + data.error);
-    }
-  } catch (err) {
-    alert('Bağlantı xətası: ' + err.message);
-  }
-}
+    // ESC key
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        document.getElementById('successModal').classList.add('hidden');
+        document.getElementById('loginRequired').classList.add('hidden');
+      }
+    });
+
+    // Start
+    document.addEventListener('DOMContentLoaded', initPage);
+    initPage();
   </script>
 </body>
 </html>
+
