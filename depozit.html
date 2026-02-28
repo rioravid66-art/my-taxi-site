@@ -51,10 +51,6 @@
       transform: translateY(-8px);
       box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);
     }
-    .method-card.selected {
-      border-color: #10b981 !important;
-      box-shadow: 0 0 0 4px rgba(16,185,129,0.3);
-    }
     .payment-info {
       background: linear-gradient(135deg, rgba(16,185,129,0.1), rgba(34,197,94,0.05));
       border: 1px solid rgba(16,185,129,0.2);
@@ -88,54 +84,49 @@
       
       <div class="text-right">
         <div class="text-lg text-gray-400 mb-1">Cari balans</div>
-        <div class="text-4xl font-black text-emerald-400" id="currentBalance">0.00</div>
+        <div class="text-4xl font-black text-emerald-400" id="currentBalance">1,250.50 AZN</div>
       </div>
     </div>
 
-    <!-- Header + LIMIT INFO -->
+    <!-- Header -->
     <div class="text-center mb-16">
       <div class="w-24 h-24 bg-gradient-to-r from-emerald-500 to-teal-600 rounded-4xl flex items-center justify-center mx-auto mb-8 shadow-2xl">
         <i class="fas fa-plus-circle text-4xl text-white"></i>
       </div>
       <h1 class="text-6xl font-black gradient-text mb-6 tracking-tight">Balans Artır</h1>
-      
-      <div class="bg-gradient-to-r from-emerald-500/20 to-teal-600/20 border-2 border-emerald-400/50 p-6 rounded-3xl mb-8">
-        <div class="text-2xl font-bold text-emerald-300 mb-2">Limitlər: 10 - 1,000</div>
-        <div class="text-lg text-emerald-200">Minimum 10</div>
-      </div>
+      <p class="text-2xl text-gray-300 max-w-md mx-auto leading-relaxed">
+        Hesabınıza pul əlavə edin və investisiyanı 
+        <span class="text-emerald-400 font-bold">dərhal</span> başlayın
+      </p>
     </div>
 
     <!-- Amount Input -->
     <div class="payment-info p-10 rounded-4xl mb-12">
       <label class="block text-2xl font-bold text-white mb-8 text-center">
-        <i class="fas fa-coins mr-4 text-emerald-400"></i> Məbləğ
+        <i class="fas fa-coins mr-4 text-emerald-400"></i> Məbləğ (AZN)
       </label>
-      <input id="depositAmount" 
-             type="number" 
-             min="10" 
-             max="1000"
-             step="5" 
-             placeholder="10-1000" 
-             class="w-full p-8 bg-zinc-900/70 rounded-4xl text-4xl font-black text-center text-white placeholder-zinc-500 border-2 border-emerald-500/40 focus:outline-none input-glow transition-all duration-500"
-             oninput="checkDeposit()">
-      
-      <div id="amountPreview" class="text-center mt-6 text-3xl font-bold text-emerald-400 hidden">
-        <i class="fas fa-check-circle mr-4"></i> Seçildi: <span id="previewAmount">0</span>
+      <div class="relative">
+        <input id="depositAmount" 
+               type="number" 
+               min="10" 
+               step="5" 
+               placeholder="Məbləği daxil edin (minimum 10 AZN)" 
+               class="w-full p-8 bg-zinc-900/70 rounded-4xl text-4xl font-black text-center text-white placeholder-zinc-500 border-2 border-emerald-500/40 focus:outline-none input-glow transition-all duration-500 text-right pr-24"
+               oninput="updatePreview()">
+        <div class="absolute right-6 top-1/2 -translate-y-1/2 text-emerald-400 text-3xl font-bold">
+          AZN
+        </div>
       </div>
-      
-      <!-- QUICK BUTTONS -->
-      <div class="grid grid-cols-2 md:grid-cols-3 gap-4 mt-8 pt-8 border-t border-emerald-500/20">
-        <button type="button" onclick="setQuickAmount(10)" class="p-4 rounded-2xl bg-emerald-500/20 border-2 border-emerald-500/40 hover:bg-emerald-500/40 transition-all font-bold text-xl text-emerald-400">10</button>
-        <button type="button" onclick="setQuickAmount(100)" class="p-4 rounded-2xl bg-emerald-500/20 border-2 border-emerald-500/40 hover:bg-emerald-500/40 transition-all font-bold text-xl text-emerald-400">100</button>
-        <button type="button" onclick="setQuickAmount(500)" class="p-4 rounded-2xl bg-emerald-500/20 border-2 border-emerald-500/40 hover:bg-emerald-500/40 transition-all font-bold text-xl text-emerald-400">500</button>
-        <button type="button" onclick="setQuickAmount(1000)" class="p-4 rounded-2xl bg-emerald-500/20 border-2 border-emerald-500/40 hover:bg-emerald-500/40 transition-all font-bold text-xl max-md:text-lg text-emerald-400">1000</button>
+      <div id="amountPreview" class="text-center mt-6 text-3xl font-bold text-emerald-400 hidden">
+        <i class="fas fa-check-circle mr-4"></i> Seçildi: <span id="previewAmount">0</span> AZN
       </div>
     </div>
 
     <!-- Payment Methods -->
-    <div class="space-y-6 mb-12">
+    <div class="space-y-6">
+      
       <!-- VISA/MASTERCARD -->
-      <div class="method-card glass-card p-10 rounded-4xl payment-info hover:border-emerald-400/60 cursor-pointer" id="visaMethod" onclick="selectMethod('visa')">
+      <div class="method-card glass-card p-10 rounded-4xl payment-info hover:border-emerald-400/60">
         <div class="flex items-center mb-8">
           <div class="w-16 h-16 bg-gradient-to-r from-blue-500 to-blue-600 rounded-3xl flex items-center justify-center mr-6 shadow-2xl">
             <i class="fab fa-cc-visa text-2xl text-white"></i>
@@ -145,13 +136,26 @@
             <p class="text-emerald-400 text-xl font-semibold">Kapital Bank • 0% komissiya • Anında</p>
           </div>
         </div>
+        
         <div class="bg-zinc-950/80 p-8 rounded-3xl text-center mb-10 font-mono text-2xl tracking-wider select-all border-2 border-blue-500/30 hover:border-blue-500/50 transition-all">
-          <i class="fas fa-credit-card text-blue-400 mr-4"></i>4169 7388 4952 8363
+          <i class="fas fa-credit-card text-blue-400 mr-4"></i>
+          4169 7388 4952 8363
+        </div>
+        
+        <button onclick="startVisaDeposit()" 
+                class="w-full bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white py-6 px-12 rounded-4xl text-2xl font-black shadow-2xl hover:shadow-emerald-500/50 transition-all duration-300 flex items-center justify-center">
+          <i class="fas fa-credit-card mr-4 text-3xl"></i>
+          <span>Ödəniş etdim – Təsdiqlə</span>
+        </button>
+        
+        <div id="visaCountdown" class="text-center mt-8 hidden">
+          <div class="text-3xl font-bold text-gray-400 mb-4">Ödəniş yoxlanılır</div>
+          <div class="countdown">30s</div>
         </div>
       </div>
 
       <!-- NowPayments -->
-      <div class="method-card glass-card p-10 rounded-4xl border-2 border-amber-500/30 hover:border-amber-400/60 cursor-pointer" id="nowpaymentsMethod" onclick="selectMethod('nowpayments')">
+      <div class="method-card glass-card p-10 rounded-4xl border-2 border-amber-500/30 hover:border-amber-400/60">
         <div class="flex items-center mb-8">
           <div class="w-16 h-16 bg-gradient-to-r from-amber-500 to-amber-600 rounded-3xl flex items-center justify-center mr-6 shadow-2xl">
             <i class="fas fa-coins text-2xl text-white"></i>
@@ -161,24 +165,24 @@
             <p class="text-amber-400 text-xl font-semibold">Kart / Kripto • USDT TRC20 • BTC</p>
           </div>
         </div>
+        
         <div class="bg-zinc-950/80 p-6 rounded-3xl text-center mb-8 font-mono text-xl tracking-wider border-2 border-amber-500/30">
-          <i class="fab fa-bitcoin text-amber-400 mr-3"></i>Hamısı qəbul edilir
+          <i class="fab fa-bitcoin text-amber-400 mr-3"></i>
+          Hamısı qəbul edilir
         </div>
+        
+        <button onclick="startNowPayments()" 
+                class="w-full bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-white py-6 px-12 rounded-4xl text-2xl font-black shadow-2xl hover:shadow-amber-500/50 transition-all duration-300 flex items-center justify-center">
+          <i class="fas fa-rocket mr-4 text-3xl"></i>
+          <span>NowPayments ilə ödə</span>
+        </button>
       </div>
-    </div>
-
-    <!-- ÖDƏNİŞ DÜĞMƏSİ (KİLİD YOK!) -->
-    <div class="mt-12 text-center">
-      <button id="depositBtn" type="button" onclick="processDeposit()" 
-              class="w-full bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white py-8 px-16 rounded-4xl text-3xl font-black shadow-2xl hover:shadow-emerald-500/50 hover:scale-105 transition-all duration-300 text-shadow-none !important cursor-pointer">
-        <i class="fas fa-lock mr-4" id="depositIcon"></i><span id="depositText">Metod seçin və məbləğ daxil edin</span>
-      </button>
     </div>
 
     <!-- Footer Info -->
     <div class="mt-12 pt-12 border-t border-emerald-500/20 text-center text-gray-400 text-lg">
       <p>💳 Kapital Bank kartı ilə 0% komissiya • Anında aktivləşmə</p>
-      <p class="mt-2">⚡ <span class="text-emerald-400 font-bold">10 - 1000</span> • 24/7 dəstək • Təhlükəsiz</p>
+      <p class="mt-2">⚡ Minimum 10 AZN • 24/7 dəstək • Təhlükəsiz</p>
     </div>
   </div>
 
@@ -190,7 +194,7 @@
       </div>
       <h2 class="text-6xl font-black gradient-text mb-8">Uğurlu!</h2>
       <div class="bg-emerald-500/20 p-12 rounded-4xl mb-12 border-2 border-emerald-500/40">
-        <div class="text-7xl font-black text-emerald-400 mb-6" id="successAmountDisplay">250</div>
+        <div class="text-7xl font-black text-emerald-400 mb-6" id="successAmountDisplay">250 AZN</div>
         <div class="text-3xl text-emerald-300 font-bold">Hesabınıza əlavə edildi!</div>
       </div>
       <div class="flex flex-col sm:flex-row gap-6 justify-center">
@@ -205,130 +209,97 @@
   </div>
 
   <script>
-    let selectedMethod = null;
-    let isReady = false;
+    let countdownInterval;
+    let depositAmount = 0;
+    let currentBalance = Number(localStorage.getItem('balance')) || 1250.50;
 
-    // Sayfa yüklənəndə
-    window.onload = function() {
+    // Login Check
+    function initPage() {
       if (localStorage.getItem('loggedIn') !== 'true') {
         document.getElementById('loginRequired').classList.remove('hidden');
         return;
       }
       
-      localStorage.setItem('balance', '0.00');
-      document.getElementById('currentBalance').textContent = '0.00';
-    };
-
-    function setQuickAmount(amount) {
-      document.getElementById('depositAmount').value = amount;
-      checkDeposit();
+      document.getElementById('currentBalance').textContent = currentBalance.toFixed(2) + ' AZN';
     }
 
-    function checkDeposit() {
+    function updatePreview() {
       const amount = parseFloat(document.getElementById('depositAmount').value);
-      const preview = document.getElementById('amountPreview');
-      const previewAmount = document.getElementById('previewAmount');
-      
-      if (amount >= 10 && amount <= 1000 && !isNaN(amount)) {
-        previewAmount.textContent = amount.toLocaleString();
-        preview.classList.remove('hidden');
-        updateButton(amount);
+      if (amount >= 10) {
+        depositAmount = amount;
+        document.getElementById('previewAmount').textContent = amount.toLocaleString();
+        document.getElementById('amountPreview').classList.remove('hidden');
       } else {
-        preview.classList.add('hidden');
+        document.getElementById('amountPreview').classList.add('hidden');
       }
     }
 
-    function selectMethod(method) {
-      selectedMethod = method;
-      
-      // Selected style
-      document.querySelectorAll('.method-card').forEach(card => {
-        card.classList.remove('selected');
-      });
-      document.getElementById(method + 'Method').classList.add('selected');
-      
-      updateButton(parseFloat(document.getElementById('depositAmount').value));
-    }
-
-    function updateButton(amount) {
-      const btn = document.getElementById('depositBtn');
-      const icon = document.getElementById('depositIcon');
-      const text = document.getElementById('depositText');
-      
-      if (amount >= 10 && amount <= 1000 && selectedMethod && !isNaN(amount)) {
-        btn.disabled = false;
-        btn.classList.remove('opacity-50', 'cursor-not-allowed');
-        btn.style.opacity = '1';
-        btn.style.cursor = 'pointer';
-        icon.className = 'fas fa-rocket mr-4';
-        text.innerHTML = `${selectedMethod.toUpperCase()} ilə depozit et (${amount.toLocaleString()})`;
-        isReady = true;
-      } else {
-        btn.disabled = true;
-        btn.classList.add('opacity-50', 'cursor-not-allowed');
-        icon.className = 'fas fa-lock mr-4';
-        text.textContent = 'Metod seçin və məbləğ daxil edin (10-1000)';
-        isReady = false;
-      }
-    }
-
-    function processDeposit() {
+    function startVisaDeposit() {
       const amount = parseFloat(document.getElementById('depositAmount').value);
-      
-      console.log('Depozit başladı:', amount, selectedMethod); // DEBUG
-      
-      if (amount < 10 || amount > 1000 || !selectedMethod || isNaN(amount)) {
-        alert('❌ Məbləğ 10-1000 arası olmalıdır və metod seçilməlidir!');
+      if (amount < 10 || isNaN(amount)) {
+        alert('❌ Minimum 10 AZN daxil edin!');
         return;
       }
 
-      // BALANS UPDATE
-      const newBalance = amount;
-      localStorage.setItem('balance', newBalance);
-      document.getElementById('currentBalance').textContent = newBalance.toFixed(2);
-      
-      // TRANZAKSIYA
-      const transactions = JSON.parse(localStorage.getItem('transactions')) || [];
-      transactions.push({
-        type: 'deposit',
-        amount: amount,
-        description: `${amount.toLocaleString()} ${selectedMethod.toUpperCase()} depozit`,
-        date: new Date().toISOString()
-      });
-      localStorage.setItem('transactions', JSON.stringify(transactions));
+      // Loading
+      const btn = event.target;
+      const originalText = btn.innerHTML;
+      btn.disabled = true;
+      btn.innerHTML = '<i class="fas fa-spinner fa-spin mr-4 text-3xl"></i> Yoxlanılır...';
 
-      // SUCCESS
-      document.getElementById('successAmountDisplay').textContent = amount.toLocaleString();
-      document.getElementById('successModal').classList.remove('hidden');
-      
-      console.log('Uğurlu! Balans:', newBalance); // DEBUG
-      
-      // RESET
-      resetForm();
+      document.getElementById('visaCountdown').classList.remove('hidden');
+      let timeLeft = 30;
+      document.querySelector('.countdown').innerText = timeLeft + 's';
+
+      countdownInterval = setInterval(() => {
+        timeLeft--;
+        document.querySelector('.countdown').innerText = timeLeft + 's';
+        
+        if (timeLeft <= 0) {
+          clearInterval(countdownInterval);
+          document.getElementById('visaCountdown').classList.add('hidden');
+          
+          // Success
+          currentBalance += amount;
+          localStorage.setItem('balance', currentBalance);
+          
+          document.getElementById('successAmountDisplay').textContent = amount.toLocaleString() + ' AZN';
+          document.getElementById('successModal').classList.remove('hidden');
+          
+          btn.innerHTML = originalText;
+          btn.disabled = false;
+        }
+      }, 1000);
     }
 
-    function resetForm() {
-      document.getElementById('depositAmount').value = '';
-      document.getElementById('amountPreview').classList.add('hidden');
-      selectedMethod = null;
-      document.querySelectorAll('.method-card').forEach(card => {
-        card.classList.remove('selected');
-      });
-      updateButton(0);
+    function startNowPayments() {
+      const amount = parseFloat(document.getElementById('depositAmount').value);
+      if (amount < 10 || isNaN(amount)) {
+        alert('❌ Minimum 10 AZN daxil edin!');
+        return;
+      }
+      
+      // Real NowPayments redirect (sənin linkini qoy)
+      const nowPaymentsUrl = `https://nowpayments.io/payment?amount=${amount}&currency=AZN&order_id=carbet_${Date.now()}`;
+      window.open(nowPaymentsUrl, '_blank');
     }
 
-    // Modal bağla
+    // Close modals
     document.getElementById('successModal').addEventListener('click', function(e) {
       if (e.target === this) this.classList.add('hidden');
     });
 
+    // ESC key
     document.addEventListener('keydown', function(e) {
       if (e.key === 'Escape') {
         document.getElementById('successModal').classList.add('hidden');
         document.getElementById('loginRequired').classList.add('hidden');
       }
     });
+
+    // Start
+    document.addEventListener('DOMContentLoaded', initPage);
+    initPage();
   </script>
 </body>
 </html>
-
