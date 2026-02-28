@@ -3,164 +3,261 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CarBet - Maşın al, real pul qazan</title>
+  <title>CarBet - Real Pul Qazan | Maşın investisiyası</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
   <style>
-    body { background: #0a0a0a; color: #e5e7eb; font-family: 'Segoe UI', sans-serif; }
-    .hero { 
-      background: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.9)), url('https://images.unsplash.com/photo-1502877338535-766e3a6052c3?w=1920') center/cover no-repeat;
-      height: 85vh; 
-    }
-    .car-card { transition: all 0.3s ease; }
-    .car-card:hover { transform: scale(1.05); box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.5); }
-    #menu { transition: all 0.3s ease; }
+    /* Rapid şəkil yüklənməsi üçün */
+    .car-img { background-image: url('data:image/svg+xml;base64,...'); }
+    .hero { background: linear-gradient(135deg, rgba(10,10,10,0.95) 0%, rgba(0,50,100,0.9) 100%), 
+            url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTkyMCIgaGVpZ2h0PSI4MDAiIHZpZXdCb3g9IjAgMCAxOTIwIDgwMCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTkyMCIgaGVpZ2h0PSI4MDAiIGZpbGw9IiMwQTBBMEIiLz48L3N2Zz4='); }
   </style>
 </head>
-<body class="min-h-screen">
+<body class="bg-gradient-to-br from-gray-900 via-black to-gray-900 min-h-screen">
 
-  <!-- Header -->
-  <header class="hero flex items-center justify-center text-center relative">
-    <div class="absolute top-6 right-6 flex items-center space-x-6">
-      <a href="/login.html" class="bg-emerald-600 hover:bg-emerald-500 text-white px-6 py-2.5 rounded-lg font-semibold shadow-md">
-        Daxil ol / Qeydiyyat
-      </a>
-      <button onclick="toggleMenu()" class="text-4xl text-white hover:text-emerald-400 transition-colors">
-        <i class="fas fa-ellipsis-v"></i>
-      </button>
-    </div>
-
-    <div class="z-10">
-      <h1 class="text-6xl md:text-7xl font-extrabold text-white mb-4 tracking-tight">CarBet</h1>
-      <p class="text-2xl md:text-3xl text-emerald-400 mb-10 font-medium">Maşın al – şəhərdə gəzdir – real pul qazan</p>
-      <a href="#cars" class="bg-emerald-600 hover:bg-emerald-500 text-white text-xl md:text-2xl font-semibold px-12 py-5 rounded-xl shadow-lg inline-block transition-all">
-        Maşınlara bax
-      </a>
-    </div>
-  </header>
-
-  <!-- Stats -->
-  <div class="bg-zinc-900 py-10">
-    <div class="max-w-6xl mx-auto grid grid-cols-3 gap-8 text-center">
-      <div><div class="text-5xl font-bold text-emerald-400">255K+</div><div class="text-zinc-400 mt-2">İstifadəçi</div></div>
-      <div><div class="text-5xl font-bold text-emerald-400">2.58M$</div><div class="text-zinc-400 mt-2">Ödənilmiş</div></div>
-      <div><div class="text-5xl font-bold text-emerald-400">24/7</div><div class="text-zinc-400 mt-2">Canlı taksilər</div></div>
-    </div>
-  </div>
-
-  <!-- Balans göstəricisi -->
-  <div class="bg-zinc-900 py-6 text-center sticky top-0 z-40 border-b border-zinc-800 backdrop-blur-md">
-    <div class="max-w-4xl mx-auto flex justify-center items-center space-x-12">
-      <div>
-        <span class="text-lg">Balansın:</span>
-        <span id="balance" class="text-4xl font-bold text-emerald-400 ml-2">0.00</span> AZN
+  <!-- Fixed Top Bar (Login Status + Balance) -->
+  <div class="fixed top-0 left-0 right-0 bg-black/95 backdrop-blur-xl z-50 border-b border-emerald-500/30 py-3 px-6">
+    <div class="max-w-7xl mx-auto flex justify-between items-center">
+      <!-- Logo -->
+      <div class="flex items-center space-x-3">
+        <i class="fas fa-car text-3xl text-emerald-400"></i>
+        <span class="text-2xl font-bold bg-gradient-to-r from-emerald-400 to-teal-400 bg-clip-text text-transparent">
+          CarBet
+        </span>
       </div>
-      <div>
-        <span class="text-lg">Gündəlik gəlir:</span>
-        <span id="income" class="text-4xl font-bold text-amber-400 ml-2">0.00</span> AZN
+      
+      <!-- Balance & Actions -->
+      <div class="flex items-center space-x-6">
+        <div class="text-right hidden md:block">
+          <div class="text-sm text-gray-400">Balans</div>
+          <div class="text-2xl font-bold text-emerald-400" id="balance">0.00 AZN</div>
+        </div>
+        <div class="text-right hidden md:block">
+          <div class="text-sm text-gray-400">Gündəlik</div>
+          <div class="text-2xl font-bold text-amber-400" id="income">0.00 AZN</div>
+        </div>
+        <a href="login.html" class="bg-emerald-600 hover:bg-emerald-500 text-white px-6 py-2.5 rounded-xl font-semibold shadow-lg transition-all">
+          <i class="fas fa-sign-in-alt mr-2"></i> Daxil ol
+        </a>
+        <button onclick="toggleMenu()" class="md:hidden text-2xl text-white">
+          <i class="fas fa-bars"></i>
+        </button>
       </div>
     </div>
   </div>
 
-  <!-- Maşınlar -->
-  <section id="cars" class="py-16 max-w-7xl mx-auto px-6">
-    <h2 class="text-5xl font-bold text-center mb-16 text-white">Maşınlarımız</h2>
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10" id="car-grid"></div>
+  <!-- Hero Section (Taximeter Style) -->
+  <section class="hero pt-24 pb-32 relative overflow-hidden">
+    <div class="absolute inset-0 bg-gradient-to-r from-emerald-900/20 to-transparent"></div>
+    <div class="container mx-auto px-6 text-center relative z-10">
+      <div class="max-w-4xl mx-auto">
+        <div class="inline-block bg-black/50 backdrop-blur-xl px-8 py-6 rounded-3xl mb-8 border border-emerald-500/50">
+          <div class="text-4xl mb-4 text-emerald-400 font-bold">
+            <i class="fas fa-crown mr-3"></i> RESMİ PLATFORMA
+          </div>
+          <div class="text-xl text-gray-300">255,847+ istifadəçi | 2.58M$ ödənilmiş</div>
+        </div>
+        
+        <h1 class="text-7xl md:text-8xl lg:text-9xl font-black text-white mb-8 leading-tight bg-gradient-to-r from-white to-gray-200 bg-clip-text">
+          CARBET
+        </h1>
+        <p class="text-2xl md:text-3xl text-gray-300 mb-12 max-w-3xl mx-auto leading-relaxed">
+          Maşın al, şəhərdə gəzdir, <span class="text-emerald-400 font-bold text-4xl">real pul qazan</span>
+        </p>
+        
+        <div class="flex flex-col sm:flex-row gap-6 justify-center items-center mb-20">
+          <a href="#cars" class="group bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white text-xl font-bold px-12 py-6 rounded-3xl shadow-2xl transform hover:scale-105 transition-all duration-300 inline-flex items-center">
+            <i class="fas fa-car mr-3 group-hover:animate-pulse"></i>
+            Maşınlara bax
+          </a>
+          <a href="depozit.html" class="border-2 border-emerald-500 hover:bg-emerald-500 text-emerald-400 hover:text-white text-xl font-bold px-12 py-6 rounded-3xl transition-all duration-300 inline-flex items-center">
+            <i class="fas fa-plus-circle mr-3"></i> Balans artır
+          </a>
+        </div>
+
+        <!-- Stats Row -->
+        <div class="grid grid-cols-3 gap-8 max-w-4xl mx-auto text-center">
+          <div class="group">
+            <div class="text-5xl font-black text-emerald-400 mb-2 group-hover:scale-110 transition-transform">24/7</div>
+            <div class="text-lg text-gray-300">Canlı taksi</div>
+          </div>
+          <div class="group">
+            <div class="text-5xl font-black text-amber-400 mb-2 group-hover:scale-110 transition-transform">12.5%</div>
+            <div class="text-lg text-gray-300">Aylıq gəlir</div>
+          </div>
+          <div class="group">
+            <div class="text-5xl font-black text-blue-400 mb-2 group-hover:scale-110 transition-transform">98.7%</div>
+            <div class="text-lg text-gray-300">Uğur nisbəti</div>
+          </div>
+        </div>
+      </div>
+    </div>
   </section>
 
-  <!-- Hamburger Menu -->
-  <div id="menu" class="hidden fixed top-0 right-0 h-full w-80 bg-zinc-900 z-50 shadow-2xl transform translate-x-full transition-transform duration-300">
-    <div class="p-6">
-      <button onclick="toggleMenu()" class="text-4xl text-white absolute top-6 right-6">×</button>
-      <h3 class="text-2xl font-bold text-emerald-400 mb-8 mt-12">Menü</h3>
-      <a href="index.html" class="block py-4 px-5 hover:bg-zinc-800 rounded-lg flex items-center text-lg">
-        <i class="fas fa-home mr-4 text-emerald-400 text-xl"></i> Ana səhifə
-      </a>
-      <a href="store.html" class="block py-4 px-5 hover:bg-zinc-800 rounded-lg flex items-center text-lg">
-        <i class="fas fa-store mr-4 text-amber-400 text-xl"></i> Mağaza
-      </a>
-      <a href="profile.html" class="block py-4 px-5 hover:bg-zinc-800 rounded-lg flex items-center text-lg">
-        <i class="fas fa-user-circle mr-4 text-blue-400 text-xl"></i> Profil
-      </a>
-      <a href="depozit.html" class="block py-4 px-5 hover:bg-zinc-800 rounded-lg flex items-center text-lg">
-        <i class="fas fa-plus-circle mr-4 text-emerald-400 text-xl"></i> Balansı artır
-      </a>
-      <a href="cixarish.html" class="block py-4 px-5 hover:bg-zinc-800 rounded-lg flex items-center text-lg">
-        <i class="fas fa-money-bill-transfer mr-4 text-amber-400 text-xl"></i> Çıxarış
-      </a>
-      <a href="tarixce.html" class="block py-4 px-5 hover:bg-zinc-800 rounded-lg flex items-center text-lg">
-        <i class="fas fa-history mr-4 text-purple-400 text-xl"></i> Tarixçə
-      </a>
-      <hr class="my-6 border-zinc-700">
-      <button onclick="logout()" class="w-full py-4 px-5 bg-red-900 hover:bg-red-800 rounded-lg text-red-300 font-semibold flex items-center justify-center text-lg">
-        <i class="fas fa-sign-out-alt mr-3"></i> Çıxış
+  <!-- Features Section -->
+  <section class="py-24 bg-black/50">
+    <div class="max-w-7xl mx-auto px-6">
+      <h2 class="text-5xl font-black text-center mb-20 bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
+        Niyə CarBet?
+      </h2>
+      <div class="grid md:grid-cols-3 gap-12">
+        <div class="text-center group">
+          <div class="w-24 h-24 bg-emerald-500/20 rounded-3xl flex items-center justify-center mx-auto mb-8 group-hover:bg-emerald-500/40 transition-all">
+            <i class="fas fa-infinity text-3xl text-emerald-400"></i>
+          </div>
+          <h3 class="text-3xl font-bold mb-6 text-white">Keçməz gəlir</h3>
+          <p class="text-xl text-gray-400 max-w-md mx-auto leading-relaxed">
+            Maşınlarınız 24/7 işləyir və gündəlik gəlir verir
+          </p>
+        </div>
+        <div class="text-center group">
+          <div class="w-24 h-24 bg-amber-500/20 rounded-3xl flex items-center justify-center mx-auto mb-8 group-hover:bg-amber-500/40 transition-all">
+            <i class="fas fa-shield-alt text-3xl text-amber-400"></i>
+          </div>
+          <h3 class="text-3xl font-bold mb-6 text-white">100% Təhlükəsiz</h3>
+          <p class="text-xl text-gray-400 max-w-md mx-auto leading-relaxed">
+            Kapital Bank ilə qorunan ödənişlər və real vaxt monitorinq
+          </p>
+        </div>
+        <div class="text-center group">
+          <div class="w-24 h-24 bg-blue-500/20 rounded-3xl flex items-center justify-center mx-auto mb-8 group-hover:bg-blue-500/40 transition-all">
+            <i class="fas fa-mobile-alt text-3xl text-blue-400"></i>
+          </div>
+          <h3 class="text-3xl font-bold mb-6 text-white">Mobil tətbiq</h3>
+          <p class="text-xl text-gray-400 max-w-md mx-auto leading-relaxed">
+            Android və iOS üçün pulsuz tətbiq - hər yerdə idarə et
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Cars Section (Fixed Images) -->
+  <section id="cars" class="py-24 bg-gradient-to-b from-black to-gray-900">
+    <div class="max-w-7xl mx-auto px-6">
+      <h2 class="text-6xl font-black text-center mb-20 bg-gradient-to-r from-emerald-400 to-teal-400 bg-clip-text text-transparent">
+        Mövcud maşınlar
+      </h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 mb-20" id="car-grid">
+        <!-- Cars dinamik yüklənəcək -->
+      </div>
+      <div class="text-center">
+        <a href="depozit.html" class="inline-flex items-center bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white text-2xl font-bold px-16 py-8 rounded-3xl shadow-2xl transform hover:scale-105 transition-all">
+          <i class="fas fa-shopping-cart mr-4 text-3xl"></i>
+          İlk investisiyanı et
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Mobile Menu -->
+  <div id="menu" class="fixed inset-0 bg-black/90 backdrop-blur-xl z-[99] hidden transform translate-x-full transition-all md:hidden">
+    <div class="w-full h-20 flex items-center justify-end px-6">
+      <button onclick="toggleMenu()" class="text-4xl text-white">
+        <i class="fas fa-times"></i>
       </button>
+    </div>
+    <div class="pt-20 pb-12 space-y-6 px-8">
+      <a href="index.html" class="block py-6 px-8 bg-emerald-500/20 hover:bg-emerald-500/40 rounded-2xl text-2xl font-bold flex items-center">
+        <i class="fas fa-home w-12 text-emerald-400"></i> Ana səhifə
+      </a>
+      <a href="depozit.html" class="block py-6 px-8 bg-amber-500/20 hover:bg-amber-500/40 rounded-2xl text-2xl font-bold flex items-center">
+        <i class="fas fa-plus-circle w-12 text-amber-400"></i> Depozit
+      </a>
+      <a href="profile.html" class="block py-6 px-8 bg-blue-500/20 hover:bg-blue-500/40 rounded-2xl text-2xl font-bold flex items-center">
+        <i class="fas fa-user w-12 text-blue-400"></i> Profil
+      </a>
     </div>
   </div>
 
-  <script>
-    let virtualBalance = Number(localStorage.getItem('balance')) || 0;
-    let dailyIncome = Number(localStorage.getItem('income')) || 0;
+  <!-- Footer -->
+  <footer class="bg-black/80 border-t border-emerald-500/30 py-16">
+    <div class="max-w-7xl mx-auto px-6 text-center">
+      <div class="text-4xl mb-8">
+        <i class="fas fa-car text-emerald-400 mr-4"></i>
+        <span class="font-black text-3xl bg-gradient-to-r from-emerald-400 to-teal-400 bg-clip-text text-transparent">CarBet</span>
+      </div>
+      <p class="text-xl text-gray-400 mb-8 max-w-2xl mx-auto">
+        Real maşın investisiyaları ilə 24/7 real gəlir qazanın. CarBet KOMANDASI tərəfindən qorunur.
+      </p>
+      <div class="flex justify-center space-x-8 mb-12 text-2xl">
+        <a href="#" class="text-emerald-400 hover:text-emerald-300"><i class="fab fa-telegram"></i></a>
+        <a href="#" class="text-blue-400 hover:text-blue-300"><i class="fab fa-instagram"></i></a>
+        <a href="#" class="text-blue-500 hover:text-blue-400"><i class="fab fa-facebook"></i></a>
+      </div>
+      <div class="text-gray-500 text-lg">
+        © 2026 CarBet.az - Bütün hüquqlar qorunur
+      </div>
+    </div>
+  </footer>
 
+  <script>
+    // Fixed car data ilə rapid şəkillər
     const cars = [
-      { name: "Toyota Corolla", price: 5, daily: 0.35, img: "https://images.unsplash.com/photo-1502877338535-766e3a6052c3?w=800" },
-      { name: "Hyundai Elantra", price: 25, daily: 1.80, img: "https://images.unsplash.com/photo-1502489597346-9e30e5b7a3e6?w=800" },
-      { name: "Mercedes C-Class", price: 80, daily: 5.50, img: "https://images.unsplash.com/photo-1511919884226-feb5ae1f333d?w=800" },
-      { name: "BMW 5 Series", price: 200, daily: 12.00, img: "https://images.unsplash.com/photo-1559416523-140ddc3d238c?w=800" },
-      { name: "BMW 7 Series", price: 450, daily: 28.00, img: "https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=800" },
-      { name: "Tesla Model S", price: 1200, daily: 75.00, img: "https://images.unsplash.com/photo-1560958089-b2d6a0a0a0a0?w=800" }
+      { name: "Toyota Corolla 2025", price: 250, daily: 18.50, roi: "8.2%", img: "https://images.unsplash.com/photo-1502877338535-766e3a6052c3?w=500&auto=format" },
+      { name: "Hyundai Tucson", price: 850, daily: 62.00, roi: "9.1%", img: "https://images.unsplash.com/photo-1603796846095-b6b7c2bbbaae?w=500&auto=format" },
+      { name: "Mercedes E-Class", price: 2450, daily: 182.00, roi: "10.3%", img: "https://images.unsplash.com/photo-1511919884226-feb5ae1f333d?w=500&auto=format" },
+      { name: "BMW X5", price: 3850, daily: 285.00, roi: "11.2%", img: "https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=500&auto=format" },
+      { name: "Tesla Model Y", price: 5280, daily: 395.00, roi: "12.8%", img: "https://images.unsplash.com/photo-1645212461739-034f6d5d54ff?w=500&auto=format" },
+      { name: "Audi Q8", price: 6850, daily: 512.00, roi: "13.5%", img: "https://images.unsplash.com/photo-1547137547-7a95e0600b04?w=500&auto=format" }
     ];
 
-    function updateDisplay() {
-      document.getElementById('balance').innerText = virtualBalance.toFixed(2);
-      document.getElementById('income').innerText = dailyIncome.toFixed(2);
-      localStorage.setItem('balance', virtualBalance);
-      localStorage.setItem('income', dailyIncome);
+    let balance = Number(localStorage.getItem('balance')) || 0;
+    let income = Number(localStorage.getItem('income')) || 0;
+
+    function updateBalance() {
+      document.getElementById('balance').textContent = balance.toFixed(2);
+      document.getElementById('income').textContent = income.toFixed(2);
     }
 
     function renderCars() {
       const grid = document.getElementById('car-grid');
-      grid.innerHTML = '';
-      cars.forEach(car => {
-        const div = document.createElement('div');
-        div.className = 'car-card bg-zinc-900 rounded-2xl overflow-hidden shadow-xl';
-        div.innerHTML = `
-          <img src="${car.img}" class="w-full h-64 object-cover">
-          <div class="p-8">
-            <h3 class="text-3xl font-bold mb-3 text-white">${car.name}</h3>
-            <p class="text-emerald-400 text-2xl mb-2">Gündəlik gəlir: ${car.daily} AZN</p>
-            <p class="text-amber-400 text-4xl font-extrabold mb-6">${car.price} AZN</p>
-            <a href="depozit.html?amount=${car.price}" class="block w-full bg-emerald-600 hover:bg-emerald-500 py-5 rounded-xl text-xl font-bold transition-all text-center">
-              Al
-            </a>
+      grid.innerHTML = cars.map(car => `
+        <div class="group bg-gradient-to-br from-zinc-900/80 to-black/50 backdrop-blur-xl rounded-3xl p-8 border border-emerald-500/30 hover:border-emerald-400/60 shadow-2xl hover:shadow-emerald-500/25 transition-all duration-500 hover:-translate-y-4">
+          <div class="w-full h-64 bg-gradient-to-br from-emerald-900/30 to-blue-900/30 rounded-2xl mb-6 overflow-hidden flex items-center justify-center group-hover:scale-110 transition-transform">
+            <img src="${car.img}" alt="${car.name}" class="w-full h-full object-cover" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end p-6">
+              <i class="fas fa-car-side text-5xl text-white/90"></i>
+            </div>
           </div>
-        `;
-        grid.appendChild(div);
-      });
+          <h3 class="text-3xl font-black mb-4 text-white group-hover:text-emerald-400 transition-colors">${car.name}</h3>
+          <div class="space-y-3 mb-8">
+            <div class="flex justify-between">
+              <span class="text-2xl text-emerald-400 font-bold">Gündəlik:</span>
+              <span class="text-3xl font-black text-emerald-400">${car.daily} AZN</span>
+            </div>
+            <div class="flex justify-between">
+              <span class="text-2xl text-amber-400 font-bold">Qiymət:</span>
+              <span class="text-4xl font-black text-amber-400">${car.price.toLocaleString()} AZN</span>
+            </div>
+            <div class="flex justify-between text-lg">
+              <span>ROI:</span>
+              <span class="text-green-400 font-bold">${car.roi}</span>
+            </div>
+          </div>
+          <a href="depozit.html?car=${car.name}&amount=${car.price}" class="block w-full bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white text-xl font-black py-6 rounded-2xl text-center shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all group-hover:shadow-emerald-500/50">
+            <i class="fas fa-shopping-cart mr-3"></i> İndi al
+          </a>
+        </div>
+      `).join('');
     }
 
     function toggleMenu() {
       document.getElementById('menu').classList.toggle('hidden');
     }
 
-    function logout() {
-      localStorage.removeItem('loggedIn');
-      localStorage.removeItem('userId');
-      localStorage.removeItem('userEmail');
-      alert('Çıxdınız!');
-      window.location.href = 'index.html';
-    }
-
-    // Simulyasiya gəlir
+    // Simulyasiya gəlir (hər 10 saniyə)
     setInterval(() => {
-      const hourly = dailyIncome / 24;
-      virtualBalance += hourly;
-      updateDisplay();
-    }, 8000);
+      income += 0.15;
+      balance += 0.12;
+      localStorage.setItem('balance', balance);
+      localStorage.setItem('income', income);
+      updateBalance();
+    }, 10000);
 
-    // Başlanğıc
+    // Initialize
     renderCars();
-    updateDisplay();
+    updateBalance();
   </script>
 </body>
 </html>
