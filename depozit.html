@@ -3,230 +3,294 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Depozit - CarBet</title>
+  <title>CarBet - Balansı Artır</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <style>
-    .gradient-text { 
-      background: linear-gradient(135deg, #10b981 0%, #34d399 50%, #6ee7b7 100%); 
-      -webkit-background-clip: text; 
-      -webkit-text-fill-color: transparent; 
-      background-clip: text; 
+    body { 
+      background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
+      min-height: 100vh; 
+      color: #e5e7eb; 
     }
-    .glass { 
-      backdrop-filter: blur(25px); 
+    .glass-card { 
       background: rgba(15, 23, 42, 0.95); 
+      backdrop-filter: blur(25px); 
       border: 1px solid rgba(16, 185, 129, 0.3); 
+      border-radius: 32px; 
+      box-shadow: 0 35px 80px -20px rgba(0,0,0,0.8), 0 0 0 1px rgba(255,255,255,0.05);
     }
-    .countdown { animation: pulse 2s infinite; }
-    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: .7; } }
+    .gradient-text { 
+      background: linear-gradient(135deg, #10b981 0%, #34d399 50%, #6ee7b7 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .countdown { 
+      font-size: 4.5rem; 
+      font-weight: 900; 
+      background: linear-gradient(135deg, #10b981, #34d399);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-shadow: 0 0 40px rgba(16,185,129,0.6);
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+    .input-glow:focus {
+      box-shadow: 0 0 0 4px rgba(16,185,129,0.3);
+      border-color: #10b981;
+      transform: translateY(-2px);
+    }
+    .method-card {
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .method-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);
+    }
+    .payment-info {
+      background: linear-gradient(135deg, rgba(16,185,129,0.1), rgba(34,197,94,0.05));
+      border: 1px solid rgba(16,185,129,0.2);
+    }
   </style>
 </head>
-<body class="bg-gradient-to-br from-gray-900 via-black to-gray-900 min-h-screen pt-24 pb-16">
+<body class="flex items-center justify-center p-8 min-h-screen">
 
-  <!-- Navigation -->
-  <nav class="fixed top-0 left-0 right-0 bg-black/95 backdrop-blur-2xl z-50 border-b border-amber-500/40 py-4 px-6 lg:px-12">
-    <div class="max-w-7xl mx-auto flex items-center justify-between">
-      <a href="index.html" class="flex items-center space-x-4 group hover:scale-105 transition-all">
-        <div class="w-14 h-14 bg-gradient-to-r from-amber-500 to-orange-600 rounded-2xl flex items-center justify-center shadow-2xl">
-          <i class="fas fa-plus-circle text-2xl text-white"></i>
-        </div>
-        <div>
-          <h1 class="text-2xl font-black gradient-text">CarBet</h1>
-          <p class="text-sm text-amber-400 font-medium">Depozit</p>
-        </div>
+  <!-- Login Check Overlay -->
+  <div id="loginRequired" class="fixed inset-0 bg-black/80 backdrop-blur-xl z-[1000] hidden flex items-center justify-center p-8">
+    <div class="glass-card text-center max-w-md p-12 rounded-4xl">
+      <div class="w-24 h-24 bg-gradient-to-r from-emerald-500 to-teal-600 rounded-4xl flex items-center justify-center mx-auto mb-8">
+        <i class="fas fa-lock text-4xl text-white"></i>
+      </div>
+      <h2 class="text-4xl font-black text-white mb-6 gradient-text">Giriş tələb olunur</h2>
+      <p class="text-xl text-gray-300 mb-12">Depozit etmək üçün hesabınıza daxil olun</p>
+      <a href="login.html" class="bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white font-bold text-xl py-5 px-12 rounded-3xl shadow-2xl hover:shadow-emerald-500/50 transition-all inline-flex items-center mx-auto">
+        <i class="fas fa-sign-in-alt mr-3"></i> Daxil ol
       </a>
-
-      <div class="flex items-center space-x-6">
-        <div class="text-right hidden md:block">
-          <div class="text-xs text-gray-400 uppercase tracking-wider">Balans</div>
-          <div class="text-3xl font-black text-emerald-400" id="headerBalance">0.00 AZN</div>
-        </div>
-        <a href="profile.html" class="text-emerald-400 hover:text-emerald-300 font-bold">
-          <i class="fas fa-user-circle mr-2"></i>Profil
-        </a>
-      </div>
     </div>
-  </nav>
+  </div>
 
-  <div class="max-w-4xl mx-auto px-6 lg:px-12 py-20">
+  <div class="glass-card relative max-w-2xl w-full p-12 lg:p-16">
     
-    <!-- Header + Geri Sayım -->
-    <div class="glass rounded-4xl p-12 lg:p-16 mb-16 text-center">
-      <div class="w-32 h-32 bg-gradient-to-r from-amber-500 to-orange-600 rounded-full flex items-center justify-center mx-auto mb-8 shadow-2xl">
-        <i class="fas fa-wallet text-5xl text-white"></i>
+    <!-- Back Button + Balance -->
+    <div class="flex items-center justify-between mb-12">
+      <a href="index.html" class="group flex items-center space-x-3 text-emerald-400 hover:text-emerald-300 text-2xl font-bold transition-all">
+        <i class="fas fa-arrow-left group-hover:-translate-x-1 transition-transform"></i>
+        <span>Geri</span>
+      </a>
+      
+      <div class="text-right">
+        <div class="text-lg text-gray-400 mb-1">Cari balans</div>
+        <div class="text-4xl font-black text-emerald-400" id="currentBalance">0.00</div>
+      </div>
+    </div>
+
+    <!-- Header + LIMIT INFO -->
+    <div class="text-center mb-16">
+      <div class="w-24 h-24 bg-gradient-to-r from-emerald-500 to-teal-600 rounded-4xl flex items-center justify-center mx-auto mb-8 shadow-2xl">
+        <i class="fas fa-plus-circle text-4xl text-white"></i>
+      </div>
+      <h1 class="text-6xl font-black gradient-text mb-6 tracking-tight">Balans Artır</h1>
+      
+      <!-- LIMIT BANNER (₾ YÖX!) -->
+      <div class="bg-gradient-to-r from-emerald-500/20 to-teal-600/20 border-2 border-emerald-400/50 p-6 rounded-3xl mb-8">
+        <div class="text-2xl font-bold text-emerald-300 mb-2">Limitlər: 10 - 1,000</div>
+        <div class="text-lg text-emerald-200">Minimum 10</div>
       </div>
       
-      <h1 class="text-5xl lg:text-6xl font-black gradient-text mb-6">Depozit</h1>
+      <p class="text-2xl text-gray-300 max-w-md mx-auto leading-relaxed">
+        Hesabınıza pul əlavə edin və investisiyanı 
+        <span class="text-emerald-400 font-bold">dərhal</span> başlayın
+      </p>
+    </div>
+
+    <!-- Amount Input (TƏMİZ!) -->
+    <div class="payment-info p-10 rounded-4xl mb-12">
+      <label class="block text-2xl font-bold text-white mb-8 text-center">
+        <i class="fas fa-coins mr-4 text-emerald-400"></i> Məbləğ
+      </label>
+      <input id="depositAmount" 
+             type="number" 
+             min="10" 
+             max="1000"
+             step="5" 
+             placeholder="10-1000" 
+             class="w-full p-8 bg-zinc-900/70 rounded-4xl text-4xl font-black text-center text-white placeholder-zinc-500 border-2 border-emerald-500/40 focus:outline-none input-glow transition-all duration-500"
+             oninput="updatePreview()">
       
-      <!-- GERI SAYIM -->
-      <div class="bg-red-500/20 border-4 border-red-500/50 rounded-3xl p-8 mb-12">
-        <div class="text-4xl font-black text-red-400 countdown mb-2" id="countdown">00:59</div>
-        <p class="text-lg text-red-300">Bonus üçün 1 dəqiqə qalmış!</p>
+      <div id="amountPreview" class="text-center mt-6 text-3xl font-bold text-emerald-400 hidden">
+        <i class="fas fa-check-circle mr-4"></i> Seçildi: <span id="previewAmount">0</span>
+      </div>
+      
+      <!-- QUICK BUTTONS (₾ YÖX!) -->
+      <div class="grid grid-cols-2 md:grid-cols-3 gap-4 mt-8 pt-8 border-t border-emerald-500/20">
+        <button onclick="setQuickAmount(10)" class="p-4 rounded-2xl bg-emerald-500/20 border-2 border-emerald-500/40 hover:bg-emerald-500/40 transition-all font-bold text-xl text-emerald-400">10</button>
+        <button onclick="setQuickAmount(100)" class="p-4 rounded-2xl bg-emerald-500/20 border-2 border-emerald-500/40 hover:bg-emerald-500/40 transition-all font-bold text-xl text-emerald-400">100</button>
+        <button onclick="setQuickAmount(500)" class="p-4 rounded-2xl bg-emerald-500/20 border-2 border-emerald-500/40 hover:bg-emerald-500/40 transition-all font-bold text-xl text-emerald-400">500</button>
+        <button onclick="setQuickAmount(1000)" class="p-4 rounded-2xl bg-emerald-500/20 border-2 border-emerald-500/40 hover:bg-emerald-500/40 transition-all font-bold text-xl max-md:text-lg text-emerald-400">1000</button>
+      </div>
+    </div>
+
+    <!-- Payment Methods -->
+    <div class="space-y-6">
+      
+      <!-- VISA/MASTERCARD -->
+      <div class="method-card glass-card p-10 rounded-4xl payment-info hover:border-emerald-400/60 cursor-pointer" onclick="selectMethod('visa')">
+        <div class="flex items-center mb-8">
+          <div class="w-16 h-16 bg-gradient-to-r from-blue-500 to-blue-600 rounded-3xl flex items-center justify-center mr-6 shadow-2xl">
+            <i class="fab fa-cc-visa text-2xl text-white"></i>
+          </div>
+          <div>
+            <h3 class="text-4xl font-black text-white mb-2">Visa / Mastercard</h3>
+            <p class="text-emerald-400 text-xl font-semibold">Kapital Bank • 0% komissiya • Anında</p>
+          </div>
+        </div>
+        
+        <div class="bg-zinc-950/80 p-8 rounded-3xl text-center mb-10 font-mono text-2xl tracking-wider select-all border-2 border-blue-500/30 hover:border-blue-500/50 transition-all">
+          <i class="fas fa-credit-card text-blue-400 mr-4"></i>
+          4169 7388 4952 8363
+        </div>
+        
+        <div id="visaCountdown" class="text-center mt-8 hidden">
+          <div class="text-3xl font-bold text-gray-400 mb-4">Ödəniş yoxlanılır</div>
+          <div class="countdown">30s</div>
+        </div>
       </div>
 
-      <!-- BALANS ZORLA 0.00 -->
-      <div class="bg-gradient-to-r from-amber-500/20 to-orange-600/20 p-10 rounded-3xl border-4 border-amber-500/40">
-        <div class="text-center">
-          <div class="text-lg text-amber-300 uppercase tracking-wider mb-4">Cari balans</div>
-          <div class="text-6xl font-black text-amber-400" id="currentBalance">0.00 AZN</div>
+      <!-- NowPayments -->
+      <div class="method-card glass-card p-10 rounded-4xl border-2 border-amber-500/30 hover:border-amber-400/60 cursor-pointer" onclick="selectMethod('nowpayments')">
+        <div class="flex items-center mb-8">
+          <div class="w-16 h-16 bg-gradient-to-r from-amber-500 to-amber-600 rounded-3xl flex items-center justify-center mr-6 shadow-2xl">
+            <i class="fas fa-coins text-2xl text-white"></i>
+          </div>
+          <div>
+            <h3 class="text-4xl font-black text-white mb-2">NowPayments</h3>
+            <p class="text-amber-400 text-xl font-semibold">Kart / Kripto • USDT TRC20 • BTC</p>
+          </div>
+        </div>
+        
+        <div class="bg-zinc-950/80 p-6 rounded-3xl text-center mb-8 font-mono text-xl tracking-wider border-2 border-amber-500/30">
+          <i class="fab fa-bitcoin text-amber-400 mr-3"></i>
+          Hamısı qəbul edilir
         </div>
       </div>
     </div>
 
-    <!-- ÖDƏMƏ METODLARI (3 ƏDƏD!) -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
-      
-      <!-- Visa/MasterCard -->
-      <div class="group p-10 rounded-4xl bg-gradient-to-br from-purple-500/15 to-blue-500/15 border-2 border-purple-500/40 hover:border-purple-400 hover:shadow-purple-500/30 hover:-translate-y-2 transition-all cursor-pointer" onclick="selectMethod('visa')">
-        <div class="w-20 h-20 bg-gradient-to-r from-purple-500 to-blue-600 rounded-3xl flex items-center justify-center mx-auto mb-6 shadow-2xl group-hover:scale-110">
-          <i class="fas fa-credit-card text-3xl text-white"></i>
-        </div>
-        <div class="text-center">
-          <h3 class="text-3xl font-black text-white mb-4 group-hover:text-purple-400">Visa/MasterCard</h3>
-          <div class="text-xl text-purple-300 space-y-2">
-            <div><i class="fas fa-check-circle text-purple-400 mr-2"></i>10₾ - 10,000₾</div>
-            <div><i class="fas fa-bolt text-purple-400 mr-2"></i>Anında</div>
-            <div><i class="fas fa-shield-alt text-purple-400 mr-2"></i>3D Secure</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- NoviPay -->
-      <div class="group p-10 rounded-4xl bg-gradient-to-br from-emerald-500/15 to-teal-600/15 border-2 border-emerald-500/40 hover:border-emerald-400 hover:shadow-emerald-500/30 hover:-translate-y-2 transition-all cursor-pointer" onclick="selectMethod('novi')">
-        <div class="w-20 h-20 bg-gradient-to-r from-emerald-500 to-teal-600 rounded-3xl flex items-center justify-center mx-auto mb-6 shadow-2xl group-hover:scale-110">
-          <i class="fas fa-mobile-alt text-3xl text-white"></i>
-        </div>
-        <div class="text-center">
-          <h3 class="text-3xl font-black text-white mb-4 group-hover:text-emerald-400">NoviPay</h3>
-          <div class="text-xl text-emerald-300 space-y-2">
-            <div><i class="fas fa-check-circle text-emerald-400 mr-2"></i>5₾ - limitsiz</div>
-            <div><i class="fas fa-bolt text-emerald-400 mr-2"></i>30 saniyə</div>
-            <div><i class="fas fa-phone text-emerald-400 mr-2"></i>Mobil</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Bank -->
-      <div class="group p-10 rounded-4xl bg-gradient-to-br from-blue-500/15 to-blue-600/15 border-2 border-blue-500/40 hover:border-blue-400 hover:shadow-blue-500/30 hover:-translate-y-2 transition-all cursor-pointer" onclick="selectMethod('bank')">
-        <div class="w-20 h-20 bg-gradient-to-r from-blue-500 to-blue-600 rounded-3xl flex items-center justify-center mx-auto mb-6 shadow-2xl group-hover:scale-110">
-          <i class="fas fa-university text-3xl text-white"></i>
-        </div>
-        <div class="text-center">
-          <h3 class="text-3xl font-black text-white mb-4 group-hover:text-blue-400">Bank</h3>
-          <div class="text-xl text-blue-300 space-y-2">
-            <div><i class="fas fa-check-circle text-blue-400 mr-2"></i>50₾ - 50,000₾</div>
-            <div><i class="fas fa-clock text-blue-400 mr-2"></i>5-15 dəqiqə</div>
-          </div>
-        </div>
-      </div>
+    <!-- DEPOZIT BUTTON -->
+    <div class="mt-12 text-center">
+      <button id="depositBtn" onclick="processDeposit()" 
+              class="bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white py-8 px-16 rounded-4xl text-3xl font-black shadow-2xl hover:shadow-emerald-500/50 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed w-full"
+              disabled>
+        <i class="fas fa-lock mr-4"></i> Metod seçin və məbləğ daxil edin (10-1000)
+      </button>
     </div>
 
-    <!-- Form -->
-    <div class="glass rounded-4xl p-12 max-w-2xl mx-auto">
-      <h2 class="text-4xl font-black gradient-text mb-12 text-center">Məbləğ daxil edin</h2>
-      
-      <div id="methodInfo" class="bg-zinc-900/50 border rounded-3xl p-8 mb-8 text-center hidden">
-        <i id="methodIcon" class="fas fa-circle text-4xl text-gray-500 mb-4"></i>
-        <h3 id="methodTitle" class="text-2xl font-bold text-white mb-2"></h3>
-        <p id="methodDesc" class="text-gray-400 text-lg"></p>
+    <!-- Footer Info -->
+    <div class="mt-12 pt-12 border-t border-emerald-500/20 text-center text-gray-400 text-lg">
+      <p>💳 Kapital Bank kartı ilə 0% komissiya • Anında aktivləşmə</p>
+      <p class="mt-2">⚡ <span class="text-emerald-400 font-bold">10 - 1000</span> • 24/7 dəstək • Təhlükəsiz</p>
+    </div>
+  </div>
+
+  <!-- Success Modal -->
+  <div id="successModal" class="fixed inset-0 bg-black/90 backdrop-blur-2xl z-[1000] hidden flex items-center justify-center p-8">
+    <div class="glass-card text-center max-w-2xl p-16 rounded-4xl max-h-[90vh] overflow-hidden">
+      <div class="w-32 h-32 bg-gradient-to-r from-emerald-500 to-teal-600 rounded-4xl flex items-center justify-center mx-auto mb-12 shadow-2xl">
+        <i class="fas fa-check text-6xl text-white"></i>
       </div>
-
-      <div class="space-y-6">
-        <div>
-          <label class="block text-xl font-semibold text-white mb-4">Məbləğ (AZN)</label>
-          <input 
-            type="number" 
-            id="depositAmount" 
-            min="5" 
-            step="5" 
-            placeholder="500"
-            class="w-full p-6 text-2xl font-bold text-right bg-zinc-900/70 border-2 border-zinc-600/50 rounded-3xl focus:border-amber-400 focus:ring-4 focus:ring-amber-400/30 transition-all text-white"
-          >
-        </div>
-
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-          <button onclick="setAmount(100)" class="p-4 rounded-2xl bg-amber-500/20 border border-amber-500/40 hover:bg-amber-500/30 transition-all font-bold text-lg">100₾</button>
-          <button onclick="setAmount(500)" class="p-4 rounded-2xl bg-amber-500/20 border border-amber-500/40 hover:bg-amber-500/30 transition-all font-bold text-lg">500₾</button>
-          <button onclick="setAmount(1000)" class="p-4 rounded-2xl bg-amber-500/20 border border-amber-500/40 hover:bg-amber-500/30 transition-all font-bold text-lg">1,000₾</button>
-          <button onclick="setAmount(5000)" class="p-4 rounded-2xl bg-amber-500/20 border border-amber-500/40 hover:bg-amber-500/30 transition-all font-bold text-lg">5,000₾</button>
-        </div>
-
-        <button id="depositBtn" onclick="processDeposit()" class="w-full bg-gradient-to-r from-amber-500 to-orange-600 text-white text-2xl font-black py-8 rounded-3xl shadow-2xl hover:shadow-amber-500/50 hover:-translate-y-1 transition-all disabled:opacity-50 disabled:cursor-not-allowed" disabled>
-          Metod seçin
-        </button>
+      <h2 class="text-6xl font-black gradient-text mb-8">Uğurlu!</h2>
+      <div class="bg-emerald-500/20 p-12 rounded-4xl mb-12 border-2 border-emerald-500/40">
+        <div class="text-7xl font-black text-emerald-400 mb-6" id="successAmountDisplay">250</div>
+        <div class="text-3xl text-emerald-300 font-bold">Hesabınıza əlavə edildi!</div>
+      </div>
+      <div class="flex flex-col sm:flex-row gap-6 justify-center">
+        <a href="index.html" class="flex-1 bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white font-bold text-2xl py-6 px-12 rounded-4xl shadow-2xl hover:shadow-emerald-500/50 transition-all text-center">
+          <i class="fas fa-store mr-3"></i> Investisiyaya başla
+        </a>
+        <a href="profile.html" class="flex-1 border-3 border-emerald-500 hover:bg-emerald-500 text-emerald-400 hover:text-white font-bold text-2xl py-6 px-12 rounded-4xl shadow-2xl hover:shadow-emerald-500/50 transition-all text-center">
+          <i class="fas fa-chart-line mr-3"></i> Profili gör
+        </a>
       </div>
     </div>
   </div>
 
   <script>
-    // BALANS RESET + GERI SAYIM
-    document.addEventListener('DOMContentLoaded', function() {
+    let countdownInterval;
+    let depositAmount = 0;
+    let selectedMethod = null;
+
+    function initPage() {
       if (localStorage.getItem('loggedIn') !== 'true') {
-        window.location.href = 'login.html';
+        document.getElementById('loginRequired').classList.remove('hidden');
         return;
       }
-
-      // 🔥 ZORLA 0.00 RESET
+      
       localStorage.setItem('balance', '0.00');
-      document.getElementById('currentBalance').textContent = '0.00 AZN';
-      document.getElementById('headerBalance').textContent = '0.00 AZN';
+      document.getElementById('currentBalance').textContent = '0.00';
+    }
 
-      // GERI SAYIM 60 saniyə
-      let timeLeft = 60;
-      const countdownEl = document.getElementById('countdown');
-      const timer = setInterval(() => {
-        timeLeft--;
-        const minutes = Math.floor(timeLeft / 60);
-        const seconds = timeLeft % 60;
-        countdownEl.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-        
-        if (timeLeft <= 0) {
-          clearInterval(timer);
-          countdownEl.textContent = '00:00';
-          countdownEl.classList.remove('countdown');
-        }
-      }, 1000);
-    });
+    function setQuickAmount(amount) {
+      document.getElementById('depositAmount').value = amount;
+      updatePreview();
+    }
 
-    let selectedMethod = null;
+    function updatePreview() {
+      const amount = parseFloat(document.getElementById('depositAmount').value);
+      
+      if (amount >= 10 && amount <= 1000) {
+        depositAmount = amount;
+        document.getElementById('previewAmount').textContent = amount.toLocaleString();
+        document.getElementById('amountPreview').classList.remove('hidden');
+        updateDepositButton();
+      } else {
+        document.getElementById('amountPreview').classList.add('hidden');
+        updateDepositButton();
+      }
+    }
 
     function selectMethod(method) {
       selectedMethod = method;
-      const methods = {
-        visa: { icon: 'fa-credit-card', title: 'Visa/MasterCard', desc: 'Anında 3D Secure' },
-        novi: { icon: 'fa-mobile-alt', title: 'NoviPay', desc: '30 saniyə mobil' },
-        bank: { icon: 'fa-university', title: 'Bank', desc: '5-15 dəqiqə' }
-      };
-
-      const info = methods[method];
-      document.getElementById('methodIcon').className = `fas ${info.icon} text-4xl text-amber-400 mb-4`;
-      document.getElementById('methodTitle').textContent = info.title;
-      document.getElementById('methodDesc').textContent = info.desc;
+      updateDepositButton();
       
-      document.getElementById('methodInfo').classList.remove('hidden');
-      document.getElementById('depositBtn').disabled = false;
-      document.getElementById('depositBtn').textContent = `Depozit et (${info.title})`;
+      if (method === 'visa') {
+        document.getElementById('visaCountdown').classList.remove('hidden');
+        let timeLeft = 30;
+        const countdownEl = document.querySelector('#visaCountdown .countdown');
+        countdownInterval = setInterval(() => {
+          timeLeft--;
+          countdownEl.textContent = timeLeft + 's';
+          if (timeLeft <= 0) {
+            clearInterval(countdownInterval);
+            document.getElementById('visaCountdown').classList.add('hidden');
+          }
+        }, 1000);
+      }
     }
 
-    function setAmount(amount) {
-      document.getElementById('depositAmount').value = amount;
+    function updateDepositButton() {
+      const btn = document.getElementById('depositBtn');
+      const amount = parseFloat(document.getElementById('depositAmount').value);
+      
+      if (amount >= 10 && amount <= 1000 && selectedMethod) {
+        btn.disabled = false;
+        btn.innerHTML = `<i class="fas fa-rocket mr-4"></i> ${selectedMethod.toUpperCase()} ilə depozit et (${amount.toLocaleString()})`;
+      } else {
+        btn.disabled = true;
+        btn.innerHTML = '<i class="fas fa-lock mr-4"></i> Məbləğ 10-1000 arası və metod seçin';
+      }
     }
 
     function processDeposit() {
       const amount = parseFloat(document.getElementById('depositAmount').value);
       
-      if (!amount || amount < 5) {
-        alert('❌ Minimum 5 AZN!');
+      if (amount < 10 || amount > 1000 || isNaN(amount) || !selectedMethod) {
+        alert('❌ Məbləğ 10-1000 arası olmalıdır və metod seçilməlidir!');
         return;
       }
 
-      if (!selectedMethod) {
-        alert('❌ Ödəniş metodunu seçin!');
-        return;
-      }
-
-      // REAL BALANS UPDATE
       const newBalance = amount;
       localStorage.setItem('balance', newBalance);
       
@@ -234,22 +298,36 @@
       transactions.push({
         type: 'deposit',
         amount: amount,
-        description: `${amount}₾ ${selectedMethod.toUpperCase()} depozit`,
+        description: `${amount.toLocaleString()} ${selectedMethod.toUpperCase()} depozit`,
         date: new Date().toISOString()
       });
       localStorage.setItem('transactions', JSON.stringify(transactions));
 
-      alert(`✅ ${amount} AZN ${selectedMethod.toUpperCase()} ilə uğurla əlavə edildi!\nYeni balans: ${newBalance.toFixed(2)} AZN`);
-
-      document.getElementById('currentBalance').textContent = newBalance.toFixed(2) + ' AZN';
-      document.getElementById('headerBalance').textContent = newBalance.toFixed(2) + ' AZN';
-
-      // Reset form
+      document.getElementById('successAmountDisplay').textContent = amount.toLocaleString();
+      document.getElementById('successModal').classList.remove('hidden');
+      
+      document.getElementById('currentBalance').textContent = newBalance.toFixed(2);
+      
       document.getElementById('depositAmount').value = '';
-      document.getElementById('methodInfo').classList.add('hidden');
-      document.getElementById('depositBtn').disabled = true;
-      document.getElementById('depositBtn').textContent = 'Metod seçin';
+      document.getElementById('amountPreview').classList.add('hidden');
+      document.getElementById('visaCountdown').classList.add('hidden');
+      if (countdownInterval) clearInterval(countdownInterval);
+      selectedMethod = null;
+      updateDepositButton();
     }
+
+    document.getElementById('successModal').addEventListener('click', function(e) {
+      if (e.target === this) this.classList.add('hidden');
+    });
+
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        document.getElementById('successModal').classList.add('hidden');
+        document.getElementById('loginRequired').classList.add('hidden');
+      }
+    });
+
+    document.addEventListener('DOMContentLoaded', initPage);
   </script>
 </body>
 </html>
