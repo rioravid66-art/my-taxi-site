@@ -18,76 +18,43 @@
       background: rgba(15, 23, 42, 0.95); 
       backdrop-filter: blur(25px); 
       border: 1px solid rgba(16, 185, 129, 0.3); 
-      box-shadow: 0 35px 80px -20px rgba(0,0,0,0.8), 0 0 30px rgba(16,185,129,0.1);
+      box-shadow: 0 35px 80px -20px rgba(0,0,0,0.8);
     }
     .tab-btn { 
       transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); 
-      position: relative; 
-      overflow: hidden;
     }
     .tab-btn.active { 
       background: linear-gradient(135deg, #10b981, #059669);
       color: white; 
       box-shadow: 0 10px 25px rgba(16,185,129,0.4);
     }
-    .tab-btn.active::after {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      height: 4px;
-      background: linear-gradient(90deg, #10b981, #34d399);
-      animation: slideIn 0.3s ease;
-    }
-    @keyframes slideIn { from { width: 0; } to { width: 100%; } }
     .input-field { 
       background: rgba(30, 41, 59, 0.8); 
       border: 2px solid rgba(255,255,255,0.1); 
       transition: all 0.4s ease; 
-      backdrop-filter: blur(10px);
     }
     .input-field:focus { 
       border-color: #10b981; 
-      box-shadow: 0 0 0 4px rgba(16,185,129,0.2), 0 0 20px rgba(16,185,129,0.1);
-      background: rgba(30, 41, 59, 0.95);
-      transform: translateY(-2px);
+      box-shadow: 0 0 0 4px rgba(16,185,129,0.2);
+      transform: translateY(-1px);
     }
-    .btn-pulse { animation: pulse-glow 2s infinite; }
-    @keyframes pulse-glow { 0%, 100% { box-shadow: 0 0 20px rgba(16,185,129,0.3); } 50% { box-shadow: 0 0 40px rgba(16,185,129,0.6); } }
   </style>
 </head>
 <body class="p-6">
-  
-  <!-- Background Particles -->
-  <div class="fixed inset-0 pointer-events-none overflow-hidden">
-    <div class="absolute -top-40 -right-40 w-80 h-80 bg-emerald-500/10 rounded-full blur-3xl animate-pulse"></div>
-    <div class="absolute -bottom-40 -left-40 w-80 h-80 bg-teal-500/10 rounded-full blur-3xl animate-pulse delay-1000"></div>
-  </div>
 
-  <div class="glass-card rounded-3xl p-10 max-w-md w-full mx-auto relative z-10">
+  <div class="glass-card rounded-3xl p-10 max-w-md w-full mx-auto">
     
-    <!-- Logo & Header -->
+    <!-- Header -->
     <div class="text-center mb-12">
-      <div class="w-24 h-24 bg-gradient-to-r from-emerald-500 to-teal-600 rounded-3xl flex items-center justify-center mx-auto mb-6 shadow-2xl ring-4 ring-emerald-500/30">
+      <div class="w-24 h-24 bg-gradient-to-r from-emerald-500 to-teal-600 rounded-3xl flex items-center justify-center mx-auto mb-6 shadow-2xl">
         <i class="fas fa-car text-3xl text-white"></i>
       </div>
-      <h1 class="text-5xl md:text-6xl font-black bg-gradient-to-r from-emerald-400 via-teal-400 to-emerald-400 bg-clip-text text-transparent mb-4 tracking-tight">
-        CarBet
-      </h1>
-      <p class="text-xl text-zinc-300 leading-relaxed">Real maşın investisiyası ilə <span class="font-bold text-emerald-400">24/7 pul qazanın</span></p>
+      <h1 class="text-5xl font-black bg-gradient-to-r from-emerald-400 to-teal-400 bg-clip-text text-transparent mb-4">CarBet</h1>
+      <p class="text-xl text-zinc-300">Real pul qazanmağın vaxtıdır</p>
     </div>
 
-    <!-- Status Badge -->
-    <div class="w-full bg-emerald-500/20 backdrop-blur-xl border border-emerald-500/50 rounded-2xl p-4 mb-8 text-center">
-      <div class="flex items-center justify-center text-sm text-emerald-300">
-        <i class="fas fa-crown mr-2"></i>
-        <span>247,892 aktiv istifadəçi | 2.7M$ ödənilmiş</span>
-      </div>
-    </div>
-
-    <!-- Tab Navigation -->
-    <div class="flex mb-10 bg-zinc-900/50 rounded-2xl overflow-hidden backdrop-blur-xl">
+    <!-- Tabs -->
+    <div class="flex mb-10 bg-zinc-900/50 rounded-2xl overflow-hidden">
       <button id="loginTab" onclick="showTab('login')" class="tab-btn flex-1 py-5 text-xl font-bold text-zinc-300 hover:text-emerald-300 active">
         <i class="fas fa-sign-in-alt mr-2"></i> Daxil ol
       </button>
@@ -97,108 +64,102 @@
     </div>
 
     <!-- Login Form -->
-    <div id="loginForm" class="space-y-6">
-      <div class="relative">
-        <i class="fas fa-envelope absolute left-4 top-1/2 -translate-y-1/2 text-emerald-400 text-xl z-10"></i>
+    <div id="loginForm" class="">
+      <div class="relative mb-6">
+        <i class="fas fa-envelope absolute left-4 top-4 text-emerald-400 text-xl"></i>
         <input id="loginEmail" type="email" required 
-               class="input-field w-full pl-14 pr-5 py-5 rounded-2xl text-lg text-white placeholder-zinc-400 focus:placeholder-transparent"
+               class="input-field w-full pl-14 py-4 rounded-2xl text-lg text-white placeholder-zinc-400"
                placeholder="example@gmail.com">
       </div>
       
-      <div class="relative">
-        <i class="fas fa-lock absolute left-4 top-1/2 -translate-y-1/2 text-emerald-400 text-xl z-10"></i>
+      <div class="relative mb-6">
+        <i class="fas fa-lock absolute left-4 top-4 text-emerald-400 text-xl"></i>
         <input id="loginPassword" type="password" required 
-               class="input-field w-full pl-14 pr-12 py-5 rounded-2xl text-lg text-white placeholder-zinc-400 focus:placeholder-transparent"
-               placeholder="Şifrənizi daxil edin">
-        <button type="button" onclick="togglePassword('login')" class="absolute right-4 top-1/2 -translate-y-1/2 text-zinc-400 hover:text-white p-1">
-          <i id="loginEye" class="fas fa-eye text-xl"></i>
+               class="input-field w-full pl-14 pr-12 py-4 rounded-2xl text-lg text-white placeholder-zinc-400"
+               placeholder="Şifrə">
+        <button type="button" onclick="togglePassword('login')" class="absolute right-4 top-4 text-zinc-400 hover:text-white">
+          <i id="loginEye" class="fas fa-eye"></i>
         </button>
       </div>
 
-      <div class="flex items-center justify-between">
-        <label class="flex items-center space-x-3">
-          <input type="checkbox" id="rememberMe" class="w-5 h-5 bg-zinc-800/50 border-zinc-500/50 rounded text-emerald-500 focus:ring-emerald-400">
-          <span class="text-zinc-300 text-sm">Məni xatırla</span>
-        </label>
-        <a href="#" class="text-emerald-400 hover:text-emerald-300 text-sm font-semibold" onclick="showReset()">Şifrəni unudun?</a>
-      </div>
-
       <button onclick="loginWithEmail()" id="loginBtn"
-              class="w-full btn-pulse bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white font-black text-2xl py-6 px-8 rounded-3xl shadow-2xl hover:shadow-emerald-500/50 hover:scale-[1.02] transition-all duration-300 transform">
-        <i class="fas fa-sign-in-alt mr-3"></i> Daxil ol
+              class="w-full bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white font-black text-xl py-5 rounded-2xl shadow-xl hover:shadow-emerald-500/50 mb-4 transition-all">
+        <i class="fas fa-arrow-right mr-2"></i> Daxil ol
       </button>
     </div>
 
     <!-- Register Form -->
-    <div id="registerForm" class="space-y-6 hidden">
-      <div class="relative">
-        <i class="fas fa-envelope absolute left-4 top-1/2 -translate-y-1/2 text-emerald-400 text-xl z-10"></i>
+    <div id="registerForm" class="hidden">
+      <div class="relative mb-6">
+        <i class="fas fa-envelope absolute left-4 top-4 text-emerald-400 text-xl"></i>
         <input id="registerEmail" type="email" required 
-               class="input-field w-full pl-14 pr-5 py-5 rounded-2xl text-lg text-white placeholder-zinc-400"
-               placeholder="E-poçt ünvanınızı daxil edin">
+               class="input-field w-full pl-14 py-4 rounded-2xl text-lg text-white placeholder-zinc-400"
+               placeholder="E-poçt">
       </div>
       
-      <div class="relative">
-        <i class="fas fa-lock absolute left-4 top-1/2 -translate-y-1/2 text-emerald-400 text-xl z-10"></i>
-        <input id="registerPassword" type="password" required minlength="6"
-               class="input-field w-full pl-14 pr-12 py-5 rounded-2xl text-lg text-white placeholder-zinc-400"
-               placeholder="Minimum 6 simvol">
-        <button type="button" onclick="togglePassword('register')" class="absolute right-4 top-1/2 -translate-y-1/2 text-zinc-400 hover:text-white p-1">
-          <i id="registerEye" class="fas fa-eye text-xl"></i>
+      <div class="relative mb-6">
+        <i class="fas fa-lock absolute left-4 top-4 text-emerald-400 text-xl"></i>
+        <input id="registerPassword" type="password" required 
+               class="input-field w-full pl-14 pr-12 py-4 rounded-2xl text-lg text-white placeholder-zinc-400"
+               placeholder="Şifrə (min. 6 simvol)">
+        <button type="button" onclick="togglePassword('register')" class="absolute right-4 top-4 text-zinc-400 hover:text-white">
+          <i id="registerEye" class="fas fa-eye"></i>
         </button>
       </div>
 
       <button onclick="registerWithEmail()" id="registerBtn"
-              class="w-full btn-pulse bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white font-black text-2xl py-6 px-8 rounded-3xl shadow-2xl hover:shadow-emerald-500/50 hover:scale-[1.02] transition-all duration-300 transform">
-        <i class="fas fa-user-plus mr-3"></i> Qeydiyyatdan keç
+              class="w-full bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white font-black text-xl py-5 rounded-2xl shadow-xl hover:shadow-emerald-500/50 mb-4 transition-all">
+        <i class="fas fa-user-plus mr-2"></i> Qeydiyyat
       </button>
     </div>
 
     <!-- Google Login -->
-    <div class="relative mt-10 pt-10 border-t border-emerald-500/30">
-      <div class="absolute inset-0 bg-gradient-to-r from-emerald-500/5 to-teal-500/5 rounded-2xl"></div>
-      <button id="googleLoginBtn" class="w-full relative bg-white/90 hover:bg-white text-black py-5 px-6 rounded-2xl text-lg font-bold flex items-center justify-center shadow-2xl hover:shadow-xl border border-gray-200 hover:border-gray-300 transition-all duration-300 backdrop-blur-xl">
-        <i class="fab fa-google text-2xl text-red-500 mr-4"></i>
-        <span>Google ilə daxil ol</span>
+    <div class="mt-8 pt-8 border-t border-emerald-500/30">
+      <button id="googleLoginBtn" class="w-full bg-white text-black py-4 px-6 rounded-2xl text-lg font-bold flex items-center justify-center shadow-xl hover:shadow-2xl hover:bg-gray-50 transition-all border border-gray-200">
+        <i class="fab fa-google text-xl text-red-500 mr-3"></i>
+        Google ilə daxil ol
       </button>
     </div>
 
-    <!-- Quick Links -->
-    <div class="grid grid-cols-3 gap-4 mt-12 pt-10 border-t border-emerald-500/20">
-      <a href="index.html" class="group p-4 rounded-2xl bg-zinc-900/50 hover:bg-emerald-500/20 border border-emerald-500/30 hover:border-emerald-400/60 transition-all text-center">
-        <i class="fas fa-store text-2xl text-emerald-400 group-hover:text-emerald-300 mb-2 block"></i>
-        <span class="font-semibold text-white text-sm">Mağaza</span>
+    <div class="grid grid-cols-3 gap-4 mt-8">
+      <a href="index.html" class="p-3 rounded-xl bg-zinc-800/50 hover:bg-emerald-500/20 border border-emerald-500/30 text-center transition-all">
+        <i class="fas fa-store text-xl text-emerald-400 mb-1 block"></i>
+        <span class="text-sm font-semibold text-white">Mağaza</span>
       </a>
-      <a href="depozit.html" class="group p-4 rounded-2xl bg-zinc-900/50 hover:bg-amber-500/20 border border-amber-500/30 hover:border-amber-400/60 transition-all text-center">
-        <i class="fas fa-plus-circle text-2xl text-amber-400 group-hover:text-amber-300 mb-2 block"></i>
-        <span class="font-semibold text-white text-sm">Depozit</span>
+      <a href="depozit.html" class="p-3 rounded-xl bg-zinc-800/50 hover:bg-amber-500/20 border border-amber-500/30 text-center transition-all">
+        <i class="fas fa-plus-circle text-xl text-amber-400 mb-1 block"></i>
+        <span class="text-sm font-semibold text-white">Depozit</span>
       </a>
-      <a href="profile.html" class="group p-4 rounded-2xl bg-zinc-900/50 hover:bg-blue-500/20 border border-blue-500/30 hover:border-blue-400/60 transition-all text-center">
-        <i class="fas fa-chart-line text-2xl text-blue-400 group-hover:text-blue-300 mb-2 block"></i>
-        <span class="font-semibold text-white text-sm">Dashboard</span>
+      <a href="profile.html" class="p-3 rounded-xl bg-zinc-800/50 hover:bg-blue-500/20 border border-blue-500/30 text-center transition-all">
+        <i class="fas fa-chart-line text-xl text-blue-400 mb-1 block"></i>
+        <span class="text-sm font-semibold text-white">Dashboard</span>
       </a>
     </div>
   </div>
 
   <script type="module">
-    // 🔥 REAL Firebase Config (sizin project üçün dəyişdirin)
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-app.js";
-    import { getAuth, signInWithPopup, GoogleAuthProvider, signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-auth.js";
+    import { getAuth, signInWithPopup, GoogleAuthProvider, signInWithEmailAndPassword, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-auth.js";
 
-    // 🚨 BURAYA SİZİN FIREBASE CONFIG-İNİZİ QOYUN
+    // 🔥 SİZİN CONFIG
     const firebaseConfig = {
-  apiKey: "AIzaSyB2jBPDMqC55HkwcMuOU7y8_tAZzW06bYw",
-  authDomain: "taxibet-e65d0.firebaseapp.com",
-  projectId: "taxibet-e65d0",
-  storageBucket: "taxibet-e65d0.firebasestorage.app",
-  messagingSenderId: "480829623206",
-  appId: "1:480829623206:web:673ce571df25e52cf91d67"
-};
+      apiKey: "AIzaSyB2jBPDMqC55HkwcMuOU7y8_tAZzW06bYw",
+      authDomain: "taxibet-e65d0.firebaseapp.com",
+      projectId: "taxibet-e65d0",
+      storageBucket: "taxibet-e65d0.firebasestorage.app",
+      messagingSenderId: "480829623206",
+      appId: "1:480829623206:web:673ce571df25e52cf91d67"
+    };
+
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
     const provider = new GoogleAuthProvider();
 
-    // Tab switching
+    let isAuthenticating = false; // 🚫 Çoxsaylı klik qarşısı
+
+    // 🔥 SƏHİFƏLİK YARADAN KOD SİLİNDİ!
+    // onAuthStateChanged-i SADECE sinxronlaşdırma üçün istifadə et
+
     function showTab(tab) {
       document.getElementById('loginForm').classList.toggle('hidden', tab !== 'login');
       document.getElementById('registerForm').classList.toggle('hidden', tab !== 'register');
@@ -206,141 +167,149 @@
       document.getElementById('registerTab').classList.toggle('active', tab === 'register');
     }
 
-    // Password visibility toggle
     function togglePassword(formType) {
-      const input = document.getElementById(formType === 'login' ? 'loginPassword' : 'registerPassword');
-      const eye = document.getElementById(formType === 'login' ? 'loginEye' : 'registerEye');
+      const input = document.getElementById(formType + 'Password');
+      const eye = document.getElementById(formType + 'Eye');
       input.type = input.type === 'password' ? 'text' : 'password';
       eye.classList.toggle('fa-eye');
       eye.classList.toggle('fa-eye-slash');
     }
 
-    // Password reset
-    function showReset() {
-      const email = prompt('Şifrəni sıfırlamaq üçün e-poçt ünvanınızı daxil edin:');
-      if (email) {
-        sendPasswordResetEmail(auth, email)
-          .then(() => alert('✅ Şifrə sıfırlama linki e-poçt ünvanınıza göndərildi!'))
-          .catch(error => alert('❌ Xəta: ' + error.message));
-      }
-    }
-
-    // Email Login
+    // 🚀 LOGIN – Səhifəlik YOX!
     async function loginWithEmail() {
+      if (isAuthenticating) return;
+      isAuthenticating = true;
+
       const email = document.getElementById('loginEmail').value.trim();
       const password = document.getElementById('loginPassword').value.trim();
-      
+
       if (!email || !password) {
-        showError('E-poçt və şifrə mütləq daxil edilməlidir!');
+        alert('Email və şifrə daxil edin!');
+        isAuthenticating = false;
         return;
       }
 
       const btn = document.getElementById('loginBtn');
-      const originalText = btn.innerHTML;
-      
-      btn.innerHTML = '<i class="fas fa-spinner fa-spin mr-3"></i> Daxil olunur...';
+      const original = btn.innerHTML;
+      btn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Yüklənir...';
       btn.disabled = true;
 
       try {
         await signInWithEmailAndPassword(auth, email, password);
         localStorage.setItem('loggedIn', 'true');
         localStorage.setItem('userEmail', email);
-        showSuccess('✅ Daxil oldunuz!');
-        setTimeout(() => window.location.href = 'index.html', 1200);
+        
+        btn.innerHTML = '<i class="fas fa-check mr-2"></i> Uğurlu!';
+        btn.style.background = 'linear-gradient(135deg, #10b981, #059669)';
+        
+        setTimeout(() => {
+          window.location.href = 'index.html';
+        }, 1500);
+        
       } catch (error) {
-        showError(error.message.includes('wrong-password') ? '❌ Yanlış şifrə!' : '❌ Email və ya şifrə yanlış!');
+        alert('Yanlış email və ya şifrə!');
       } finally {
-        btn.innerHTML = originalText;
+        isAuthenticating = false;
+        btn.innerHTML = original;
         btn.disabled = false;
+        btn.style.background = '';
       }
     }
 
-    // Email Register
+    // 🚀 REGISTER
     async function registerWithEmail() {
+      if (isAuthenticating) return;
+      isAuthenticating = true;
+
       const email = document.getElementById('registerEmail').value.trim();
       const password = document.getElementById('registerPassword').value.trim();
-      
+
       if (!email || !password || password.length < 6) {
-        showError('Şifrə minimum 6 simvol olmalıdır!');
+        alert('Şifrə min. 6 simvol!');
+        isAuthenticating = false;
         return;
       }
 
       const btn = document.getElementById('registerBtn');
-      const originalText = btn.innerHTML;
-      
-      btn.innerHTML = '<i class="fas fa-spinner fa-spin mr-3"></i> Qeydiyyat...';
+      const original = btn.innerHTML;
+      btn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Qeydiyyat...';
       btn.disabled = true;
 
       try {
         await createUserWithEmailAndPassword(auth, email, password);
         localStorage.setItem('loggedIn', 'true');
         localStorage.setItem('userEmail', email);
-        showSuccess('✅ Qeydiyyat tamamlandı!');
-        setTimeout(() => window.location.href = 'index.html', 1200);
+        
+        btn.innerHTML = '<i class="fas fa-check mr-2"></i> Uğurlu!';
+        btn.style.background = 'linear-gradient(135deg, #10b981, #059669)';
+        
+        setTimeout(() => {
+          window.location.href = 'index.html';
+        }, 1500);
+        
       } catch (error) {
-        showError(error.message.includes('email-already') ? '❌ Bu e-poçt artıq qeydiyyatdan keçib!' : '❌ Qeydiyyat xətası!');
+        alert('Bu email artıq qeydiyyatdan keçib!');
       } finally {
-        btn.innerHTML = originalText;
+        isAuthenticating = false;
+        btn.innerHTML = original;
         btn.disabled = false;
+        btn.style.background = '';
       }
     }
 
-    // Google Login
+    // 🚀 GOOGLE LOGIN
     document.getElementById('googleLoginBtn').addEventListener('click', async () => {
+      if (isAuthenticating) return;
+      isAuthenticating = true;
+
       const btn = document.getElementById('googleLoginBtn');
-      btn.innerHTML = '<i class="fas fa-spinner fa-spin mr-4 text-2xl"></i> Google ilə daxil olunur...';
+      const original = btn.innerHTML;
+      btn.innerHTML = '<i class="fas fa-spinner fa-spin mr-3 text-xl"></i> Google...';
       btn.disabled = true;
 
       try {
         const result = await signInWithPopup(auth, provider);
-        const user = result.user;
         localStorage.setItem('loggedIn', 'true');
-        localStorage.setItem('userId', user.uid);
-        localStorage.setItem('userEmail', user.email);
-        showSuccess('✅ Google ilə daxil oldunuz!');
-        setTimeout(() => window.location.href = 'index.html', 1200);
+        localStorage.setItem('userEmail', result.user.email);
+        
+        btn.innerHTML = '<i class="fas fa-check mr-3 text-xl text-green-500"></i> Uğurlu!';
+        
+        setTimeout(() => {
+          window.location.href = 'index.html';
+        }, 1500);
+        
       } catch (error) {
-        showError('❌ Google girişində xəta: ' + error.message);
+        alert('Google girişində xəta!');
       } finally {
-        btn.innerHTML = '<i class="fab fa-google text-2xl text-red-500 mr-4"></i><span>Google ilə daxil ol</span>';
+        isAuthenticating = false;
+        btn.innerHTML = original;
         btn.disabled = false;
       }
     });
 
-    // Auth state listener
+    // 🚫 SƏHİFƏLİK YARATMAYAN PASSİV LISTENER
+    let authChecked = false;
     onAuthStateChanged(auth, (user) => {
-      if (user) {
-        localStorage.setItem('loggedIn', 'true');
-        window.location.href = 'index.html';
+      if (!authChecked) {
+        authChecked = true; // Yalnız 1 dəfə icra et
+        if (user) {
+          localStorage.setItem('loggedIn', 'true');
+          localStorage.setItem('userEmail', user.email || '');
+        }
       }
+      // 🚫 KEÇİD YOX!
     });
 
-    // Helper functions
-    function showError(message) {
-      alert(message);
-    }
-
-    function showSuccess(message) {
-      // Success animasiyası
-      const successEl = document.createElement('div');
-      successEl.className = 'fixed top-24 left-1/2 transform -translate-x-1/2 bg-emerald-500/95 backdrop-blur-xl text-white px-8 py-4 rounded-2xl shadow-2xl border border-emerald-400/50 font-bold text-xl z-[999] animate-pulse';
-      successEl.textContent = message;
-      document.body.appendChild(successEl);
-      setTimeout(() => successEl.remove(), 3000);
-    }
-
-    // Enter key support
-    document.addEventListener('keypress', function(e) {
-      if (e.key === 'Enter') {
-        const activeForm = document.querySelector('#loginForm:not(.hidden), #registerForm:not(.hidden)');
-        if (activeForm) {
-          const btn = activeForm.querySelector('button[onclick*="login"], button[onclick*="register"]');
-          if (btn) btn.click();
+    // Enter düyməsi
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' && !isAuthenticating) {
+        const visibleForm = document.querySelector('#loginForm:not(.hidden), #registerForm:not(.hidden)');
+        if (visibleForm) {
+          visibleForm.querySelector('button:not([disabled])').click();
         }
       }
     });
 
-    // Initialize
     showTab('login');
   </script>
 </body>
