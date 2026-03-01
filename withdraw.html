@@ -54,17 +54,20 @@
       box-shadow: 0 0 0 3px rgba(16,185,129,0.3);
       border-color: #10b981;
     }
-    .visa-card { background: linear-gradient(135deg, #1a1f71 0%, #1434a0 100%); }
-    .mastercard-card { background: linear-gradient(135deg, #eb001b 0%, #f79e1b 50%, #eb001b 100%); }
+    .card-gradient { 
+      background: linear-gradient(135deg, #1a1f71 0%, #1434a0 30%, #eb001b 70%, #f79e1b 100%);
+    }
     .warning-glow {
       box-shadow: 0 0 20px rgba(239, 68, 68, 0.4);
     }
     .card-number-input {
       font-family: 'Courier New', monospace;
       letter-spacing: 4px;
+      font-size: 1.2rem;
     }
     @media (max-width: 640px) {
       .glass-card { margin: 1rem; padding: 1.5rem !important; }
+      .card-number-input { font-size: 1rem !important; }
     }
   </style>
 </head>
@@ -142,50 +145,33 @@
       </div>
     </div>
 
-    <!-- KART SEÇİMİ + NOMRƏ DAxil ET -->
-    <div class="space-y-6 mb-10 lg:mb-16">
-      <!-- VISA -->
-      <div class="glass-card p-6 lg:p-10 xl:p-12 rounded-3xl visa-card border-2 lg:border-3 border-blue-500/40 hover:border-blue-400/60 cursor-pointer" id="visaMethod" onclick="selectCard('visa')">
-        <div class="flex items-center mb-6 lg:mb-8">
-          <div class="w-14 h-14 lg:w-16 lg:h-16 xl:w-20 xl:h-20 visa-card rounded-2xl lg:rounded-3xl flex items-center justify-center mr-4 lg:mr-6 shadow-xl lg:shadow-2xl flex-shrink-0">
-            <i class="fab fa-cc-visa text-xl lg:text-2xl xl:text-3xl text-white"></i>
+    <!-- TEK VISA/MASTERCARD + KART NOMRƏSİ -->
+    <div class="mb-10 lg:mb-16">
+      <div class="glass-card p-8 lg:p-12 xl:p-14 rounded-3xl card-gradient border-3 border-blue-500/40 hover:border-blue-400/60 text-center ring-4 ring-emerald-500/30">
+        <div class="flex items-center justify-center mb-8 lg:mb-10">
+          <div class="w-16 h-16 lg:w-20 lg:h-20 xl:w-24 xl:h-24 card-gradient rounded-3xl flex items-center justify-center mr-6 lg:mr-8 shadow-2xl flex-shrink-0">
+            <i class="fab fa-cc-visa fas fa-credit-card text-2xl lg:text-3xl xl:text-4xl text-white"></i>
           </div>
-          <div class="flex-1 min-w-0">
-            <h3 class="text-2xl lg:text-3xl xl:text-4xl font-black text-white mb-1 lg:mb-2">Visa</h3>
-            <p class="text-blue-200 text-lg lg:text-xl font-bold">Kart nömrənizi daxil edin</p>
+          <div>
+            <h3 class="text-3xl lg:text-4xl xl:text-5xl font-black text-white mb-2 gradient-text">Visa/Mastercard</h3>
+            <p class="text-blue-200 text-xl lg:text-2xl font-bold">İstənilən kart nömrəsi</p>
           </div>
         </div>
+        
         <div class="relative">
           <input type="text" 
-                 id="visaCardNumber" 
+                 id="cardNumber" 
                  maxlength="19" 
                  placeholder="1234 5678 9012 3456"
-                 class="card-number-input w-full p-6 lg:p-8 xl:p-10 bg-zinc-950/90 rounded-3xl font-mono text-lg lg:text-2xl xl:text-3xl tracking-[0.1em] text-center text-white border-2 border-blue-500/40 focus:border-blue-400 focus:ring-2 focus:ring-blue-400/50 transition-all select-all"
+                 class="card-number-input w-full p-8 lg:p-10 xl:p-12 bg-zinc-950/95 rounded-4xl font-mono text-xl lg:text-2xl xl:text-3xl tracking-[0.15em] text-center text-white border-3 border-blue-500/50 focus:border-emerald-500 focus:ring-4 focus:ring-emerald-500/50 transition-all duration-300 select-all shadow-2xl"
                  oninput="formatCardNumber(this); checkWithdraw()">
-          <i class="fas fa-credit-card absolute right-6 top-1/2 -translate-y-1/2 text-blue-400 text-xl"></i>
-        </div>
-      </div>
-
-      <!-- MASTERCARD -->
-      <div class="glass-card p-6 lg:p-10 xl:p-12 rounded-3xl mastercard-card border-2 lg:border-3 border-red-500/40 hover:border-red-400/60 cursor-pointer" id="mastercardMethod" onclick="selectCard('mastercard')">
-        <div class="flex items-center mb-6 lg:mb-8">
-          <div class="w-14 h-14 lg:w-16 lg:h-16 xl:w-20 xl:h-20 mastercard-card rounded-2xl lg:rounded-3xl flex items-center justify-center mr-4 lg:mr-6 shadow-xl lg:shadow-2xl flex-shrink-0">
-            <i class="fab fa-cc-mastercard text-xl lg:text-2xl xl:text-3xl text-white"></i>
-          </div>
-          <div class="flex-1 min-w-0">
-            <h3 class="text-2xl lg:text-3xl xl:text-4xl font-black text-white mb-1 lg:mb-2">Mastercard</h3>
-            <p class="text-orange-200 text-lg lg:text-xl font-bold">Kart nömrənizi daxil edin</p>
+          <div class="absolute left-4 top-1/2 -translate-y-1/2 text-blue-400 text-2xl lg:text-3xl">
+            <i class="fab fa-cc-visa mr-2"></i>
+            <i class="fab fa-cc-mastercard"></i>
           </div>
         </div>
-        <div class="relative">
-          <input type="text" 
-                 id="mastercardCardNumber" 
-                 maxlength="19" 
-                 placeholder="1234 5678 9012 3456"
-                 class="card-number-input w-full p-6 lg:p-8 xl:p-10 bg-zinc-950/90 rounded-3xl font-mono text-lg lg:text-2xl xl:text-3xl tracking-[0.1em] text-center text-white border-2 border-red-500/40 focus:border-red-400 focus:ring-2 focus:ring-red-400/50 transition-all select-all"
-                 oninput="formatCardNumber(this); checkWithdraw()">
-          <i class="fas fa-credit-card absolute right-6 top-1/2 -translate-y-1/2 text-red-400 text-xl"></i>
-        </div>
+        
+        <p class="text-sm lg:text-base text-blue-300 mt-4 font-bold">16 rəqəmli kart nömrənizi daxil edin</p>
       </div>
     </div>
 
@@ -222,7 +208,7 @@
       
       <div class="bg-amber-500/25 p-6 lg:p-10 xl:p-14 rounded-3xl lg:rounded-5xl mb-10 lg:mb-14 border-2 lg:border-3 border-amber-500/50">
         <div class="text-4xl lg:text-6xl xl:text-7xl font-black text-amber-400 mb-4 lg:mb-6" id="successAmountDisplay">250</div>
-        <div class="text-xl lg:text-2xl xl:text-3xl text-amber-300 font-bold mb-3 lg:mb-4" id="successCardDisplay">Visa kartına</div>
+        <div class="text-xl lg:text-2xl xl:text-3xl text-amber-300 font-bold mb-3 lg:mb-4" id="successCardDisplay">Visa/Mastercard-a</div>
         <div class="text-base lg:text-lg xl:text-xl text-gray-200">Çıxarış təsdiqləndi <i class="fas fa-spinner fa-spin ml-2"></i></div>
       </div>
 
@@ -247,18 +233,15 @@
   </div>
 
   <script>
-    let selectedCard = null;
     let countdownInterval;
 
-    // Kart nömrəsini formatla (1234 5678 9012 3456)
+    // Kart nömrəsini düzgün formatla
     function formatCardNumber(input) {
       let value = input.value.replace(/\s/g, '').replace(/[^0-9]/gi, '');
-      let matches = value.match(/\d{4,16}/g);
-      let match = matches && matches[0] || '';
       let parts = [];
       
-      for (let i = 0; i < match.length; i += 4) {
-        parts.push(match.substring(i, i + 4));
+      for (let i = 0; i < value.length; i += 4) {
+        parts.push(value.substring(i, i + 4));
       }
       
       input.value = parts.join(' ').substring(0, 19);
@@ -283,10 +266,11 @@
     function checkWithdraw() {
       const amount = parseFloat(document.getElementById('withdrawAmount').value);
       const balance = parseFloat(localStorage.getItem('balance')) || 0;
+      const cardNumber = document.getElementById('cardNumber').value.replace(/\s/g, '');
       const preview = document.getElementById('amountPreview');
       const previewAmount = document.getElementById('previewAmount');
       
-      if (amount >= 20 && amount <= 5000 && amount <= balance && !isNaN(amount)) {
+      if (amount >= 20 && amount <= 5000 && amount <= balance && cardNumber.length >= 16 && !isNaN(amount)) {
         previewAmount.textContent = amount.toLocaleString();
         preview.classList.remove('hidden');
         updateButton();
@@ -295,46 +279,32 @@
       }
     }
 
-    function selectCard(card) {
-      selectedCard = card;
-      
-      // Selected glow
-      document.querySelectorAll('.glass-card').forEach(c => {
-        c.classList.remove('ring-4', 'ring-emerald-500/50');
-      });
-      document.getElementById(card + 'Method').classList.add('ring-4', 'ring-emerald-500/50');
-      
-      updateButton();
-    }
-
     function updateButton() {
       const amount = parseFloat(document.getElementById('withdrawAmount').value);
       const balance = parseFloat(localStorage.getItem('balance')) || 0;
+      const cardNumber = document.getElementById('cardNumber').value.replace(/\s/g, '');
       const btn = document.getElementById('withdrawBtn');
       const icon = document.getElementById('withdrawIcon');
       const text = document.getElementById('withdrawText');
       
-      const visaCard = document.getElementById('visaCardNumber').value;
-      const mastercardCard = document.getElementById('mastercardCardNumber').value;
-      const hasCardNumber = (selectedCard === 'visa' && visaCard.length >= 19) || 
-                           (selectedCard === 'mastercard' && mastercardCard.length >= 19);
-      
-      if (amount >= 20 && amount <= balance && selectedCard && hasCardNumber && !isNaN(amount)) {
+      if (amount >= 20 && amount <= balance && cardNumber.length >= 16 && !isNaN(amount)) {
         btn.disabled = false;
         btn.classList.remove('opacity-50', 'cursor-not-allowed');
         icon.className = 'fas fa-paper-plane mr-3 text-lg lg:text-xl';
-        text.innerHTML = `${selectedCard.toUpperCase()} kartına göndər <span class="text-sm lg:text-base">(${amount.toLocaleString()})</span>`;
+        text.innerHTML = `Kartına göndər <span class="text-sm lg:text-base">(${amount.toLocaleString()})</span>`;
+        document.getElementById('cardNumber').style.borderColor = '#10b981';
       } else {
         btn.disabled = true;
         btn.classList.add('opacity-50', 'cursor-not-allowed');
         icon.className = 'fas fa-lock mr-3 text-lg lg:text-xl';
         
-        if (!selectedCard) {
-          text.textContent = 'Kart növü seçin';
-        } else if (!hasCardNumber) {
-          text.textContent = 'Kart nömrəsini tam daxil edin (16 rəqəm)';
-        } else {
+        if (cardNumber.length < 16) {
+          text.textContent = '16 rəqəmli kart nömrəsi daxil edin';
+          document.getElementById('cardNumber').style.borderColor = '#ef4444';
+        } else if (amount < 20 || amount > balance) {
           text.textContent = 'Minimum 20 AZN və balans kifayətli olmalıdır';
+        } else {
+          text.textContent = 'Məbləğ və kart nömrəsi daxil edin';
         }
       }
     }
@@ -342,13 +312,10 @@
     function processWithdraw() {
       const amount = parseFloat(document.getElementById('withdrawAmount').value);
       const balance = parseFloat(localStorage.getItem('balance')) || 0;
+      const cardNumber = document.getElementById('cardNumber').value.replace(/\s/g, '');
       
-      const visaCard = document.getElementById('visaCardNumber').value;
-      const mastercardCard = document.getElementById('mastercardCardNumber').value;
-      const cardNumber = selectedCard === 'visa' ? visaCard : mastercardCard;
-      
-      if (amount < 20 || amount > balance || !selectedCard || cardNumber.length < 19) {
-        alert('❌ Minimum 20 AZN, balans kifayətli və tam kart nömrəsi tələb olunur!');
+      if (amount < 20 || amount > balance || cardNumber.length < 16) {
+        alert('❌ Minimum 20 AZN, kifayət qədər balans və 16 rəqəmli kart nömrəsi tələb olunur!');
         return;
       }
 
@@ -362,8 +329,8 @@
       transactions.push({
         type: 'withdraw',
         amount: amount,
-        method: selectedCard.toUpperCase(),
-        card: cardNumber.replace(/\s/g, ''),
+        method: 'Visa/Mastercard',
+        card: `****${cardNumber.slice(-4)}`,
         status: 'pending',
         date: new Date().toISOString()
       });
@@ -371,7 +338,7 @@
 
       // UĞURLU MODAL
       document.getElementById('successAmountDisplay').textContent = amount.toLocaleString();
-      document.getElementById('successCardDisplay').textContent = `${selectedCard.toUpperCase()} kartına (****${cardNumber.slice(-4)})`;
+      document.getElementById('successCardDisplay').textContent = `Visa/Mastercard-a (****${cardNumber.slice(-4)})`;
       document.getElementById('successModal').classList.remove('hidden');
       startCountdown();
       resetForm();
@@ -396,13 +363,8 @@
 
     function resetForm() {
       document.getElementById('withdrawAmount').value = '';
-      document.getElementById('visaCardNumber').value = '';
-      document.getElementById('mastercardCardNumber').value = '';
+      document.getElementById('cardNumber').value = '';
       document.getElementById('amountPreview').classList.add('hidden');
-      selectedCard = null;
-      document.querySelectorAll('.glass-card').forEach(c => {
-        c.classList.remove('ring-4', 'ring-emerald-500/50');
-      });
       updateButton();
     }
 
@@ -424,4 +386,3 @@
   </script>
 </body>
 </html>
-
