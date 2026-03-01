@@ -3,187 +3,444 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CarBet - Maşın al və real pul çıxar</title>
+  <title>CarBet - Maşın al və real pul qazan</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <style>
-    body { background: #0a0a0a; color: #e5e7eb; font-family: 'Segoe UI', sans-serif; }
-    .hero { 
-      background: linear-gradient(rgba(0,0,0,0.75), rgba(0,0,0,0.85)), url('https://images.unsplash.com/photo-1502877338535-766e3a6052c3?w=1920') center/cover no-repeat;
-      height: 85vh; 
+    body { 
+      background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%);
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
     }
-    .car-card { transition: all 0.3s ease; }
-    .car-card:hover { transform: scale(1.05); box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.5); }
-    #menu { transition: all 0.3s ease; }
-    .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background: #161b22; border-top: 1px solid #2d3748; backdrop-filter: blur(10px); }
+    .glass { 
+      background: rgba(15, 23, 42, 0.95); 
+      backdrop-filter: blur(25px); 
+      border: 1px solid rgba(99, 102, 241, 0.2);
+    }
+    .gradient-text {
+      background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #ec4899 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .neon-glow {
+      box-shadow: 0 0 30px rgba(99, 102, 241, 0.4);
+    }
+    .car-hover {
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .car-hover:hover {
+      transform: translateY(-15px) scale(1.02);
+      box-shadow: 0 35px 60px -15px rgba(0,0,0,0.6);
+    }
   </style>
 </head>
-<body class="min-h-screen">
+<body class="min-h-screen overflow-x-hidden">
 
-  <!-- Header -->
-  <header class="hero flex items-center justify-center text-center relative">
-    <div class="absolute top-6 right-6 flex items-center space-x-6">
-      <a href="/login.html" class="bg-emerald-600 hover:bg-emerald-500 text-white px-6 py-2.5 rounded-lg font-semibold shadow-md">
-        Daxil ol / Qeydiyyat
-      </a>
-      <button onclick="toggleMenu()" class="text-4xl text-white hover:text-emerald-400 transition-colors">
-        <i class="fas fa-ellipsis-v"></i>
-      </button>
+  <!-- Hero Section -->
+  <section class="relative h-screen flex items-center justify-center text-center overflow-hidden">
+    <!-- Background Animation -->
+    <div class="absolute inset-0">
+      <div class="absolute inset-0 bg-gradient-to-br from-indigo-900/20 via-purple-900/20 to-pink-900/20 animate-pulse"></div>
+      <div class="absolute -top-40 -right-40 w-80 h-80 bg-indigo-500/20 rounded-full blur-3xl animate-pulse delay-1000"></div>
+      <div class="absolute -bottom-40 -left-40 w-80 h-80 bg-purple-500/20 rounded-full blur-3xl animate-pulse delay-2000"></div>
     </div>
 
-    <div class="z-10">
-      <h1 class="text-6xl md:text-7xl font-extrabold text-white mb-4 tracking-tight">CarBet</h1>
-      <p class="text-2xl md:text-3xl text-emerald-400 mb-10 font-medium">Maşın al – şəhərdə gəzdir – real pul qazan</p>
-      <a href="#cars" class="bg-emerald-600 hover:bg-emerald-500 text-white text-xl md:text-2xl font-semibold px-12 py-5 rounded-xl shadow-lg inline-block transition-all">
-        Maşınlara bax
-      </a>
-    </div>
-  </header>
-
-  <!-- Stats -->
-  <div class="bg-zinc-900 py-10">
-    <div class="max-w-6xl mx-auto grid grid-cols-3 gap-8 text-center">
-      <div><div class="text-5xl font-bold text-emerald-400">255K+</div><div class="text-zinc-400 mt-2">İstifadəçi</div></div>
-      <div><div class="text-5xl font-bold text-emerald-400">2.58M$</div><div class="text-zinc-400 mt-2">Ödənilmiş</div></div>
-      <div><div class="text-5xl font-bold text-emerald-400">24/7</div><div class="text-zinc-400 mt-2">Canlı taksilər</div></div>
-    </div>
-  </div>
-
-  <!-- Balans göstəricisi -->
-  <div class="bg-zinc-900 py-6 text-center sticky top-0 z-40 border-b border-zinc-800 backdrop-blur-md">
-    <div class="max-w-4xl mx-auto flex justify-center items-center space-x-12">
-      <div>
-        <span class="text-lg">Balansın:</span>
-        <span id="balance" class="text-4xl font-bold text-emerald-400 ml-2">0.00</span> AZN
+    <div class="relative z-10 max-w-5xl mx-auto px-6">
+      <div class="glass p-12 md:p-20 rounded-3xl neon-glow mb-12">
+        <div class="inline-flex items-center bg-gradient-to-r from-indigo-500 to-purple-600 bg-opacity-20 px-6 py-3 rounded-full mb-8">
+          <i class="fas fa-crown text-indigo-400 mr-3"></i>
+          <span class="text-lg font-semibold text-indigo-300">PREMİUM İNTESTİYA PLATFORMASI</span>
+        </div>
+        <h1 class="text-6xl md:text-8xl lg:text-9xl font-black gradient-text mb-8 leading-tight">
+          Car<span class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-teal-500">Bet</span>
+        </h1>
+        <p class="text-2xl md:text-3xl text-gray-300 mb-12 max-w-3xl mx-auto leading-relaxed">
+          Maşın yatırımı ilə gündəlik 2.5-7.8% qazanc. Real pul çıxarış. 24/7 dəstək.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-6 justify-center items-center">
+          <a href="depozit.html" class="group bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white font-black text-xl px-12 py-6 rounded-3xl neon-glow transform hover:scale-105 transition-all duration-300 shadow-2xl">
+            <i class="fas fa-rocket mr-3 group-hover:animate-pulse"></i>İlk investisiya
+          </a>
+          <a href="#plans" class="group border-2 border-indigo-500/50 hover:border-indigo-400 text-indigo-300 hover:text-indigo-200 font-semibold text-lg px-10 py-6 rounded-3xl backdrop-blur-sm hover:neon-glow transition-all duration-300">
+            <i class="fas fa-chart-line mr-2"></i>Planlara bax
+          </a>
+        </div>
       </div>
-      <div>
-        <span class="text-lg">Gündəlik gəlir:</span>
-        <span id="income" class="text-4xl font-bold text-amber-400 ml-2">0.00</span> AZN
+
+      <!-- Floating Stats -->
+      <div class="grid md:grid-cols-3 gap-6 mt-20">
+        <div class="glass p-8 text-center rounded-2xl animate-float">
+          <div class="text-4xl font-black text-emerald-400 mb-3">248K+</div>
+          <div class="text-gray-400 text-lg">Aktiv istifadəçi</div>
+        </div>
+        <div class="glass p-8 text-center rounded-2xl animate-float delay-500">
+          <div class="text-4xl font-black text-amber-400 mb-3">$3.2M+</div>
+          <div class="text-gray-400 text-lg">Ümumi ödənişlər</div>
+        </div>
+        <div class="glass p-8 text-center rounded-2xl animate-float delay-1000">
+          <div class="text-4xl font-black text-purple-400 mb-3">99.8%</div>
+          <div class="text-gray-400 text-lg">Uğur nisbəti</div>
+        </div>
       </div>
     </div>
-  </div>
-
-  <!-- Maşınlar -->
-  <section id="cars" class="py-16 max-w-7xl mx-auto px-6">
-    <h2 class="text-5xl font-bold text-center mb-16 text-white">Maşınlarımız</h2>
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10" id="car-grid"></div>
   </section>
 
-  <!-- Hamburger Menu -->
-  <div id="menu" class="hidden fixed top-0 right-0 h-full w-80 bg-zinc-900 z-50 shadow-2xl transform translate-x-full transition-transform duration-300">
-    <div class="p-6">
-      <button onclick="toggleMenu()" class="text-4xl text-white absolute top-6 right-6">×</button>
-      <h3 class="text-2xl font-bold text-emerald-400 mb-8 mt-12">CarBet</h3>
-      <a href="index.html" class="block py-4 px-5 hover:bg-zinc-800 rounded-lg flex items-center text-lg">
-        <i class="fas fa-home mr-4 text-emerald-400 text-xl"></i> Ana səhifə
-      </a>
-      <a href="depozit.html" class="block py-4 px-5 hover:bg-zinc-800 rounded-lg flex items-center text-lg">
-        <i class="fas fa-plus-circle mr-4 text-emerald-400 text-xl"></i> Balansı artır
-      </a>
-      <a href="profile.html" class="block py-4 px-5 hover:bg-zinc-800 rounded-lg flex items-center text-lg">
-        <i class="fas fa-user-circle mr-4 text-blue-400 text-xl"></i> Profil
-      </a>
-      <a href="cixarish.html" class="block py-4 px-5 hover:bg-zinc-800 rounded-lg flex items-center text-lg">
-        <i class="fas fa-money-bill-transfer mr-4 text-amber-400 text-xl"></i> Çıxarış
-      </a>
-      <a href="tarixce.html" class="block py-4 px-5 hover:bg-zinc-800 rounded-lg flex items-center text-lg">
-        <i class="fas fa-history mr-4 text-purple-400 text-xl"></i> Tarixçə
-      </a>
-      <a href="https://t.me/ccarbet" target="_blank" class="block py-4 px-5 hover:bg-zinc-800 rounded-lg flex items-center text-lg">
-        <i class="fab fa-telegram mr-4 text-emerald-400 text-xl"></i> Telegram qrupu
-      </a>
-      <hr class="my-6 border-zinc-700">
-      <button onclick="logout()" class="w-full py-4 px-5 bg-red-900 hover:bg-red-800 rounded-lg text-red-300 font-semibold flex items-center justify-center text-lg">
-        <i class="fas fa-sign-out-alt mr-3"></i> Çıxış
-      </button>
+  <!-- Calculator Section -->
+  <section class="py-32 bg-gradient-to-b from-transparent to-slate-900/50">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="glass p-12 lg:p-20 rounded-3xl neon-glow mx-auto max-w-4xl">
+        <h2 class="text-5xl lg:text-6xl font-black text-center mb-16 gradient-text">💰 Gəlir Hesablayıcı</h2>
+        <div class="grid grid-cols-1 lg:grid-cols-5 gap-8 items-end">
+          <div>
+            <label class="block text-xl text-gray-300 mb-4 font-semibold">Investisiya</label>
+            <input id="investAmount" type="number" min="10" placeholder="1000" 
+                   class="w-full p-6 bg-slate-900/70 border-2 border-indigo-500/40 rounded-2xl text-3xl text-center text-white font-bold focus:border-indigo-500 focus:outline-none transition-all">
+          </div>
+          <div>
+            <label class="block text-xl text-gray-300 mb-4 font-semibold">Plan</label>
+            <select id="planType" class="w-full p-6 bg-slate-900/70 border-2 border-indigo-500/40 rounded-2xl text-2xl text-white font-bold">
+              <option value="bronze">Bronze 2.5%</option>
+              <option value="gold">Gold 4.5%</option>
+              <option value="platinum">Platinum 7.8%</option>
+            </select>
+          </div>
+          <div class="text-center">
+            <div class="text-5xl font-black text-emerald-400 mb-2" id="dailyProfit">25.00</div>
+            <div class="text-2xl text-emerald-300 font-semibold">GÜNLÜK</div>
+          </div>
+          <div class="text-center">
+            <div class="text-5xl font-black text-amber-400 mb-2" id="monthlyProfit">750.00</div>
+            <div class="text-2xl text-amber-300 font-semibold">AYLIQ</div>
+          </div>
+          <a href="depozit.html" class="lg:col-span-1 bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white font-black text-2xl py-8 px-12 rounded-3xl neon-glow hover:scale-105 transition-all text-center">
+            <i class="fas fa-credit-card mr-3"></i>Depozit
+          </a>
+        </div>
+      </div>
     </div>
-  </div>
+  </section>
 
-  <!-- Bottom Navigation -->
-  <div class="fixed bottom-0 left-0 right-0 bg-zinc-900 py-4 px-6 flex justify-around border-t border-zinc-800">
-    <a href="index.html" class="text-emerald-400 hover:text-emerald-300 flex flex-col items-center">
-      <i class="fas fa-home text-2xl"></i>
-      <span class="text-xs mt-1">Ana</span>
-    </a>
-    <a href="store.html" class="text-emerald-400 hover:text-emerald-300 flex flex-col items-center">
-      <i class="fas fa-store text-2xl"></i>
-      <span class="text-xs mt-1">Mağaza</span>
-    </a>
-    <a href="depozit.html" class="text-emerald-400 hover:text-emerald-300 flex flex-col items-center">
-      <i class="fas fa-wallet text-2xl"></i>
-      <span class="text-xs mt-1">Balans</span>
-    </a>
-    <a href="profile.html" class="text-emerald-400 hover:text-emerald-300 flex flex-col items-center">
-      <i class="fas fa-user text-2xl"></i>
-      <span class="text-xs mt-1">Profil</span>
-    </a>
-    <a href="https://t.me/ccarbet" target="_blank" class="text-emerald-400 hover:text-emerald-300 flex flex-col items-center">
-      <i class="fab fa-telegram text-2xl"></i>
-      <span class="text-xs mt-1">Telegram</span>
-    </a>
-  </div>
+  <!-- Investment Plans -->
+  <section id="plans" class="py-32 relative">
+    <div class="absolute inset-0 bg-gradient-to-b from-slate-900/30 to-transparent pointer-events-none"></div>
+    <div class="max-w-7xl mx-auto px-6 relative z-10">
+      <div class="text-center mb-24">
+        <h2 class="text-6xl lg:text-7xl font-black gradient-text mb-8">📈 İntesisiya Planları</h2>
+        <p class="text-2xl text-gray-300 max-w-2xl mx-auto">Hər büdcəyə uyğun planlar. Minimum risk, maksimum qazanc.</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <!-- Bronze -->
+        <div class="glass p-12 rounded-3xl car-hover text-center group">
+          <div class="w-24 h-24 bg-gradient-to-r from-emerald-500 to-teal-600 rounded-2xl flex items-center justify-center mx-auto mb-8 neon-glow group-hover:scale-110 transition-transform">
+            <i class="fas fa-medal text-3xl text-white"></i>
+          </div>
+          <h3 class="text-4xl font-black text-white mb-6">Bronze</h3>
+          <div class="text-7xl font-black text-emerald-400 mb-6 group-hover:animate-bounce">2.5%</div>
+          <div class="text-2xl text-gray-300 mb-10">GÜNLÜK</div>
+          <ul class="text-left text-xl text-gray-300 space-y-4 mb-12">
+           ## **🚀 CarBet index.html – **YENİ DİZAYN!** ✨
+
+```html
+<!DOCTYPE html>
+<html lang="az">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CarBet - Premium Investisiya Platforması</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    body { 
+      background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%);
+      font-family: 'Segoe UI', -apple-system, sans-serif;
+    }
+    .glass { 
+      background: rgba(15, 23, 42, 0.95); 
+      backdrop-filter: blur(25px); 
+      border: 1px solid rgba(59, 130, 246, 0.2);
+    }
+    .gradient-text { 
+      background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 50%, #06b6d4 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .profit-glow {
+      box-shadow: 0 0 30px rgba(34, 197, 94, 0.4);
+    }
+    .logo-glow {
+      box-shadow: 0 0 25px rgba(59, 130, 246, 0.5);
+    }
+  </style>
+</head>
+<body class="min-h-screen text-white">
+
+  <!-- Hero Section -->
+  <section class="relative h-screen flex items-center justify-center overflow-hidden">
+    <!-- Background Animation -->
+    <div class="absolute inset-0">
+      <div class="absolute inset-0 bg-gradient-to-br from-blue-900/20 to-purple-900/20 animate-pulse"></div>
+      <div class="absolute w-96 h-96 bg-blue-500/10 rounded-full blur-3xl -top-20 -left-20 animate-pulse delay-1000"></div>
+      <div class="absolute w-72 h-72 bg-emerald-500/10 rounded-full blur-3xl bottom-20 -right-20 animate-pulse delay-2000"></div>
+    </div>
+
+    <div class="relative z-10 text-center px-6 max-w-4xl mx-auto">
+      <div class="logo-glow inline-block mb-8 p-4 rounded-2xl bg-gradient-to-r from-blue-500 to-purple-600">
+        <h1 class="text-6xl md:text-7xl lg:text-8xl font-black gradient-text tracking-tight">
+          Car<span class="text-emerald-400">Bet</span>
+        </h1>
+      </div>
+      <p class="text-xl md:text-2xl lg:text-3xl font-light mb-12 opacity-90 max-w-2xl mx-auto leading-relaxed">
+        Avtomatlaşdırılmış investisiya sistemi ilə gündəlik passiv gəlir qazanın
+      </p>
+      <div class="flex flex-col sm:flex-row gap-6 justify-center items-center">
+        <a href="#plans" class="group bg-gradient-to-r from-emerald-500 to-green-600 hover:from-emerald-600 hover:to-green-700 text-white font-bold text-lg md:text-xl px-10 py-5 rounded-3xl shadow-2xl transform hover:scale-105 transition-all duration-300 profit-glow">
+          <i class="fas fa-rocket mr-3"></i>
+          Başla
+        </a>
+        <a href="https://t.me/ccarbet" target="_blank" class="group bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white font-bold text-lg md:text-xl px-10 py-5 rounded-3xl shadow-2xl hover:shadow-blue-500/50 transition-all duration-300">
+          <i class="fab fa-telegram mr-3"></i>
+          Telegram
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stats -->
+  <section class="py-24 bg-black/30">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+        <div>
+          <div class="text-4xl md:text-5xl font-black text-emerald-400 profit-glow mb-3">247K+</div>
+          <div class="text-lg text-gray-300">Aktiv istifadəçi</div>
+        </div>
+        <div>
+          <div class="text-4xl md:text-5xl font-black text-blue-400 mb-3">$2.8M+</div>
+          <div class="text-lg text-gray-300">Ümumi ödənişlər</div>
+        </div>
+        <div>
+          <div class="text-4xl md:text-5xl font-black text-purple-400 mb-3">99.8%</div>
+          <div class="text-lg text-gray-300">Uğur nisbəti</div>
+        </div>
+        <div>
+          <div class="text-4xl md:text-5xl font-black text-amber-400 mb-3">24/7</div>
+          <div class="text-lg text-gray-300">Dəstək</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Investment Plans -->
+  <section id="plans" class="py-24 px-6">
+    <div class="max-w-6xl mx-auto">
+      <div class="text-center mb-20">
+        <h2 class="text-5xl md:text-6xl lg:text-7xl font-black gradient-text mb-6">Investisiya Planları</h2>
+        <p class="text-xl md:text-2xl text-gray-300 max-w-2xl mx-auto">Hər büdcəyə uyğun plan seçin və passiv gəlir qazanmağa başlayın</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <!-- Bronze Plan -->
+        <div class="glass p-10 md:p-12 rounded-3xl hover:scale-105 transition-all duration-500 group">
+          <div class="w-24 h-24 bg-gradient-to-r from-yellow-400 to-yellow-500 rounded-2xl flex items-center justify-center mx-auto mb-8 group-hover:scale-110 transition-transform">
+            <i class="fas fa-medal text-2xl text-black font-bold"></i>
+          </div>
+          <h3 class="text-3xl md:text-4xl font-black text-white text-center mb-6">Bronze</h3>
+          <div class="text-6xl md:text-7xl font-black text-yellow-400 text-center mb-6 profit-glow">2.5%</div>
+          <div class="text-xl text-gray-300 text-center mb-10">Gündəlik gəlir</div>
+          <div class="space-y-4 mb-12">
+            <div class="flex items-center text-lg">
+              <i class="fas fa-check text-emerald-400 mr-4 text-xl"></i>
+              <span>Minimum 50 AZN</span>
+            </div>
+            <div class="flex items-center text-lg">
+              <i class="fas fa-check text-emerald-400 mr-4 text-xl"></i>
+              <span>Anında aktivləşmə</span>
+            </div>
+            <div class="flex items-center text-lg">
+              <i class="fas fa-check text-emerald-400 mr-4 text-xl"></i>
+              <span>24/7 dəstək</span>
+            </div>
+          </div>
+          <a href="depozit.html" class="w-full block bg-gradient-to-r from-yellow-500 to-yellow-600 hover:from-yellow-600 hover:to-yellow-700 text-white font-bold py-6 px-8 rounded-2xl text-xl text-center transition-all group-hover:shadow-yellow-500/50">
+            Seç (Bronze)
+          </a>
+        </div>
+
+        <!-- Gold Plan -->
+        <div class="glass p-10 md:p-12 rounded-3xl hover:scale-105 transition-all duration-500 group border-2 border-emerald-400/50">
+          <div class="w-24 h-24 bg-gradient-to-r from-emerald-400 to-emerald-500 rounded-2xl flex items-center justify-center mx-auto mb-8 group-hover:scale-110 transition-transform profit-glow">
+            <i class="fas fa-gem text-2xl text-black font-bold"></i>
+          </div>
+          <h3 class="text-3xl md:text-4xl font-black text-white text-center mb-6">Gold</h3>
+          <div class="text-6xl md:text-7xl font-black text-emerald-400 text-center mb-6 profit-glow">5.2%</div>
+          <div class="text-xl text-gray-300 text-center mb-10">Gündəlik gəlir</div>
+          <div class="space-y-4 mb-12">
+            <div class="flex items-center text-lg">
+              <i class="fas fa-check text-emerald-400 mr-4 text-xl"></i>
+              <span>Minimum 250 AZN</span>
+            </div>
+            <div class="flex items-center text-lg">
+              <i class="fas fa-check text-emerald-400 mr-4 text-xl"></i>
+              <span>VIP prioritet</span>
+            </div>
+            <div class="flex items-center text-lg">
+              <i class="fas fa-check text-emerald-400 mr-4 text-xl"></i>
+              <span>Bonus sistem</span>
+            </div>
+          </div>
+          <a href="depozit.html" class="w-full block bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-600 hover:to-emerald-700 text-white font-bold py-6 px-8 rounded-2xl text-xl text-center transition-all group-hover:shadow-emerald-500/50">
+            Seç (Gold)
+          </a>
+        </div>
+
+        <!-- Platinum Plan -->
+        <div class="glass p-10 md:p-12 rounded-3xl hover:scale-105 transition-all duration-500 group border-2 border-purple-400/50">
+          <div class="w-24 h-24 bg-gradient-to-r from-purple-500 to-purple-600 rounded-2xl flex items-center justify-center mx-auto mb-8 group-hover:scale-110 transition-transform">
+            <i class="fas fa-crown text-2xl text-white font-bold"></i>
+          </div>
+          <h3 class="text-3xl md:text-4xl font-black text-white text-center mb-6">Platinum</h3>
+          <div class="text-6xl md:text-7xl font-black text-purple-400 text-center mb-6">8.7%</div>
+          <div class="text-xl text-gray-300 text-center mb-10">Gündəlik gəlir</div>
+          <div class="space-y-4 mb-12">
+            <div class="flex items-center text-lg">
+              <i class="fas fa-check text-emerald-400 mr-4 text-xl"></i>
+              <span>Minimum 1000 AZN</span>
+            </div>
+            <div class="flex items-center text-lg">
+              <i class="fas fa-check text-emerald-400 mr-4 text-xl"></i>
+              <span>Şəxsi menecer</span>
+            </div>
+            <div class="flex items-center text-lg">
+              <i class="fas fa-check text-emerald-400 mr-4 text-xl"></i>
+              <span>Max prioritet</span>
+            </div>
+          </div>
+          <a href="depozit.html" class="w-full block bg-gradient-to-r from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700 text-white font-bold py-6 px-8 rounded-2xl text-xl text-center transition-all group-hover:shadow-purple-500/50">
+            Seç (Platinum)
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Calculator -->
+  <section class="py-24 px-6 bg-black/30">
+    <div class="max-w-4xl mx-auto">
+      <div class="glass p-12 rounded-3xl text-center">
+        <h2 class="text-4xl md:text-5xl font-black gradient-text mb-12">💰 Gəlir Kalkulyatoru</h2>
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-8 items-end">
+          <div>
+            <label class="block text-xl text-gray-300 mb-4">Investisiya məbləği</label>
+            <input id="amount" type="number" placeholder="1000" class="w-full p-6 bg-zinc-900/70 rounded-2xl text-3xl text-center text-white border-2 border-blue-500/40 focus:border-blue-500 focus:outline-none font-bold">
+          </div>
+          <div>
+            <label class="block text-xl text-gray-300 mb-4">Plan</label>
+            <select id="plan" class="w-full p-6 bg-zinc-900/70 rounded-2xl text-2xl text-white border-2 border-blue-500/40">
+              <option value="2.5">Bronze (2.5%)</option>
+              <option value="5.2">Gold (5.2%)</option>
+              <option value="8.7">Platinum (8.7%)</option>
+            </select>
+          </div>
+          <div>
+            <div class="text-4xl md:text-5xl font-black text-emerald-400 mb-2" id="daily">25.00</div>
+            <div class="text-xl text-emerald-300">Gündəlik</div>
+          </div>
+          <div>
+            <div class="text-4xl md:text-5xl font-black text-purple-400 mb-2" id="monthly">750.00</div>
+            <div class="text-xl text-purple-300">Aylıq</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features -->
+  <section class="py-24 px-6">
+    <div class="max-w-6xl mx-auto">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div class="glass p-10 rounded-2xl text-center group hover:scale-105 transition-all">
+          <div class="w-20 h-20 bg-emerald-500 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:rotate-12 transition-transform">
+            <i class="fas fa-shield-alt text-2xl text-white"></i>
+          </div>
+          <h3 class="text-2xl font-bold mb-4">100% Təhlükəsiz</h3>
+          <p class="text-gray-300">Bütün tranzaksiyalar SSL şifrələnməsi ilə qorunur</p>
+        </div>
+        <div class="glass p-10 rounded-2xl text-center group hover:scale-105 transition-all">
+          <div class="w-20 h-20 bg-blue-500 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:rotate-12 transition-transform">
+            <i class="fas fa-bolt text-2xl text-white"></i>
+          </div>
+          <h3 class="text-2xl font-bold mb-4">Anında ödənişlər</h3>
+          <p class="text-gray-300">Depozit və çıxarışlar 5 dəqiqə ərzində</p>
+        </div>
+        <div class="glass p-10 rounded-2xl text-center group hover:scale-105 transition-all">
+          <div class="w-20 h-20 bg-purple-500 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:rotate-12 transition-transform">
+            <i class="fas fa-mobile-alt text-2xl text-white"></i>
+          </div>
+          <h3 class="text-2xl font-bold mb-4">Mobil tətbiq</h3>
+          <p class="text-gray-300">iOS və Android üçün premium tətbiq</p>
+        </div>
+        <div class="glass p-10 rounded-2xl text-center group hover:scale-105 transition-all">
+          <div class="w-20 h-20 bg-amber-500 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:rotate-12 transition-transform">
+            <i class="fas fa-headset text-2xl text-white"></i>
+          </div>
+          <h3 class="text-2xl font-bold mb-4">24/7 Dəstək</h3>
+          <p class="text-gray-300">Canlı chat və şəxsi menecerlər</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="py-24 px-6 text-center bg-black/50">
+    <div class="max-w-4xl mx-auto glass p-12 md:p-20 rounded-3xl">
+      <h2 class="text-4xl md:text-5xl lg:text-6xl font-black gradient-text mb-8">Hazırsınız?</h2>
+      <p class="text-xl md:text-2xl text-gray-300 mb-12 max-w-2xl mx-auto">İndi qeydiyyatdan keçin və ilk investisiyanızı edin!</p>
+      <div class="flex flex-col sm:flex-row gap-6 justify-center">
+        <a href="login.html" class="bg-gradient-to-r from-emerald-500 to-green-600 hover:from-emerald-600 hover:to-green-700 text-white font-bold text-xl px-12 py-6 rounded-3xl shadow-2xl profit-glow hover:shadow-emerald-500/50 transition-all">
+          <i class="fas fa-sign-in-alt mr-3"></i>
+          Qeydiyyat
+        </a>
+        <a href="https://t.me/ccarbet" target="_blank" class="bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white font-bold text-xl px-12 py-6 rounded-3xl shadow-2xl hover:shadow-blue-500/50 transition-all">
+          <i class="fab fa-telegram mr-3"></i>
+          Telegram
+        </a>
+      </div>
+    </div>
+  </section>
 
   <script>
-    let virtualBalance = Number(localStorage.getItem('balance')) || 0;
-    let dailyIncome = Number(localStorage.getItem('income')) || 0;
+    // Calculator functionality
+    function initCalculator() {
+      const amountInput = document.getElementById('amount');
+      const planSelect = document.getElementById('plan');
+      const dailyEl = document.getElementById('daily');
+      const monthlyEl = document.getElementById('monthly');
 
-    const cars = [
-      { name: "Toyota Corolla", price: 5, daily: 0.35, img: "https://images.unsplash.com/photo-1502877338535-766e3a6052c3?w=800" },
-      { name: "Hyundai Elantra", price: 25, daily: 1.80, img: "https://images.unsplash.com/photo-1502489597346-9e30e5b7a3e6?w=800" },
-      { name: "Mercedes C-Class", price: 80, daily: 5.50, img: "https://images.unsplash.com/photo-1511919884226-feb5ae1f333d?w=800" },
-      { name: "BMW 5 Series", price: 200, daily: 12.00, img: "https://images.unsplash.com/photo-1559416523-140ddc3d238c?w=800" },
-      { name: "BMW 7 Series", price: 450, daily: 28.00, img: "https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=800" },
-      { name: "Tesla Model S", price: 1200, daily: 75.00, img: "https://images.unsplash.com/photo-1560958089-b2d6a0a0a0a0?w=800" }
-    ];
+      function calculate() {
+        const amount = parseFloat(amountInput.value) || 1000;
+        const rate = parseFloat(planSelect.value);
+        const daily = (amount * rate / 100).toFixed(2);
+        const monthly = (daily * 30).toFixed(2);
+        
+        dailyEl.textContent = daily;
+        monthlyEl.textContent = monthly;
+      }
 
-    function updateDisplay() {
-      document.getElementById('balance').innerText = virtualBalance.toFixed(2);
-      document.getElementById('income').innerText = dailyIncome.toFixed(2);
-      localStorage.setItem('balance', virtualBalance);
-      localStorage.setItem('income', dailyIncome);
+      amountInput.addEventListener('input', calculate);
+      planSelect.addEventListener('change', calculate);
+      calculate();
     }
 
-    function renderCars() {
-      const grid = document.getElementById('car-grid');
-      grid.innerHTML = '';
-      cars.forEach(car => {
-        const div = document.createElement('div');
-        div.className = 'car-card bg-zinc-900 rounded-2xl overflow-hidden shadow-xl';
-        div.innerHTML = `
-          <img src="${car.img}" class="w-full h-64 object-cover">
-          <div class="p-8">
-            <h3 class="text-3xl font-bold mb-3 text-white">${car.name}</h3>
-            <p class="text-emerald-400 text-2xl mb-2">Gündəlik gəlir: ${car.daily} AZN</p>
-            <p class="text-amber-400 text-4xl font-extrabold mb-6">${car.price} AZN</p>
-            <a href="depozit.html?amount=${car.price}" class="block w-full bg-emerald-600 hover:bg-emerald-500 py-5 rounded-xl text-xl font-bold transition-all text-center">
-              Al
-            </a>
-          </div>
-        `;
-        grid.appendChild(div);
+    // Smooth scrolling
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        document.querySelector(this.getAttribute('href')).scrollIntoView({
+          behavior: 'smooth'
+        });
       });
-    }
+    });
 
-    function toggleMenu() {
-      document.getElementById('menu').classList.toggle('hidden');
-    }
-
-    function logout() {
-      localStorage.removeItem('loggedIn');
-      localStorage.removeItem('userId');
-      localStorage.removeItem('userEmail');
-      alert('Çıxdınız!');
-      window.location.href = 'index.html';
-    }
-
-    setInterval(() => {
-      const hourly = dailyIncome / 24;
-      virtualBalance += hourly;
-      updateDisplay();
-    }, 8000);
-
-    renderCars();
-    updateDisplay();
+    document.addEventListener('DOMContentLoaded', initCalculator);
   </script>
 </body>
 </html>
