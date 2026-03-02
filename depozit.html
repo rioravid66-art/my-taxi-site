@@ -18,11 +18,15 @@
       background: rgba(15, 23, 42, 0.95); 
       border: 1px solid rgba(16, 185, 129, 0.3); 
     }
+    .m10-card {
+      background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #a855f7 100%);
+      border: 3px solid #c084fc;
+    }
   </style>
 </head>
 <body class="bg-gradient-to-br from-gray-900 via-black to-gray-900 min-h-screen">
 
-  <!-- Navigation -->
+  <!-- Navigation (ADMIN GİZLİ!) -->
   <nav class="fixed top-0 left-0 right-0 bg-black/95 backdrop-blur-2xl z-50 border-b border-emerald-500/40 py-4 px-4 sm:px-6 lg:px-8">
     <div class="max-w-4xl mx-auto flex items-center justify-between">
       <a href="index.html" class="flex items-center space-x-3">
@@ -34,14 +38,9 @@
           <p class="text-xs text-emerald-400 font-semibold">Taksi Investisiyası</p>
         </div>
       </a>
-      <div class="flex items-center space-x-4">
-        <a href="index.html" class="text-emerald-400 hover:text-emerald-300 font-bold px-4 py-2 rounded-xl">
-          <i class="fas fa-home"></i>
-        </a>
-        <a href="admin.html" class="bg-gradient-to-r from-red-500 to-pink-600 hover:from-red-600 hover:to-pink-700 text-white font-bold px-6 py-3 rounded-2xl shadow-2xl">
-          🔧 Admin
-        </a>
-      </div>
+      <a href="index.html" class="text-emerald-400 hover:text-emerald-300 font-bold px-4 py-2 rounded-xl">
+        <i class="fas fa-home"></i>
+      </a>
     </div>
   </nav>
 
@@ -54,46 +53,61 @@
       <div class="text-2xl font-bold text-emerald-400">AZN</div>
     </div>
 
-    <!-- HIZLI DEPOZİTLƏR (MIN 20 AZN) -->
-    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-6 mb-16">
-      <button onclick="quickDeposit(20)" class="glass p-6 sm:p-8 lg:p-10 rounded-4xl hover:bg-emerald-500/20 border-3 border-emerald-500/50 hover:border-emerald-500 hover:shadow-emerald-500/50 transition-all font-bold text-2xl sm:text-3xl text-emerald-400">
-        <div class="text-4xl mb-2">₼20</div>
-        <div class="text-lg sm:text-xl">Minimum</div>
-      </button>
-      
-      <button onclick="quickDeposit(50)" class="glass p-6 sm:p-8 lg:p-10 rounded-4xl hover:bg-blue-500/20 border-3 border-blue-500/50 hover:border-blue-500 hover:shadow-blue-500/50 transition-all font-bold text-2xl sm:text-3xl text-blue-400">
-        <div class="text-4xl mb-2">₼50</div>
-        <div class="text-lg sm:text-xl">Sürətli</div>
-      </button>
-      
-      <button onclick="quickDeposit(100)" class="glass p-6 sm:p-8 lg:p-10 rounded-4xl hover:bg-purple-500/20 border-3 border-purple-500/50 hover:border-purple-500 hover:shadow-purple-500/50 transition-all font-bold text-2xl sm:text-3xl text-purple-400">
-        <div class="text-4xl mb-2">₼100</div>
-        <div class="text-lg sm:text-xl">Standart</div>
-      </button>
-      
-      <button onclick="quickDeposit(500)" class="glass p-6 sm:p-8 lg:p-10 rounded-4xl hover:bg-emerald-600/30 border-3 border-emerald-600/60 hover:border-emerald-600 hover:shadow-emerald-600/60 transition-all font-bold text-2xl sm:text-3xl text-emerald-300">
-        <div class="text-4xl mb-2">₼500</div>
-        <div class="text-lg sm:text-xl">VIP</div>
-      </button>
-      
-      <button onclick="quickDeposit(1000)" class="glass p-6 sm:p-8 lg:p-10 rounded-4xl hover:bg-pink-500/20 border-3 border-pink-500/50 hover:border-pink-500 hover:shadow-pink-500/50 transition-all font-bold text-2xl sm:text-3xl text-pink-400">
-        <div class="text-4xl mb-2">₼1K</div>
-        <div class="text-lg sm:text-xl">ELİT</div>
-      </button>
-      
-      <button onclick="quickDeposit(5000)" class="glass p-6 sm:p-8 lg:p-10 rounded-4xl hover:bg-amber-500/20 border-3 border-amber-500/50 hover:border-amber-500 hover:shadow-amber-500/50 transition-all font-bold text-2xl sm:text-3xl text-amber-400">
-        <div class="text-4xl mb-2">₼5K</div>
-        <div class="text-lg sm:text-xl">MEGA</div>
-      </button>
-      
-      <button onclick="quickDeposit(10000)" class="glass p-6 sm:p-8 lg:p-10 rounded-4xl hover:bg-red-500/20 border-3 border-red-500/50 hover:border-red-500 hover:shadow-red-500/50 transition-all font-bold text-xl sm:text-2xl text-red-400">
-        <div class="text-3xl mb-2">₼10K</div>
-        <div class="text-base sm:text-lg">M10</div>
-      </button>
+    <!-- TELEFON NÖMRƏSI -->
+    <div class="glass rounded-4xl p-12 sm:p-16 text-center mb-16 shadow-3xl border-4 border-emerald-500/50">
+      <div class="text-2xl sm:text-3xl font-black text-yellow-400 mb-8 flex items-center justify-center">
+        <i class="fas fa-mobile-alt text-3xl mr-4"></i>
+        Ödəniş üçün:
+      </div>
+      <div class="bg-gradient-to-r from-emerald-500 to-teal-600 text-white text-4xl sm:text-5xl lg:text-6xl font-black py-12 px-8 rounded-4xl shadow-3xl mb-8">
+        <i class="fas fa-phone mr-4"></i>077 765 22 12
+      </div>
+      <p class="text-xl sm:text-2xl text-white mb-8 leading-relaxed">
+        Aşağıdakı məbləği <strong>077 765 22 12</strong> nömrəsinə göndərin
+      </p>
     </div>
 
-    <!-- CUSTOM (MIN 20 AZN) -->
-    <div class="glass p-8 sm:p-12 rounded-4xl mb-12 text-center">
+    <!-- ÖDƏNİŞ SEÇİMLƏRİ -->
+    <div class="grid grid-cols-1 gap-8 mb-16">
+      
+      <!-- M10 ÖDƏNİŞ (ƏSAS!) -->
+      <div class="m10-card p-10 sm:p-12 lg:p-16 rounded-4xl text-center shadow-3xl hover:shadow-purple-500/50 transition-all cursor-pointer group" onclick="m10Deposit()">
+        <div class="w-24 h-24 bg-white/20 rounded-3xl flex items-center justify-center mx-auto mb-8 group-hover:scale-110 transition-all">
+          <i class="fas fa-wallet text-4xl text-white"></i>
+        </div>
+        <h3 class="text-3xl sm:text-4xl lg:text-5xl font-black text-white mb-6 group-hover:scale-105 transition-all">m10</h3>
+        <p class="text-xl sm:text-2xl text-indigo-100 mb-8 leading-relaxed">m10 ilə sürətli ödəniş</p>
+        <div class="bg-white/10 px-8 py-4 rounded-3xl text-2xl font-bold text-white group-hover:bg-white/20 transition-all">
+          077 765 22 12
+        </div>
+      </div>
+
+      <!-- HIZLI MİQDATLAR -->
+      <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
+        <button onclick="confirmDeposit(20)" class="glass p-6 sm:p-8 rounded-3xl hover:bg-emerald-500/20 border-3 border-emerald-500/50 hover:border-emerald-500 hover:shadow-emerald-500/50 transition-all font-bold text-2xl text-emerald-400">
+          <div class="text-4xl mb-2">₼20</div>
+          <div class="text-lg">Minimum</div>
+        </button>
+        
+        <button onclick="confirmDeposit(50)" class="glass p-6 sm:p-8 rounded-3xl hover:bg-blue-500/20 border-3 border-blue-500/50 hover:border-blue-500 hover:shadow-blue-500/50 transition-all font-bold text-2xl text-blue-400">
+          <div class="text-4xl mb-2">₼50</div>
+          <div class="text-lg">Sürətli</div>
+        </button>
+        
+        <button onclick="confirmDeposit(100)" class="glass p-6 sm:p-8 rounded-3xl hover:bg-purple-500/20 border-3 border-purple-500/50 hover:border-purple-500 hover:shadow-purple-500/50 transition-all font-bold text-2xl text-purple-400">
+          <div class="text-4xl mb-2">₼100</div>
+          <div class="text-lg">Standart</div>
+        </button>
+        
+        <button onclick="confirmDeposit(500)" class="glass p-6 sm:p-8 rounded-3xl hover:bg-emerald-600/30 border-3 border-emerald-600/60 hover:border-emerald-600 hover:shadow-emerald-600/60 transition-all font-bold text-2xl text-emerald-300">
+          <div class="text-4xl mb-2">₼500</div>
+          <div class="text-lg">VIP</div>
+        </button>
+      </div>
+    </div>
+
+    <!-- CUSTOM -->
+    <div class="glass p-8 sm:p-12 rounded-4xl text-center mb-12">
       <h3 class="text-3xl sm:text-4xl font-black text-white mb-8">Öz məbləğ (Min: 20 AZN)</h3>
       <div class="flex items-stretch bg-zinc-900/50 rounded-3xl overflow-hidden mb-8 max-w-md mx-auto">
         <input type="number" id="customAmount" min="20" max="1000000" step="10" 
@@ -103,108 +117,136 @@
           <span class="text-3xl font-black text-emerald-400">AZN</span>
         </div>
       </div>
-      <button onclick="customDeposit()" class="w-full bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white font-black py-6 px-12 rounded-4xl shadow-3xl hover:shadow-emerald-500/50 text-xl sm:text-2xl">
-        <i class="fas fa-credit-card mr-3"></i>Depozit et
+      <button onclick="customDepositConfirm()" class="w-full bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white font-black py-6 px-12 rounded-4xl shadow-3xl hover:shadow-emerald-500/50 text-xl sm:text-2xl">
+        <i class="fas fa-credit-card mr-3"></i>m10 ilə öde
       </button>
     </div>
 
+    <!-- TƏSDİQ MODAL -->
+    <div id="confirmModal" class="fixed inset-0 bg-black/95 backdrop-blur-xl z-[1000] hidden flex items-center justify-center p-4">
+      <div class="glass rounded-4xl p-12 sm:p-16 max-w-lg w-full max-h-[90vh] overflow-y-auto text-center">
+        <div class="w-28 h-28 bg-gradient-to-r from-emerald-500 to-teal-600 rounded-full mx-auto mb-12 flex items-center justify-center shadow-3xl">
+          <i class="fas fa-check-circle text-5xl text-white"></i>
+        </div>
+        <h2 class="text-4xl sm:text-5xl font-black text-emerald-400 mb-8">✅ m10 ilə göndərib?</h2>
+        <div class="bg-emerald-500/30 p-8 sm:p-10 rounded-4xl mb-12 border-4 border-emerald-500/50">
+          <div class="text-5xl sm:text-6xl font-black text-emerald-300 mb-4" id="confirmAmount">20</div>
+          <div class="text-2xl font-bold text-white mb-6">AZN göndərib?</div>
+          <div class="m10-card text-white px-8 py-6 rounded-3xl mb-4 text-2xl font-black">
+            <i class="fas fa-phone mr-3"></i>077 765 22 12
+          </div>
+        </div>
+        <div class="flex flex-col sm:flex-row gap-6">
+          <button onclick="pendingDeposit()" class="flex-1 bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white font-black py-6 px-12 rounded-4xl shadow-3xl hover:shadow-emerald-500/50 text-xl">
+            <i class="fas fa-clock mr-3"></i>Təsdiq gözlə
+          </button>
+          <button onclick="closeConfirmModal()" class="flex-1 border-4 border-gray-500 hover:bg-gray-500 text-gray-300 hover:text-white font-bold py-6 px-12 rounded-4xl shadow-3xl hover:shadow-gray-500/50 text-xl">
+            <i class="fas fa-times mr-3"></i>İmtina
+          </button>
+        </div>
+      </div>
+    </div>
+
     <!-- PENDING MODAL -->
-    <div id="pendingModal" class="fixed inset-0 bg-black/95 backdrop-blur-xl z-[1000] hidden flex items-center justify-center p-4">
+    <div id="pendingModal" class="fixed inset-0 bg-black/95 backdrop-blur-xl z-[1001] hidden flex items-center justify-center p-4">
       <div class="glass rounded-4xl p-12 sm:p-16 max-w-lg w-full max-h-[90vh] overflow-y-auto text-center">
         <div class="w-28 h-28 bg-gradient-to-r from-yellow-500 to-orange-500 rounded-full mx-auto mb-12 flex items-center justify-center shadow-3xl animate-pulse">
           <i class="fas fa-clock text-4xl text-white"></i>
         </div>
-        <h2 class="text-4xl sm:text-5xl font-black text-yellow-400 mb-8">⏳ Depozit Gözləyir</h2>
+        <h2 class="text-4xl sm:text-5xl font-black text-yellow-400 mb-8">⏳ m10 təsdiqlənir</h2>
         <div class="text-6xl sm:text-7xl font-black text-yellow-400 mb-8 animate-pulse" id="countdown">60</div>
         <div class="bg-yellow-500/30 p-8 sm:p-10 rounded-4xl mb-12 border-4 border-yellow-500/50">
           <div class="text-5xl sm:text-6xl font-black text-yellow-300 mb-4" id="pendingAmount">20</div>
-          <div class="text-2xl font-bold text-white">AZN təsdiqlənir</div>
+          <div class="text-2xl font-bold text-white">AZN (077 765 22 12)</div>
         </div>
-        <p class="text-xl sm:text-2xl text-yellow-100 mb-12">Admin təsdiq etdikdən sonra balansınıza əlavə olunacaq</p>
-        <div class="flex flex-col sm:flex-row gap-6">
-          <a href="index.html" class="flex-1 bg-gradient-to-r from-gray-700 to-gray-800 text-white font-bold py-5 px-8 rounded-3xl shadow-2xl text-xl">Ana səhifə</a>
-          <button onclick="cancelDeposit()" class="flex-1 border-4 border-yellow-500 hover:bg-yellow-500 text-yellow-400 hover:text-white font-bold py-5 px-8 rounded-3xl shadow-3xl text-xl">İmtina</button>
-        </div>
+        <p class="text-xl sm:text-2xl text-yellow-100 mb-12">Admin təsdiq etdikdən sonra balans artacaq</p>
+        <a href="index.html" class="block w-full bg-gradient-to-r from-gray-700 to-gray-800 text-white font-bold py-5 px-8 rounded-3xl shadow-2xl text-xl mb-4">Ana səhifə</a>
       </div>
     </div>
   </div>
 
   <script>
-    // 🔥 BALANS GÖSTER
+    // 🔥 BALANS
     window.onload = function() {
       const balance = parseFloat(localStorage.getItem('balance')) || 0;
       document.getElementById('currentBalance').textContent = balance.toLocaleString();
     };
 
-    // 🔥 HIZLI DEPOZİT
-    function quickDeposit(amount) {
-      startPending(amount);
+    let currentDepositAmount = 0;
+
+    // 🔥 M10 ÖDƏNİŞ (ƏSAS!)
+    function m10Deposit() {
+      confirmDepositPrompt('M10 ilə ödəniş seçildi!');
     }
 
-    // 🔥 CUSTOM DEPOZİT (MIN 20)
-    function customDeposit() {
+    // 🔥 HIZLI + CUSTOM
+    function confirmDeposit(amount) {
+      currentDepositAmount = amount;
+      confirmDepositPrompt('Sürətli ödəniş seçildi!');
+    }
+
+    function customDepositConfirm() {
       const amount = parseFloat(document.getElementById('customAmount').value);
       if (!amount || amount < 20) {
         alert('❌ Minimum 20 AZN daxil edin!');
-        document.getElementById('customAmount').focus();
-        return;
-      }
-      if (amount > 1000000) {
-        alert('❌ Maksimum 1,000,000 AZN!');
         return;
       }
       document.getElementById('customAmount').value = '';
-      startPending(amount);
+      currentDepositAmount = amount;
+      confirmDepositPrompt('Custom məbləğ seçildi!');
     }
 
-    // 🔥 PENDING BAŞLAT
-    function startPending(amount) {
+    // 🔥 TƏSDİQ MODAL
+    function confirmDepositPrompt(type) {
+      document.getElementById('confirmAmount').textContent = currentDepositAmount.toLocaleString();
+      document.getElementById('confirmModal').classList.remove('hidden');
+      document.body.style.overflow = 'hidden';
+    }
+
+    // 🔥 PENDING-Ə KEÇ
+    function pendingDeposit() {
+      document.getElementById('confirmModal').classList.add('hidden');
+      
       const depositId = Date.now();
       const pendingDeposits = JSON.parse(localStorage.getItem('pendingDeposits')) || [];
       
       pendingDeposits.unshift({
         id: depositId,
-        amount: amount,
+        amount: currentDepositAmount,
+        method: 'm10',
+        phone: '077 765 22 12',
         timestamp: Date.now(),
         status: 'pending'
       });
       
       localStorage.setItem('pendingDeposits', JSON.stringify(pendingDeposits));
-      showPendingModal(amount);
+      showPendingModal(currentDepositAmount);
     }
 
-    // 🔥 MODAL + 60s SAYĞAC
     function showPendingModal(amount) {
       document.getElementById('pendingAmount').textContent = amount.toLocaleString();
       document.getElementById('pendingModal').classList.remove('hidden');
-      document.body.style.overflow = 'hidden';
       
       let timeLeft = 60;
       const countdownEl = document.getElementById('countdown');
-      
       const timer = setInterval(() => {
         timeLeft--;
         countdownEl.textContent = timeLeft;
-        
-        if (timeLeft <= 0) {
-          clearInterval(timer);
-        }
+        if (timeLeft <= 0) clearInterval(timer);
       }, 1000);
     }
 
-    // 🔥 İMTİNA
-    function cancelDeposit() {
-      let pendingDeposits = JSON.parse(localStorage.getItem('pendingDeposits')) || [];
-      if (pendingDeposits.length > 0) {
-        pendingDeposits.pop();
-        localStorage.setItem('pendingDeposits', JSON.stringify(pendingDeposits));
-      }
-      document.getElementById('pendingModal').classList.add('hidden');
+    function closeConfirmModal() {
+      document.getElementById('confirmModal').classList.add('hidden');
       document.body.style.overflow = '';
     }
 
     document.addEventListener('keydown', function(e) {
-      if (e.key === 'Escape') cancelDeposit();
+      if (e.key === 'Escape') {
+        document.getElementById('confirmModal').classList.add('hidden');
+        document.getElementById('pendingModal').classList.add('hidden');
+        document.body.style.overflow = '';
+      }
     });
   </script>
 </body>
